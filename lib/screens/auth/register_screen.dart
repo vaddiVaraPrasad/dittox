@@ -2,6 +2,7 @@ import "dart:io";
 import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -30,13 +31,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
+  final addressController = TextEditingController();
+  final phonenumberController = TextEditingController();
+  final dobcontroller = TextEditingController();
 
   bool isObsecureText = true;
 
   Map<String, String> _userDetails = {
     "email": "",
     "password": "",
-    "userName": ""
+    "userName": "",
+    "phoneNumber":""
   };
 
   @override
@@ -55,9 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  Future<void> registerUser(CurrentUser currUser, BuildContext ctx) async{
-
-  }
+  Future<void> registerUser(CurrentUser currUser, BuildContext ctx) async {}
 
   // Future<void> registerUser(CurrentUser currUser, BuildContext ctx) async {
   //   var msg = "Invalid Credentials !!!";
@@ -254,6 +257,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       //       : null,
                       // ),
 
+                      const SizedBox(
+                        height: 10,
+                      ),
+
                       // email form text filed
                       TextFormField(
                         controller: emailController,
@@ -307,6 +314,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _userDetails["email"] = newMailId.toString().trim();
                         },
                       ),
+                      
+                      // username 
                       TextFormField(
                         key: const ValueKey("userName"),
                         controller: userNameController,
@@ -359,6 +368,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               newUserName.toString().trim();
                         },
                       ),
+                      
+                      // password
                       TextFormField(
                         key: const ValueKey("passWoRd"),
                         controller: passwordController,
@@ -420,6 +431,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onSaved: (newPassword) {
                           _userDetails["password"] =
                               newPassword.toString().trim();
+                        },
+                      ),
+                    
+                      // phonenumber
+                      TextFormField(
+                        controller: phonenumberController,
+                        key: const ValueKey("phonenumber"),
+                        cursorHeight: 22,
+                        cursorWidth: 2,
+                        cursorColor: ColorPallets.white,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: ColorPallets.white,
+                        ),
+                        keyboardType: TextInputType.phone,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          suffixIcon: phonenumberController.text.isEmpty
+                              ? const SizedBox()
+                              : Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        phonenumberController.clear();
+                                      },
+                                      icon: const Icon(
+                                        FontAwesomeIcons.xmark,
+                                        size: 18,
+                                      ))),
+                          errorStyle: const TextStyle(
+                              color: ColorPallets.pinkinshShadedPurple),
+                          focusedBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: ColorPallets.white)),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: ColorPallets.white,
+                            ),
+                          ),
+                          focusColor: ColorPallets.white,
+                          label: const Text(
+                            "Mobile number",
+                            style: TextStyle(color: ColorPallets.white),
+                          ),
+                        ),
+                        validator: (newMobilenumber) {
+                          if (newMobilenumber!.isEmpty || newMobilenumber.length == 10) {
+                            return "Invalid EmailId";
+                          }
+                          return null;
+                        },
+                        onSaved: (newMobilenumber) {
+                          _userDetails["phoneNumber"] = newMobilenumber.toString().trim();
                         },
                       ),
                       const SizedBox(

@@ -33,7 +33,7 @@ dependencies:
   animations: ^2.0.7
   get: ^4.6.1
   font_awesome_flutter: ^10.2.1
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.4
 
   geolocator: ^9.0.2
   geocoding: ^2.1.0
@@ -73,9 +73,34 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    # - assets/image/google.png
+    # - assets/image/add_profile_border.png
+    # - assets/image/add_profile_fill.png
+    - assets/image/forgotPassword.png
+    # - assets/image/search.png
+    # - assets/image/documentUpload.png
+    # - assets/image/imageUpload.png
+    # - assets/image/referFriend.png
+    # - assets/image/ImageUpload2.png
+    - assets/image/no_connet.png
+    # - assets/image/current_loaction.png
+    # - assets/image/pin_1.png
+    # - assets/image/pin_2.png
+    # - assets/image/pin_gif.gif
+    # - assets/image/no_order.png
+    # - assets/image/xerox_sample.png
+    # - assets/image/order_placed.png
+    # - assets/image/smartphone.png
+    # - assets/image/started_xerox.png
+    # - assets/image/package.png
+    # - assets/image/printer.png
+    # - assets/image/mail.png
+    # - assets/image/phone.png
+    # - assets/image/text_msg.png
+    # - assets/image/whatsapp.png
+    # - assets/image/browser.png
+    # - assets/image/chrome.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

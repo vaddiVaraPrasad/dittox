@@ -329,15 +329,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       // email text form
                       TextFormField(
+                      
                         controller: emailController,
                         key: const ValueKey("E-mail"),
                         cursorHeight: 22,
                         cursorWidth: 2,
+                        cursorColor: ColorPallets.deepBlue,
                         style: const TextStyle(
                             fontSize: 18, color: ColorPallets.deepBlue),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
+                            fillColor: ColorPallets.deepBlue,
+                            filled: false,
+                            hoverColor: ColorPallets.deepBlue,
+
                             suffixIcon: emailController.text.isEmpty
                                 ? const SizedBox(
                                     width: 0,
@@ -354,7 +360,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                         )),
                                   ),
                             focusColor: ColorPallets.deepBlue,
-                            label: const Text("E-mail"),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: ColorPallets.deepBlue)),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: ColorPallets.deepBlue,
+                            ),
+                          ),
+                            label: const Text("E-mail",style: TextStyle(color: ColorPallets.deepBlue),),
                             hintText: "vachira@xerox.com"),
                         validator: (newMailId) {
                           if (newMailId!.isEmpty || !newMailId.contains('@')) {
@@ -373,6 +388,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         cursorHeight: 22,
                         controller: passwordController,
                         cursorWidth: 2,
+                        cursorColor: ColorPallets.deepBlue,
                         style: const TextStyle(
                             fontSize: 18, color: ColorPallets.deepBlue),
                         keyboardType: TextInputType.visiblePassword,
@@ -394,7 +410,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                           focusColor: ColorPallets.deepBlue,
-                          label: const Text("Password"),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: ColorPallets.deepBlue)),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: ColorPallets.deepBlue,
+                            ),
+                          ),
+                          label: const Text("Password",style: TextStyle(color: ColorPallets.deepBlue),),
                         ),
                         validator: (newPassword) {
                           if (newPassword!.isEmpty || newPassword.length < 6) {

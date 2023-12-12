@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import "package:connectivity_plus/connectivity_plus.dart";
 import "package:provider/provider.dart";
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
 
 import "./helpers/sqlLite.dart";
 
@@ -51,7 +52,7 @@ class _dittoxState extends State<dittox> {
         // )
       ],
       child: MaterialApp(
-        title: "Xerox",
+        title: "Dittox",
         debugShowCheckedModeBanner: false,
         // googlefonts.istokweb is for heading  .. when ever in need use there ..
         // googlefonts.lora is for body ..... so we defing the lora as global text theme
@@ -59,13 +60,14 @@ class _dittoxState extends State<dittox> {
           // canvasColor: ColorPallets.yellowShadedPurple,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: GoogleFonts.ubuntuTextTheme(),
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            secondary: ColorPallets.deepBlue,
-            primary: ColorPallets.deepBlue,
-          ),
+          // colorScheme: ColorScheme.fromSwatch().copyWith(
+          //   // secondary: ColorPallets.deepBlue,
+          //   // primary: ColorPallets.deepBlue,
+          // ),
           appBarTheme: const AppBarTheme(
             color: ColorPallets.deepBlue,
             // systemOverlayStyle: SystemUiOverlayStyle.light,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
           ),
         ),
         home: StreamBuilder<ConnectivityResult>(
