@@ -1,5 +1,6 @@
 import "dart:async";
 
+import "package:dittox/screens/nav_drawers/navBar.dart";
 import 'package:flutter/material.dart';
 import "package:connectivity_plus/connectivity_plus.dart";
 import "package:provider/provider.dart";
@@ -115,7 +116,7 @@ class dittox extends StatelessWidget {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               if (snapshot.data == true) {
-                                return const DummyHome();
+                                return const ButtonNavigationBar();
                               } else {
                                 return const AuthScreen();
                               }
@@ -138,7 +139,9 @@ class dittox extends StatelessWidget {
               const ForgetPasswordScreen(),
           TermsAndCond.routeName: (context) => const TermsAndCond(),
           PrivacyPolicy.routeName: (context) => const PrivacyPolicy(),
-          DummyHome.routeName: (context) => const DummyHome()
+          DummyHome.routeName: (context) => const DummyHome(),
+          ButtonNavigationBar.routeName: (context) =>
+              const ButtonNavigationBar(),
           // AboutUs.routeName: (context) => const AboutDialog(),
           // CartScreen.routeName: (context) => const CartScreen(),
           // ContactUs.routeName: (context) => const ContactUs(),
