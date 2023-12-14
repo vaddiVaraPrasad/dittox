@@ -11,9 +11,45 @@ class SQLHelpers {
   }
 
   static Future<Database> initDatabase() async {
-    String path = pth.join(await getDatabasesPath(), "xerox_user.db");
+    String path = pth.join(await getDatabasesPath(), "dittox_user.db");
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
+
+  // static Future<String> updateUserAccessToken(
+  //     String userId, String newAccessToken) async {
+  //   Database db = await getDatabase;
+
+  //   // Check if the user with the given userId exists
+  //   var user = await getUserById(userId);
+  //   if (user.isNotEmpty) {
+  //     // User found, update the userAccessToken
+  //     await db.rawUpdate('''
+  //       UPDATE users
+  //       SET userAccessToken = ?
+  //       WHERE userId = ?
+  //     ''', [newAccessToken, userId]);
+  //     return 'UserAccessToken updated successfully for userId: $userId';
+  //   } else {
+  //     return 'User with userId: $userId not found';
+  //   }
+  // }
+
+//   static Future _onCreate(Database db, int version) async {
+//     await db.execute('''
+// CREATE TABLE users(
+//   userId TEXT PRIMARY KEY,
+//   userName TEXT,
+//   userEmail TEXT,
+//   userPlaceName TEXT,
+//   latitude DOUBLE,
+//   longitude DOUBLE,
+//   userPhoneNumber TEXT,
+//   userContryName TEXT,
+//   userAccessToken TEXT
+// )
+// ''');
+//     print("on create was called");
+//   }
 
   static Future _onCreate(Database db, int version) async {
     await db.execute('''
@@ -24,7 +60,7 @@ CREATE TABLE users(
   userPlaceName TEXT,
   latitude DOUBLE,
   longitude DOUBLE,
-  userProfileUrl TEXT,
+  userPhoneNumber TEXT,
   userContryName TEXT
 )
 ''');

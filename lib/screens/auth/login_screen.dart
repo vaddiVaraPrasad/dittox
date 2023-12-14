@@ -1,12 +1,19 @@
+import "dart:convert";
+
+import "package:dittox/screens/home/dummy_home.dart";
 import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import "package:geolocator/geolocator.dart";
 import 'package:google_fonts/google_fonts.dart';
 import "package:provider/provider.dart";
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import "../../helpers/sqlLite.dart";
 import "../../helpers/user_location.dart";
 
 import "../../providers/current_user.dart";
+import "../../utils/api_endpoints.dart";
 import "../../utils/color_pallets.dart";
 
 import "./forget_password_Screen.dart";
@@ -34,6 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   bool isObsureText = true;
 
+  late SharedPreferences prefs;
+
   Map<String, String> _userDetails = {
     "email": "",
     "password": "",
@@ -42,7 +51,12 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     emailController.addListener(() => setState(() {}));
     passwordController.addListener(() => setState(() {}));
+    initSharePref();
     super.initState();
+  }
+
+  void initSharePref() async {
+    prefs = await SharedPreferences.getInstance();
   }
 
   @override
@@ -52,8 +66,108 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> submitSinginform(BuildContext ctx, CurrentUser currentUser) async {
+  Future<void> submitSinginform(
+      BuildContext ctx, CurrentUser currentUser) async {
+    var isValid = formKey.currentState!.validate();
+    if (isValid) {
+      formKey.currentState!.save();
+      // now create the user with this gmail and password !!!
+      setState(() {
+        _isLoading = true;
+      });
 
+      var requestBody = {
+        "email": _userDetails["email"].toString().trim(),
+        "password": _userDetails["password"].toString().trim()
+      };
+
+      var responce = await http.post(
+        Uri.parse(ApiEndPoiunts.Login_endpoint),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(requestBody),
+      );
+
+      var jsonResponce = jsonDecode(responce.body);
+      // print(jsonResponce);
+      var responseCode = jsonResponce["responseCode"].toString();
+
+      print(responseCode);
+      if (responseCode == "OK") {
+        print("inside the ok !!!");
+        // user is logged in here
+        var accessToken = jsonResponce["result"]["access_token"].toString();
+        prefs.setString("AccessToken", accessToken.toString());
+        print("ADDED ACCESS TOKEN TO SHARED PREFERENCE");
+        var userId = jsonResponce["result"]["user"]["_id"].toString();
+        bool isUserNotPresnt = await SQLHelpers.checkUserPresent(userId);
+        if (isUserNotPresnt) {
+          Position userCurrentPosition = await UserLocation.getUserLatLong();
+          Map<String, dynamic> userPlaceMark =
+              await UserLocation.getUserPlaceMarks(
+                  userCurrentPosition.latitude, userCurrentPosition.longitude);
+          var user = Users(
+            userId: userId,
+            userName: jsonResponce["result"]["user"]["name"].toString(),
+            userEmail:
+                jsonResponce["result"]["user"]["email"]["address"].toString(),
+            userPlaceName: userPlaceMark["locality"],
+            latitude: userCurrentPosition.latitude,
+            longitude: userCurrentPosition.longitude,
+            userPhoneNumber:
+                jsonResponce["result"]["user"]["mobile"].toString(),
+            userContryName: userPlaceMark["country"],
+            // userAccessToken: jsonResponce["result"]["access_token"].toString(),
+          );
+          currentUser.setCurrentUser(user);
+
+          print(
+              "<<<<------------------Provider Map is ------------------------>");
+          print(currentUser.getCurrentUserMap);
+        } else {
+          currentUser.initCurrentUser(
+              userId, jsonResponce["result"]["access_token"].toString());
+          print("OLD USER WITH NEW ACCESS TOKEN IS LOADED");
+        }
+        print("singined IN SUCCESSULLY");
+        Navigator.of(context).pushNamed(DummyHome.routeName);
+      } else if (responseCode == "CLIENT_ERROR") {
+        // show error msg there
+        var errorMessage = jsonResponce["message"].toString();
+
+        ScaffoldMessenger.of(context).clearSnackBars();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: ColorPallets.deepBlue,
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Icon(
+                  FontAwesomeIcons.triangleExclamation,
+                  color: Colors.red,
+                ),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      errorMessage,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontStyle: FontStyle.normal,
+                        color: ColorPallets.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
   // Future<void> submitSinginform(
   //     BuildContext ctx, CurrentUser currentUser) async {
@@ -297,7 +411,6 @@ class _LoginScreenState extends State<LoginScreen> {
   //   }
   // }
 
-
   @override
   Widget build(BuildContext context) {
     CurrentUser currUser = Provider.of<CurrentUser>(context, listen: true);
@@ -329,7 +442,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       // email text form
                       TextFormField(
-                      
                         controller: emailController,
                         key: const ValueKey("E-mail"),
                         cursorHeight: 22,
@@ -343,7 +455,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             fillColor: ColorPallets.deepBlue,
                             filled: false,
                             hoverColor: ColorPallets.deepBlue,
-
                             suffixIcon: emailController.text.isEmpty
                                 ? const SizedBox(
                                     width: 0,
@@ -361,15 +472,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                             focusColor: ColorPallets.deepBlue,
                             focusedBorder: const UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: ColorPallets.deepBlue)),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 2,
-                              color: ColorPallets.deepBlue,
+                                borderSide:
+                                    BorderSide(color: ColorPallets.deepBlue)),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: ColorPallets.deepBlue,
+                              ),
                             ),
-                          ),
-                            label: const Text("E-mail",style: TextStyle(color: ColorPallets.deepBlue),),
+                            label: const Text(
+                              "E-mail",
+                              style: TextStyle(color: ColorPallets.deepBlue),
+                            ),
                             hintText: "vachira@xerox.com"),
                         validator: (newMailId) {
                           if (newMailId!.isEmpty || !newMailId.contains('@')) {
@@ -410,7 +524,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                           focusColor: ColorPallets.deepBlue,
-                            focusedBorder: const UnderlineInputBorder(
+                          focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.deepBlue)),
                           enabledBorder: const UnderlineInputBorder(
@@ -419,7 +533,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: ColorPallets.deepBlue,
                             ),
                           ),
-                          label: const Text("Password",style: TextStyle(color: ColorPallets.deepBlue),),
+                          label: const Text(
+                            "Password",
+                            style: TextStyle(color: ColorPallets.deepBlue),
+                          ),
                         ),
                         validator: (newPassword) {
                           if (newPassword!.isEmpty || newPassword.length < 6) {
@@ -482,7 +599,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 "Register",
                                 style: TextStyle(
                                     color: ColorPallets.pinkinshShadedPurple,
-                                    fontSize: 18),
+                                    fontSize: 20),
                               ),
                             ),
                           ],
@@ -492,6 +609,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 10,
                       ),
+
                       // google sign in up
                       // InkWell(
                       //   onTap: () => signInUpWithGoogle(currUser, context),
@@ -528,6 +646,39 @@ class _LoginScreenState extends State<LoginScreen> {
                       //     ),
                       //   ),
                       // )
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                // Navigator.of(context)
+                                //     .pushNamed(PrivacyPolicy.routeName);
+                              },
+                              child: const Text(
+                                "Privacy policy",
+                                style: TextStyle(
+                                    color: ColorPallets.pinkinshShadedPurple,
+                                    fontSize: 14),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                // Navigator.of(context)
+                                //     .pushNamed(TermsAndCond.routeName);
+                              },
+                              child: const Text(
+                                "Terms & conditions",
+                                style: TextStyle(
+                                    color: ColorPallets.pinkinshShadedPurple,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

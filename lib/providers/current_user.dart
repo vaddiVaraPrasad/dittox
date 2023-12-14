@@ -14,12 +14,12 @@ class CurrentUser with ChangeNotifier {
     userPlaceName: "Loading...",
     latitude: 0,
     longitude: 0,
-    userProfileUrl:
-        "https://kalasalingam.ac.in/wp-content/uploads/2021/11/Faculty-dummy-profile.png",
+    userPhoneNumber: "",
     userContryName: "India",
+    // userAccessToken: "",
   );
 
-  void initCurrentUser(String id) async {
+  void initCurrentUser(String id, String userNewAccessToken) async {
     Map<String, dynamic> user_map = await SQLHelpers.getUserById(id);
     Users tempuser = Users(
       userId: user_map["userId"],
@@ -28,15 +28,25 @@ class CurrentUser with ChangeNotifier {
       userPlaceName: user_map["userPlaceName"],
       latitude: user_map["latitude"],
       longitude: user_map["longitude"],
-      userProfileUrl: user_map["userProfileUrl"],
+      userPhoneNumber: user_map["userPhoneNumber"],
       userContryName: user_map["userContryName"],
+      // userAccessToken: userNewAccessToken,
     );
+
+    // var updateUserAccessTokenResponce =
+    //     await SQLHelpers.updateUserAccessToken(id, userNewAccessToken);
+    // print(updateUserAccessTokenResponce);
+
     current_user = tempuser;
     print("init current user is called");
     print("user is updated");
     print(getCurrentUserMap);
     notifyListeners();
   }
+
+  // String get getUserAccessToken {
+  //   return current_user.userAccessToken;
+  // }
 
   String get getUserId {
     return current_user.userId;
@@ -52,14 +62,16 @@ class CurrentUser with ChangeNotifier {
     Map<String, dynamic> latestUser = await SQLHelpers.getLatestUser("users");
     if (latestUser != {}) {
       Users latCurUser = Users(
-          userId: latestUser["userId"],
-          userName: latestUser["userName"],
-          userEmail: latestUser["userEmail"],
-          userPlaceName: latestUser["userPlaceName"],
-          latitude: latestUser["latitude"],
-          longitude: latestUser["longitude"],
-          userProfileUrl: latestUser["userProfileUrl"],
-          userContryName: latestUser["userContryName"]);
+        userId: latestUser["userId"],
+        userName: latestUser["userName"],
+        userEmail: latestUser["userEmail"],
+        userPlaceName: latestUser["userPlaceName"],
+        latitude: latestUser["latitude"],
+        longitude: latestUser["longitude"],
+        userPhoneNumber: latestUser["userPhoneNumber"],
+        userContryName: latestUser["userContryName"],
+        // userAccessToken: latestUser["userAccessToken"],
+      );
       current_user = latCurUser;
       print("old user is loaded");
       notifyListeners();
@@ -156,14 +168,14 @@ class CurrentUser with ChangeNotifier {
     return current_user.longitude;
   }
 
-  void setUserProfileUrl(String userProfileUrl) {
-    current_user.userProfileUrl = userProfileUrl;
+  void setUserPhoneNumber(String userPhoneNumber) {
+    current_user.userPhoneNumber = userPhoneNumber;
     SQLHelpers.insertUser(current_user);
     notifyListeners();
   }
 
-  String get getUserProfileUrl {
-    return current_user.userProfileUrl;
+  String get getUserPhoneNumber {
+    return current_user.userPhoneNumber;
   }
 
   void setUserContryName(String countryName) {

@@ -130,14 +130,15 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     TextField(
                       controller: emailController,
                       cursorHeight: 22,
-            
-                        cursorWidth: 2,
-                        cursorColor: ColorPallets.deepBlue,
-                        style: const TextStyle(
-                            fontSize: 18, color: ColorPallets.deepBlue),
+                      cursorWidth: 2,
+                      cursorColor: ColorPallets.deepBlue,
+                      style: const TextStyle(
+                          fontSize: 18, color: ColorPallets.deepBlue),
                       decoration: InputDecoration(
-                        
-                          label: const Text("email",style: TextStyle(color: ColorPallets.deepBlue),),
+                          label: const Text(
+                            "email",
+                            style: TextStyle(color: ColorPallets.deepBlue),
+                          ),
                           // border: const OutlineInputBorder(
                           //   borderSide:
                           //         BorderSide(color: ColorPallets.deepBlue)

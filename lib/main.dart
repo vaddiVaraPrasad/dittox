@@ -1,8 +1,12 @@
+import "dart:async";
+
 import 'package:flutter/material.dart';
 import "package:connectivity_plus/connectivity_plus.dart";
 import "package:provider/provider.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
+import "package:shared_preferences/shared_preferences.dart";
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import "./helpers/sqlLite.dart";
 
@@ -13,23 +17,39 @@ import "./providers/current_user.dart";
 import "./screens/additional/network_error.dart";
 import "./screens/auth/auth_screen.dart";
 import "screens/auth/forget_password_screen.dart";
+import "screens/auth/privacy_policy.dart";
+import "screens/auth/termsandcondictions.dart";
+import "screens/home/dummy_home.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SQLHelpers.getDatabase;
-  runApp(dittox());
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  runApp(dittox(
+    accessToken: prefs.getString("AccessToken"),
+  ));
 }
 
-class dittox extends StatefulWidget {
-  const dittox({super.key});
+class dittox extends StatelessWidget {
+  final accessToken;
+  StreamController<bool> loginINConditionController = StreamController<bool>();
+  dittox({
+    super.key,
+    required this.accessToken,
+  });
 
-  @override
-  State<dittox> createState() => _dittoxState();
-}
-
-class _dittoxState extends State<dittox> {
   final Stream<ConnectivityResult> connectivityStream =
       Connectivity().onConnectivityChanged;
+
+  Stream<bool> loginInConditionStream(String? accessToken) async* {
+    var result = (accessToken == null)
+        ? false
+        : (JwtDecoder.isExpired(accessToken) == false)
+            ? true
+            : false;
+    print("RESULT FROM STREAMS ${result}");
+    yield result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,10 +94,38 @@ class _dittoxState extends State<dittox> {
             stream: Connectivity().onConnectivityChanged,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                print(accessToken);
                 switch (snapshot.data!) {
                   case ConnectivityResult.wifi:
                   case ConnectivityResult.mobile:
-                    return AuthScreen();
+                    // return ((accessToken == null) ||
+                    //         (JwtDecoder.isExpired(accessToken) == ))
+                    //     ? const AuthScreen()
+                    //     : const DummyHome();
+                    // return accessToken == null
+                    //     ? AuthScreen()
+                    //     : (JwtDecoder.isExpired(accessToken) == false)
+                    //         ? DummyHome()
+                    //         : AuthScreen();
+                    if (accessToken == null) {
+                      return const AuthScreen();
+                    } else {
+                      return StreamBuilder<bool>(
+                          stream: loginInConditionStream(accessToken),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data == true) {
+                                return const DummyHome();
+                              } else {
+                                return const AuthScreen();
+                              }
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          });
+                    }
                   default:
                     return const NetworkError();
                 }
@@ -88,6 +136,9 @@ class _dittoxState extends State<dittox> {
         routes: {
           ForgetPasswordScreen.routeName: (context) =>
               const ForgetPasswordScreen(),
+          TermsAndCond.routeName: (context) => const TermsAndCond(),
+          PrivacyPolicy.routeName: (context) => const PrivacyPolicy(),
+          DummyHome.routeName: (context) => const DummyHome()
           // AboutUs.routeName: (context) => const AboutDialog(),
           // CartScreen.routeName: (context) => const CartScreen(),
           // ContactUs.routeName: (context) => const ContactUs(),

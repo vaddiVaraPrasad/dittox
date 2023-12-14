@@ -2,11 +2,12 @@ class Users {
   String userName;
   String userId;
   String userEmail;
-  String userProfileUrl;
   String userPlaceName;
   double latitude;
   double longitude;
   String userContryName;
+  String userPhoneNumber;
+  // String userAccessToken;
 
   Users({
     required this.userId,
@@ -15,8 +16,9 @@ class Users {
     required this.userPlaceName,
     required this.latitude,
     required this.longitude,
-    required this.userProfileUrl,
+    required this.userPhoneNumber,
     required this.userContryName,
+    // required this.userAccessToken,
   });
 
   Map<String, dynamic> get toMap {
@@ -27,8 +29,9 @@ class Users {
       "userPlaceName": userPlaceName,
       "latitude": latitude,
       "longitude": longitude,
-      "userProfileUrl": userProfileUrl,
-      "userContryName":userContryName,
+      "userPhoneNumber": userPhoneNumber,
+      "userContryName": userContryName,
+      // "userAccessToken": userAccessToken,
     };
   }
 }
