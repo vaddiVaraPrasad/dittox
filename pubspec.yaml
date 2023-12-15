@@ -34,7 +34,8 @@ dependencies:
   get: ^4.6.1
   font_awesome_flutter: ^10.2.1
   google_fonts: ^4.0.4
-
+  
+  google_maps_flutter: ^2.2.5
   geolocator: ^9.0.2
   geocoding: ^2.1.0
   fluttertoast: ^8.2.1
@@ -53,6 +54,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.1
+  # flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -78,20 +80,21 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    # - .env
     # - assets/image/google.png
     # - assets/image/add_profile_border.png
     # - assets/image/add_profile_fill.png
     - assets/image/forgotPassword.png
     # - assets/image/search.png
-    # - assets/image/documentUpload.png
-    # - assets/image/imageUpload.png
-    # - assets/image/referFriend.png
-    # - assets/image/ImageUpload2.png
+    - assets/image/documentUpload.png
+    - assets/image/imageUpload.png
+    - assets/image/referFriend.png
+    - assets/image/ImageUpload2.png
     - assets/image/no_connet.png
-    # - assets/image/current_loaction.png
+    - assets/image/current_loaction.png
     # - assets/image/pin_1.png
     # - assets/image/pin_2.png
-    # - assets/image/pin_gif.gif
+    - assets/image/pin_gif.gif
     # - assets/image/no_order.png
     # - assets/image/xerox_sample.png
     # - assets/image/order_placed.png

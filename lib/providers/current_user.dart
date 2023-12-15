@@ -16,7 +16,7 @@ class CurrentUser with ChangeNotifier {
     longitude: 0,
     userPhoneNumber: "",
     userContryName: "India",
-    // userAccessToken: "",
+    userAccessToken: "",
   );
 
   void initCurrentUser(String id, String userNewAccessToken) async {
@@ -30,12 +30,12 @@ class CurrentUser with ChangeNotifier {
       longitude: user_map["longitude"],
       userPhoneNumber: user_map["userPhoneNumber"],
       userContryName: user_map["userContryName"],
-      // userAccessToken: userNewAccessToken,
+      userAccessToken: userNewAccessToken,
     );
 
-    // var updateUserAccessTokenResponce =
-    //     await SQLHelpers.updateUserAccessToken(id, userNewAccessToken);
-    // print(updateUserAccessTokenResponce);
+    var updateUserAccessTokenResponce =
+        await SQLHelpers.updateUserAccessToken(id, userNewAccessToken);
+    print(updateUserAccessTokenResponce);
 
     current_user = tempuser;
     print("init current user is called");
@@ -44,9 +44,9 @@ class CurrentUser with ChangeNotifier {
     notifyListeners();
   }
 
-  // String get getUserAccessToken {
-  //   return current_user.userAccessToken;
-  // }
+  String get getUserAccessToken {
+    return current_user.userAccessToken;
+  }
 
   String get getUserId {
     return current_user.userId;
@@ -70,7 +70,7 @@ class CurrentUser with ChangeNotifier {
         longitude: latestUser["longitude"],
         userPhoneNumber: latestUser["userPhoneNumber"],
         userContryName: latestUser["userContryName"],
-        // userAccessToken: latestUser["userAccessToken"],
+        userAccessToken: latestUser["userAccessToken"],
       );
       current_user = latCurUser;
       print("old user is loaded");
@@ -78,47 +78,50 @@ class CurrentUser with ChangeNotifier {
     }
   }
 
-  // void loadUserByID(String id) async {
-  //   Map<String, dynamic> idUserMap = await SQLHelpers.getUserById(id);
-  //   print("in provider");
-  //   print(idUserMap);
-  //   if (idUserMap.isEmpty) {
-  //     print("need to load the user Data!!!!!");
-  //     final data =
-  //         await FirebaseFirestore.instance.collection('Users').doc(id).get();
-  //     Position userCurrentPosition = await UserLocation.getUserLatLong();
-  //     Map<String, dynamic> userPlaceMark = await UserLocation.getUserPlaceMarks(
-  //         userCurrentPosition.latitude, userCurrentPosition.longitude);
-  //     var user = data.data();
-  //     Users logInFireStoreUSer = Users(
-  //       userId: user!["userId"],
-  //       userName: user["userName"],
-  //       userEmail: user["email"],
-  //       userProfileUrl: user["profilePicUrl"],
-  //       userPlaceName: userPlaceMark["locality"],
-  //       latitude: userCurrentPosition.latitude,
-  //       longitude: userCurrentPosition.longitude,
-  //       userContryName: userPlaceMark["country"],
-  //     );
-  //     current_user = logInFireStoreUSer;
-  //     await SQLHelpers.insertUser(current_user);
-  //     print("USER FROM FIREBASE IS USED");
-  //     notifyListeners();
-  //   } else {
-  //     Users id_user = Users(
-  //         userId: idUserMap["userId"],
-  //         userName: idUserMap["userName"],
-  //         userEmail: idUserMap["userEmail"],
-  //         userPlaceName: idUserMap["userPlaceName"],
-  //         latitude: idUserMap["latitude"],
-  //         longitude: idUserMap["longitude"],
-  //         userProfileUrl: idUserMap["userProfileUrl"],
-  //         userContryName: idUserMap["userContryName"]);
-  //     current_user = id_user;
-  //     print("old user is loaded");
-  //     notifyListeners();
-  //   }
-  // }
+  void loadUserByAccessToken(String accessToken) async {
+    Map<String, dynamic> idUserMap =
+        await SQLHelpers.getUserByAccessToken(accessToken);
+    print("in provider");
+    print(idUserMap);
+    if (idUserMap.isEmpty) {
+      // need to add after gauvrav send this
+
+      // print("need to load the user Data!!!!!");
+      // final data =
+      //     await FirebaseFirestore.instance.collection('Users').doc(id).get();
+      // Position userCurrentPosition = await UserLocation.getUserLatLong();
+      // Map<String, dynamic> userPlaceMark = await UserLocation.getUserPlaceMarks(
+      //     userCurrentPosition.latitude, userCurrentPosition.longitude);
+      // var user = data.data();
+      // Users logInFireStoreUSer = Users(
+      //   userId: user!["userId"],
+      //   userName: user["userName"],
+      //   userEmail: user["email"],
+      //   userPlaceName: userPlaceMark["locality"],
+      //   latitude: userCurrentPosition.latitude,
+      //   longitude: userCurrentPosition.longitude,
+      //   userContryName: userPlaceMark["country"],
+      // );
+      // current_user = logInFireStoreUSer;
+      // await SQLHelpers.insertUser(current_user);
+      // print("USER FROM FIREBASE IS USED");
+      notifyListeners();
+    } else {
+      Users id_user = Users(
+          userId: idUserMap["userId"],
+          userName: idUserMap["userName"],
+          userEmail: idUserMap["userEmail"],
+          userPlaceName: idUserMap["userPlaceName"],
+          latitude: idUserMap["latitude"],
+          longitude: idUserMap["longitude"],
+          userContryName: idUserMap["userContryName"],
+          userPhoneNumber: idUserMap["userPhoneNumber"],
+          userAccessToken: idUserMap["userAccessToken"]);
+      current_user = id_user;
+      print("old user is loaded");
+      notifyListeners();
+    }
+  }
 
   Users get gerUser {
     return current_user;

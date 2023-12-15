@@ -16,6 +16,7 @@ import "../../providers/current_user.dart";
 import "../../utils/api_endpoints.dart";
 import "../../utils/color_pallets.dart";
 
+import "../nav_drawers/navBar.dart";
 import "./forget_password_Screen.dart";
 
 import "../../widgets/auth/sing_in_up_bar.dart";
@@ -101,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
         var userId = jsonResponce["result"]["user"]["_id"].toString();
         bool isUserNotPresnt = await SQLHelpers.checkUserPresent(userId);
         if (isUserNotPresnt) {
+          print("user is not present so get new data");
           Position userCurrentPosition = await UserLocation.getUserLatLong();
           Map<String, dynamic> userPlaceMark =
               await UserLocation.getUserPlaceMarks(
@@ -116,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
             userPhoneNumber:
                 jsonResponce["result"]["user"]["mobile"].toString(),
             userContryName: userPlaceMark["country"],
-            // userAccessToken: jsonResponce["result"]["access_token"].toString(),
+            userAccessToken: jsonResponce["result"]["access_token"].toString(),
           );
           currentUser.setCurrentUser(user);
 
@@ -129,7 +131,15 @@ class _LoginScreenState extends State<LoginScreen> {
           print("OLD USER WITH NEW ACCESS TOKEN IS LOADED");
         }
         print("singined IN SUCCESSULLY");
-        Navigator.of(context).pushNamed(DummyHome.routeName);
+
+        // Navigator.of(context).pushNamed(ButtonNavigationBar.routeName);
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (ctx) => ButtonNavigationBar(
+                accessToken: accessToken,
+              ),
+            ),
+            (route) => false);
       } else if (responseCode == "CLIENT_ERROR") {
         // show error msg there
         var errorMessage = jsonResponce["message"].toString();

@@ -57,7 +57,7 @@ class _DummyHomeState extends State<DummyHome> {
         child: isLoading
             ? const CircularProgressIndicator()
             : TextButton(
-                child: Text("LOGOUT"),
+                child: Text("FUCK OFF !! BITCH"),
                 onPressed: () => logout(context),
               ),
       ),

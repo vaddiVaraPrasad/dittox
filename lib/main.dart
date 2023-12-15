@@ -17,15 +17,22 @@ import "./providers/current_user.dart";
 
 import "./screens/additional/network_error.dart";
 import "./screens/auth/auth_screen.dart";
+import "providers/search_place.dart";
+import "screens/additional/notifications.dart";
 import "screens/auth/forget_password_screen.dart";
 import "screens/auth/privacy_policy.dart";
 import "screens/auth/termsandcondictions.dart";
 import "screens/home/dummy_home.dart";
+import "screens/maps/setLocationMaps.dart";
+import "screens/maps/textLocation.dart";
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SQLHelpers.getDatabase;
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  // await dotenv.load(fileName: ".env");
+
   runApp(dittox(
     accessToken: prefs.getString("AccessToken"),
   ));
@@ -59,9 +66,9 @@ class dittox extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => CurrentUser(),
         ),
-        // ChangeNotifierProvider(
-        //   create: (context) => PlaceResult(),
-        // ),
+        ChangeNotifierProvider(
+          create: (context) => PlaceResult(),
+        ),
         // ChangeNotifierProvider(
         //   create: (context) => NearestShopProvider(),
         // ),
@@ -116,7 +123,9 @@ class dittox extends StatelessWidget {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               if (snapshot.data == true) {
-                                return const ButtonNavigationBar();
+                                return ButtonNavigationBar(
+                                  accessToken: accessToken,
+                                );
                               } else {
                                 return const AuthScreen();
                               }
@@ -140,8 +149,9 @@ class dittox extends StatelessWidget {
           TermsAndCond.routeName: (context) => const TermsAndCond(),
           PrivacyPolicy.routeName: (context) => const PrivacyPolicy(),
           DummyHome.routeName: (context) => const DummyHome(),
-          ButtonNavigationBar.routeName: (context) =>
-              const ButtonNavigationBar(),
+          ButtonNavigationBar.routeName: (context) => ButtonNavigationBar(
+                accessToken: accessToken,
+              ),
           // AboutUs.routeName: (context) => const AboutDialog(),
           // CartScreen.routeName: (context) => const CartScreen(),
           // ContactUs.routeName: (context) => const ContactUs(),
@@ -152,12 +162,12 @@ class dittox extends StatelessWidget {
           // CustomPDFPreview.routeName: (context) => const CustomPDFPreview(),
           // PdfImagesRender.routeName: (context) => const PdfImagesRender(),
           // PdfFilters.routeName: (context) => const PdfFilters(),
-          // NotificationPage.routeName: (context) => const NotificationPage(),
+          NotificationPage.routeName: (context) => const NotificationPage(),
           // DummyShops.routeName: (context) => const DummyShops(),
           // ButtonNavigationBar.routeName: (context) =>
           //     const ButtonNavigationBar(),
-          // setLocationMaps.routeName: (context) => const setLocationMaps(),
-          // LocationText.routeName: (context) => const LocationText(),
+          setLocationMaps.routeName: (context) => const setLocationMaps(),
+          LocationText.routeName: (context) => const LocationText(),
           // HiddenSideZoomDrawer.routeName: (context) => const HiddenSideZoomDrawer()
         },
       ),

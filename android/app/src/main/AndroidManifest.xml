@@ -7,6 +7,8 @@
         android:label="dittox"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBMluIbE_w4OM-qRC5EsJKkwhcXZS2nbpU"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

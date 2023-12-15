@@ -36,7 +36,7 @@ class UserLocation {
       "postalCode": place.postalCode,
       "country": place.country,
       "name": place.name,
-      "street":place.street,
+      "street": place.street,
     };
   }
 }

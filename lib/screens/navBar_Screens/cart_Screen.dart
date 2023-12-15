@@ -1,3 +1,4 @@
+import "package:dittox/helpers/sqlLite.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
@@ -16,6 +17,9 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   bool isPdfLoading = false;
+  void getAllTableData() {
+    SQLHelpers.getAllTableData("users");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +88,9 @@ class _CartScreenState extends State<CartScreen> {
       //             ),
       //           ],
       //         ))),
-      body: const Center(
-        child: Text("this is on-going order screen"),
+      body:  Center(
+        child: TextButton(
+            onPressed: getAllTableData, child:const  Text("get all table data")),
       ),
     );
   }

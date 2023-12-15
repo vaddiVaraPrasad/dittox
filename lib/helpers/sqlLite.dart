@@ -4,6 +4,8 @@ import "../model/user.dart";
 
 class SQLHelpers {
   static Database? _database;
+
+
   static get getDatabase async {
     if (_database != null) return _database;
     _database = await initDatabase();
@@ -15,41 +17,24 @@ class SQLHelpers {
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
-  // static Future<String> updateUserAccessToken(
-  //     String userId, String newAccessToken) async {
-  //   Database db = await getDatabase;
+  static Future<String> updateUserAccessToken(
+      String userId, String newAccessToken) async {
+    Database db = await getDatabase;
 
-  //   // Check if the user with the given userId exists
-  //   var user = await getUserById(userId);
-  //   if (user.isNotEmpty) {
-  //     // User found, update the userAccessToken
-  //     await db.rawUpdate('''
-  //       UPDATE users
-  //       SET userAccessToken = ?
-  //       WHERE userId = ?
-  //     ''', [newAccessToken, userId]);
-  //     return 'UserAccessToken updated successfully for userId: $userId';
-  //   } else {
-  //     return 'User with userId: $userId not found';
-  //   }
-  // }
-
-//   static Future _onCreate(Database db, int version) async {
-//     await db.execute('''
-// CREATE TABLE users(
-//   userId TEXT PRIMARY KEY,
-//   userName TEXT,
-//   userEmail TEXT,
-//   userPlaceName TEXT,
-//   latitude DOUBLE,
-//   longitude DOUBLE,
-//   userPhoneNumber TEXT,
-//   userContryName TEXT,
-//   userAccessToken TEXT
-// )
-// ''');
-//     print("on create was called");
-//   }
+    // Check if the user with the given userId exists
+    var user = await getUserById(userId);
+    if (user.isNotEmpty) {
+      // User found, update the userAccessToken
+      await db.rawUpdate('''
+        UPDATE users
+        SET userAccessToken = ?
+        WHERE userId = ?
+      ''', [newAccessToken, userId]);
+      return 'UserAccessToken updated successfully for userId: $userId';
+    } else {
+      return 'User with userId: $userId not found';
+    }
+  }
 
   static Future _onCreate(Database db, int version) async {
     await db.execute('''
@@ -61,11 +46,28 @@ CREATE TABLE users(
   latitude DOUBLE,
   longitude DOUBLE,
   userPhoneNumber TEXT,
-  userContryName TEXT
+  userContryName TEXT,
+  userAccessToken TEXT
 )
 ''');
     print("on create was called");
   }
+
+//   static Future _onCreate(Database db, int version) async {
+//     await db.execute('''
+// CREATE TABLE users(
+//   userId TEXT PRIMARY KEY,
+//   userName TEXT,
+//   userEmail TEXT,
+//   userPlaceName TEXT,
+//   latitude DOUBLE,
+//   longitude DOUBLE,
+//   userPhoneNumber TEXT,
+//   userContryName TEXT
+// )
+// ''');
+//     print("on create was called");
+//   }
 
   static void getAllTableData(String tableName) async {
     print("get all data from table is called");
@@ -101,6 +103,20 @@ CREATE TABLE users(
       print("returned is !!!");
       return {};
     }
+    return data[0];
+  }
+
+  static Future<Map<String, dynamic>> getUserByAccessToken(
+      String accessToken) async {
+    Database db =
+        await getDatabase; // Assuming you have a function named getDatabase to get the database instance
+    var data = await db.rawQuery(
+        "SELECT * FROM users WHERE userAccessToken = ?", [accessToken]);
+
+    if (data.isEmpty) {
+      return {};
+    }
+
     return data[0];
   }
 

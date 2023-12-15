@@ -1,3 +1,4 @@
+import "package:dittox/screens/home/dummy_home.dart";
 import "package:flutter/material.dart";
 import "package:google_nav_bar/google_nav_bar.dart";
 import "package:line_icons/line_icons.dart";
@@ -10,7 +11,8 @@ import "../navBar_Screens/profile_Screen.dart";
 
 class ButtonNavigationBar extends StatefulWidget {
   static const routeName = "/buttomNavBar";
-  const ButtonNavigationBar({super.key});
+  String accessToken;
+  ButtonNavigationBar({super.key, required this.accessToken});
 
   @override
   State<ButtonNavigationBar> createState() => _ButtonNavigationBarState();
@@ -21,12 +23,22 @@ class _ButtonNavigationBarState extends State<ButtonNavigationBar> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
 
-  static const List<Widget> _screens = <Widget>[
-    HomeScreen(),
-    // SearchShop(),
-    CartScreen(),
-    ProfilePage()
-  ];
+  late List<Widget> _screens;
+
+  @override
+  void initState() {
+    _screens = [
+      HomeScreen(
+        accessToken: widget.accessToken,
+      ),
+      // SearchShop(),
+      CartScreen(),
+      // ProfilePage()
+      DummyHome()
+    ];
+    // TODO: implement initState
+    super.initState();
+  }
 
   // static const List<Widget> _widgetOptions = <Widget>[
   //   Text(

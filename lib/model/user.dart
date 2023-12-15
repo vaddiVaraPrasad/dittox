@@ -7,7 +7,7 @@ class Users {
   double longitude;
   String userContryName;
   String userPhoneNumber;
-  // String userAccessToken;
+  String userAccessToken;
 
   Users({
     required this.userId,
@@ -18,7 +18,7 @@ class Users {
     required this.longitude,
     required this.userPhoneNumber,
     required this.userContryName,
-    // required this.userAccessToken,
+    required this.userAccessToken,
   });
 
   Map<String, dynamic> get toMap {
@@ -31,7 +31,7 @@ class Users {
       "longitude": longitude,
       "userPhoneNumber": userPhoneNumber,
       "userContryName": userContryName,
-      // "userAccessToken": userAccessToken,
+      "userAccessToken": userAccessToken,
     };
   }
 }

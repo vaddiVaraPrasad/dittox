@@ -41,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     "email": "",
     "password": "",
     "userName": "",
-    "phoneNumber":""
+    "phoneNumber": ""
   };
 
   @override
@@ -314,8 +314,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _userDetails["email"] = newMailId.toString().trim();
                         },
                       ),
-                      
-                      // username 
+
+                      // username
                       TextFormField(
                         key: const ValueKey("userName"),
                         controller: userNameController,
@@ -368,7 +368,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               newUserName.toString().trim();
                         },
                       ),
-                      
+
                       // password
                       TextFormField(
                         key: const ValueKey("passWoRd"),
@@ -433,7 +433,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               newPassword.toString().trim();
                         },
                       ),
-                    
+
                       // phonenumber
                       TextFormField(
                         controller: phonenumberController,
@@ -478,13 +478,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         validator: (newMobilenumber) {
-                          if (newMobilenumber!.isEmpty || newMobilenumber.length == 10) {
+                          if (newMobilenumber!.isEmpty ||
+                              newMobilenumber.length == 10) {
                             return "Invalid EmailId";
                           }
                           return null;
                         },
                         onSaved: (newMobilenumber) {
-                          _userDetails["phoneNumber"] = newMobilenumber.toString().trim();
+                          _userDetails["phoneNumber"] =
+                              newMobilenumber.toString().trim();
                         },
                       ),
                       const SizedBox(

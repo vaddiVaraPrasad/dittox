@@ -5,6 +5,7 @@ import "dart:convert";
 import "../model/auto_complete_result.dart";
 
 class MapServices {
+  // final String key = dotenv.env['GOOGLE_MAPS_API_KEY']!;
   final String key = "AIzaSyBMluIbE_w4OM-qRC5EsJKkwhcXZS2nbpU";
   final String types = "geocode";
 
