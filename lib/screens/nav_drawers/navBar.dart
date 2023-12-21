@@ -32,7 +32,9 @@ class _ButtonNavigationBarState extends State<ButtonNavigationBar> {
         accessToken: widget.accessToken,
       ),
       // SearchShop(),
-      CartScreen(),
+      CartScreen(
+        accessToken: widget.accessToken,
+      ),
       // ProfilePage()
       DummyHome()
     ];

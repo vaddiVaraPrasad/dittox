@@ -54,7 +54,12 @@ dependencies:
   jwt_decoder: ^2.0.1
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.1
-  # flutter_dotenv: ^5.1.0
+  http_parser: ^4.0.0
+  file_picker: ^4.1.4
+  advance_pdf_viewer_fork: ^2.0.0
+  flutter_riverpod: ^2.4.9
+
+
 
 dev_dependencies:
   flutter_test:

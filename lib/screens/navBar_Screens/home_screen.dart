@@ -93,6 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 flex: 3,
                                 child: UploadDoc(
                                   ctx: context,
+                                  accessToken: widget.accessToken,
                                 )),
                             const SizedBox(
                               height: 20,

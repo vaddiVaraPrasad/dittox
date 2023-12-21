@@ -1,6 +1,9 @@
 import "dart:async";
 
+import "package:dittox/providers/ListOfPdfFiles.dart";
+import "package:dittox/providers/singlePdf.dart";
 import "package:dittox/screens/nav_drawers/navBar.dart";
+import "package:dittox/screens/pdf/pdfFilter.dart";
 import 'package:flutter/material.dart';
 import "package:connectivity_plus/connectivity_plus.dart";
 import "package:provider/provider.dart";
@@ -69,6 +72,12 @@ class dittox extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => PlaceResult(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => SinglePDfFile(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ListOfPDFFiles(),
+        ),
         // ChangeNotifierProvider(
         //   create: (context) => NearestShopProvider(),
         // ),
@@ -89,9 +98,9 @@ class dittox extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: GoogleFonts.ubuntuTextTheme(),
           // colorScheme: ColorScheme.fromSwatch().copyWith(
-          //   // secondary: ColorPallets.deepBlue,
-          //   // primary: ColorPallets.deepBlue,
-          // ),
+          //     // secondary: ColorPallets.deepBlue,
+          //     // primary: ColorPallets.deepBlue,
+          //     ),
           appBarTheme: const AppBarTheme(
             color: ColorPallets.deepBlue,
             // systemOverlayStyle: SystemUiOverlayStyle.light,
@@ -152,6 +161,7 @@ class dittox extends StatelessWidget {
           ButtonNavigationBar.routeName: (context) => ButtonNavigationBar(
                 accessToken: accessToken,
               ),
+          PDFFilters.routeName: (context) => const PDFFilters(),
           // AboutUs.routeName: (context) => const AboutDialog(),
           // CartScreen.routeName: (context) => const CartScreen(),
           // ContactUs.routeName: (context) => const ContactUs(),
