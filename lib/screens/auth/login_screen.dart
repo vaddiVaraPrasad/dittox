@@ -126,8 +126,12 @@ class _LoginScreenState extends State<LoginScreen> {
               "<<<<------------------Provider Map is ------------------------>");
           print(currentUser.getCurrentUserMap);
         } else {
+          // while init user , need to update the user location tooo , so calulate here
+          
+          Position userCurrentPosition = await UserLocation.getUserLatLong();
+          
           currentUser.initCurrentUser(
-              userId, jsonResponce["result"]["access_token"].toString());
+              userId, jsonResponce["result"]["access_token"].toString(),userCurrentPosition.latitude,userCurrentPosition.longitude);
           print("OLD USER WITH NEW ACCESS TOKEN IS LOADED");
         }
         print("singined IN SUCCESSULLY");

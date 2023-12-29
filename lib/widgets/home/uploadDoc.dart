@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 
 // import '../../model/custom_pdf_modal.dart';
 // import '../../screens/pdf/cutom_pdf_Render_Screen.dart';
+import '../../model/pdfFile.dart';
 import '../../providers/ListOfPdfFiles.dart';
-import '../../providers/singlePdf.dart';
 import '../../screens/pdf/pdfFilter.dart';
 import '../../utils/color_pallets.dart';
 
@@ -52,7 +52,8 @@ class _UploadDocState extends State<UploadDoc> {
     }
   }
 
-  Future<void> pickFiles(BuildContext ctx) async {
+  Future<void> pickFiles(
+      BuildContext ctx, ListOfPDFFiles listofpdffiles) async {
     String endpoint = "https://dittox.in/xerox/v1/fileUpload/create";
 
     // Set the headers with the X-auth-token
@@ -65,16 +66,15 @@ class _UploadDocState extends State<UploadDoc> {
     if (result == null) {
       return null;
     }
-    ListOfPDFFiles listofpdffiles =
-        Provider.of<ListOfPDFFiles>(ctx, listen: true);
+
     listofpdffiles.emptyPDFfile();
     for (int i = 0; i < result.count; i++) {
       final pdfFile = File(result.files[i].path as String);
       // Count pages
       final pdfDocument = await PDFDocument.fromFile(pdfFile);
       final pageCount = pdfDocument.count;
-      SinglePDfFile singlepdffile =
-          Provider.of<SinglePDfFile>(ctx, listen: false);
+      print("befrore true");
+      print("after true");
       var request = http.MultipartRequest('POST', Uri.parse(endpoint))
         ..headers.addAll(headers)
         ..files.add(http.MultipartFile(
@@ -92,25 +92,42 @@ class _UploadDocState extends State<UploadDoc> {
         // print(responseString);
         Map<String, dynamic> responseMap = json.decode(responseString);
         String id = responseMap["result"][0]["_id"];
-        singlepdffile.setPdfName(result.files[i].name);
-        singlepdffile.setPdfSize(bytesToMB(result.files[i].size));
-        singlepdffile.setPdfTotalPages(pageCount as int);
-        singlepdffile.setUploadId(id);
-        // singlepdffile.printSinglePDFalldata();
-        print("------ ${singlepdffile.pdfName}");
-        listofpdffiles.addPDFFile(singlepdffile);
+        PdfData pdf = PdfData(
+          name: result.files[i].name,
+          bondPages: false,
+          size: bytesToMB(result.files[i].size),
+          totalPages: pageCount as int,
+          copies: 1,
+          binding: "No binding",
+          paperSize: "A4",
+          pdfSides: "Single side",
+          pdfPrintLayout: "Portraint",
+          color: "bw",
+          pageRange: "1 - $pageCount",
+          colorParDesciption: "",
+          colorParPageNumbers: "",
+          colorParTotal: 0,
+          additionDesciption: "",
+          uploadID: id,
+        );
+        print("------ ${pdf.name}");
+        listofpdffiles.addPDFFile(pdf);
       } else {
         print("Error uploading file. Status code: ${response.statusCode}");
         throw Exception(
             "Error uploading file. Pls Try Again after a while !\nif LARGE FILES  try upload them individually");
       }
     }
-    // listofpdffiles.allPdfList[0].printSinglePDFalldata();
-    // print(listofpdffiles.pdfFilesList);
+    listofpdffiles.pdfFilesList.forEach((ele) {
+      print("FOR LOOP VALUES ${ele.name}");
+    });
+    print(listofpdffiles.pdfFilesList);
   }
 
   @override
   Widget build(BuildContext context) {
+    ListOfPDFFiles listofpdffiles =
+        Provider.of<ListOfPDFFiles>(context, listen: true);
     return InkWell(
       onTap: () async {
         print("on tap is pressed");
@@ -118,7 +135,7 @@ class _UploadDocState extends State<UploadDoc> {
           isPdfLoading = true;
         });
         try {
-          await pickFiles(context);
+          await pickFiles(context, listofpdffiles);
           // await Future.delayed(const Duration(seconds: 2));
           Navigator.of(context).pushNamed(PDFFilters.routeName);
         } catch (e) {

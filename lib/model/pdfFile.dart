@@ -9,8 +9,9 @@ class PdfData {
   String pdfSides;
   String pdfPrintLayout;
   String color;
+  bool bondPages;
   String pageRange;
-  int colorParPageNumbers;
+  String colorParPageNumbers;
   String colorParDesciption;
   int colorParTotal;
   String additionDesciption;
@@ -31,6 +32,7 @@ class PdfData {
     required this.colorParTotal,
     required this.additionDesciption,
     required this.uploadID,
+    required this.bondPages,
   });
 
   Map<String, dynamic> get toMap {
@@ -48,7 +50,9 @@ class PdfData {
       "colorParDesciption": colorParDesciption,
       "colorParPageNumbers": colorParPageNumbers,
       "colorParTotal": colorParTotal,
-      "uploadID": uploadID
+      "uploadID": uploadID,
+      "bondpages": bondPages,
+      "additionDesciption": additionDesciption
     };
   }
 }

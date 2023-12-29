@@ -1,7 +1,6 @@
 import "dart:async";
 
 import "package:dittox/providers/ListOfPdfFiles.dart";
-import "package:dittox/providers/singlePdf.dart";
 import "package:dittox/screens/nav_drawers/navBar.dart";
 import "package:dittox/screens/pdf/pdfFilter.dart";
 import 'package:flutter/material.dart';
@@ -20,12 +19,16 @@ import "./providers/current_user.dart";
 
 import "./screens/additional/network_error.dart";
 import "./screens/auth/auth_screen.dart";
+import "providers/ListOfShops.dart";
 import "providers/search_place.dart";
+import "providers/seletedShop.dart";
 import "screens/additional/notifications.dart";
+import "screens/additional/summaryScreen.dart";
 import "screens/auth/forget_password_screen.dart";
 import "screens/auth/privacy_policy.dart";
 import "screens/auth/termsandcondictions.dart";
 import "screens/home/dummy_home.dart";
+import "screens/maps/selectShops.dart";
 import "screens/maps/setLocationMaps.dart";
 import "screens/maps/textLocation.dart";
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -73,17 +76,15 @@ class dittox extends StatelessWidget {
           create: (context) => PlaceResult(),
         ),
         ChangeNotifierProvider(
-          create: (context) => SinglePDfFile(),
-        ),
-        ChangeNotifierProvider(
           create: (context) => ListOfPDFFiles(),
         ),
-        // ChangeNotifierProvider(
-        //   create: (context) => NearestShopProvider(),
-        // ),
-        // ChangeNotifierProvider(
-        //   create: (context) => SelectedShop(),
-        // ),
+
+        ChangeNotifierProvider(
+          create: (context) => NearestShop(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => seletedShop(),
+        ),
         // ChangeNotifierProvider(
         //   create: (context) => CurrentOrder(),
         // )
@@ -95,8 +96,11 @@ class dittox extends StatelessWidget {
         // googlefonts.lora is for body ..... so we defing the lora as global text theme
         theme: ThemeData(
           // canvasColor: ColorPallets.yellowShadedPurple,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+          // visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: GoogleFonts.ubuntuTextTheme(),
+          primaryColor: ColorPallets.deepBlue,
+          // colorScheme: ColorScheme.fromSwatch(primarySwatch: Coolor)
+
           // colorScheme: ColorScheme.fromSwatch().copyWith(
           //     // secondary: ColorPallets.deepBlue,
           //     // primary: ColorPallets.deepBlue,
@@ -162,6 +166,10 @@ class dittox extends StatelessWidget {
                 accessToken: accessToken,
               ),
           PDFFilters.routeName: (context) => const PDFFilters(),
+          SelectShops.routeName: (context) => SelectShops(
+                accessToken: accessToken,
+              ),
+          SummaryScreen.routeName : (context) => const SummaryScreen(),
           // AboutUs.routeName: (context) => const AboutDialog(),
           // CartScreen.routeName: (context) => const CartScreen(),
           // ContactUs.routeName: (context) => const ContactUs(),

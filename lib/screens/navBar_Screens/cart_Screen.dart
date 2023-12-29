@@ -3,14 +3,15 @@ import 'dart:convert';
 import "package:dittox/helpers/sqlLite.dart";
 import "package:dittox/providers/ListOfPdfFiles.dart";
 import "package:flutter/material.dart";
+import "package:get/get.dart";
 import "package:provider/provider.dart";
 import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
 import '../../helpers/fileUpload.dart';
-
 // import "../../widgets/Cart/no_items.dart";
 import "../../providers/current_user.dart";
 import "../../utils/color_pallets.dart";
+import "../maps/selectShops.dart";
 // import "../../widgets/Cart/no_items.dart";
 // import "../../widgets/Cart/onGoing_xerox_Item.dart";
 
@@ -81,7 +82,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     CurrentUser curUSer = Provider.of<CurrentUser>(context);
-    ListOfPDFFiles listfiles =
+    ListOfPDFFiles pdffileList =
         Provider.of<ListOfPDFFiles>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
@@ -147,24 +148,32 @@ class _CartScreenState extends State<CartScreen> {
       //             ),
       //           ],
       //         ))),
+      // body: Center(
+      //   child: isLoading
+      //       ? CircularProgressIndicator()
+      //       : TextButton(
+      //           onPressed: () async {
+      //             setState(() {
+      //               isLoading = true;
+      //             });
+      //             // fileUpload.pickFiles(context);
+      //             // uploadFile();
+      //             listfiles.allPdfList.forEach((e) {
+      //               print(e.toMap);
+      //             });
+      //             setState(() {
+      //               isLoading = false;
+      //             });
+      //           },
+      //           child: const Text("Press here to get responce")),
+      // ),
       body: Center(
-        child: isLoading
-            ? CircularProgressIndicator()
-            : TextButton(
-                onPressed: () async {
-                  setState(() {
-                    isLoading = true;
-                  });
-                  // fileUpload.pickFiles(context);
-                  // uploadFile();
-                  listfiles.allPdfList.forEach((e) {
-                    print(e.pdfName);
-                  });
-                  setState(() {
-                    isLoading = false;
-                  });
-                },
-                child: const Text("Press here to get responce")),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed(SelectShops.routeName);
+          },
+          child: const Text("press"),
+        ),
       ),
     );
   }

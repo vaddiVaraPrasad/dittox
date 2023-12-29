@@ -1,20 +1,36 @@
-import 'package:dittox/providers/singlePdf.dart';
 import 'package:flutter/material.dart';
 
+import '../model/pdfFile.dart';
+
 class ListOfPDFFiles with ChangeNotifier {
-  List<SinglePDfFile> pdfFilesList = [];
+  List<PdfData> pdfFilesList = [];
 
   void emptyPDFfile() {
     pdfFilesList = [];
     notifyListeners();
   }
 
-  void addPDFFile(SinglePDfFile pdf) {
+  void addPDFFile(PdfData pdf) {
     pdfFilesList.add(pdf);
     notifyListeners();
   }
 
-  List<SinglePDfFile> get allPdfList {
+  PdfData getPDFFileAtIndex(int index) {
+    return pdfFilesList[index];
+  }
+
+  void printPDFFile() {
+    print(pdfFilesList[0].toMap);
+  }
+
+  void replacePDFAtIndex(int index, PdfData newPdfData) {
+    pdfFilesList[index] = newPdfData;
+    // print(pdfFilesList[0].toMap);
+    notifyListeners();
+  }
+
+  List<PdfData> get allPdfList {
+    print("get list pdfs is pressed");
     return pdfFilesList;
   }
 }

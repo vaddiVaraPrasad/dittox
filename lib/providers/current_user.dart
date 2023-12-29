@@ -19,15 +19,15 @@ class CurrentUser with ChangeNotifier {
     userAccessToken: "",
   );
 
-  void initCurrentUser(String id, String userNewAccessToken) async {
+  void initCurrentUser(String id, String userNewAccessToken,double locationX,double locationY) async {
     Map<String, dynamic> user_map = await SQLHelpers.getUserById(id);
     Users tempuser = Users(
       userId: user_map["userId"],
       userName: user_map["userName"],
       userEmail: user_map["userEmail"],
       userPlaceName: user_map["userPlaceName"],
-      latitude: user_map["latitude"],
-      longitude: user_map["longitude"],
+      latitude: locationX,
+      longitude: locationY,
       userPhoneNumber: user_map["userPhoneNumber"],
       userContryName: user_map["userContryName"],
       userAccessToken: userNewAccessToken,

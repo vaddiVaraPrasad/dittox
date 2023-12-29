@@ -45,7 +45,8 @@ android {
         applicationId "com.example.dittox"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 22
+        // minSdkVersion 22   for razor pay it should be 19 21 also works 
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

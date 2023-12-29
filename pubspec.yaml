@@ -44,6 +44,7 @@ dependencies:
   path: ^1.8.1
   path_provider: ^2.0.11
   http: ^0.13.5
+  flutter_rating_bar: ^4.0.1
 
   provider: ^6.0.5
   connectivity_plus: ^3.0.3
@@ -57,7 +58,12 @@ dependencies:
   http_parser: ^4.0.0
   file_picker: ^4.1.4
   advance_pdf_viewer_fork: ^2.0.0
-  flutter_riverpod: ^2.4.9
+  # flutter_riverpod: ^2.4.9
+  expandable: ^5.0.1
+  carousel_slider: ^4.2.1
+
+  syncfusion_flutter_sliders: ^20.3.56
+  syncfusion_flutter_core: ^20.3.60
 
 
 
@@ -91,6 +97,7 @@ flutter:
     # - assets/image/add_profile_fill.png
     - assets/image/forgotPassword.png
     # - assets/image/search.png
+    - assets/image/defaultStore.jpg
     - assets/image/documentUpload.png
     - assets/image/imageUpload.png
     - assets/image/referFriend.png
