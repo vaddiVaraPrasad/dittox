@@ -169,7 +169,9 @@ class dittox extends StatelessWidget {
           SelectShops.routeName: (context) => SelectShops(
                 accessToken: accessToken,
               ),
-          SummaryScreen.routeName : (context) => const SummaryScreen(),
+          SummaryScreen.routeName: (context) => SummaryScreen(
+                accessToken: accessToken,
+              ),
           // AboutUs.routeName: (context) => const AboutDialog(),
           // CartScreen.routeName: (context) => const CartScreen(),
           // ContactUs.routeName: (context) => const ContactUs(),

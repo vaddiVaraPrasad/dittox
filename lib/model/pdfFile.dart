@@ -1,5 +1,5 @@
 class PdfData {
-  String uploadID;
+  String documents;
   String name;
   String size;
   int totalPages;
@@ -31,7 +31,7 @@ class PdfData {
     required this.colorParPageNumbers,
     required this.colorParTotal,
     required this.additionDesciption,
-    required this.uploadID,
+    required this.documents,
     required this.bondPages,
   });
 
@@ -50,7 +50,7 @@ class PdfData {
       "colorParDesciption": colorParDesciption,
       "colorParPageNumbers": colorParPageNumbers,
       "colorParTotal": colorParTotal,
-      "uploadID": uploadID,
+      "documents": documents,
       "bondpages": bondPages,
       "additionDesciption": additionDesciption
     };

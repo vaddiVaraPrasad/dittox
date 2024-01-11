@@ -52,6 +52,73 @@ class _UploadDocState extends State<UploadDoc> {
     }
   }
 
+  Future<String?> uploadFileGetDownloadUrl(
+      File pdffile, String fileName, String filePath) async {
+    try {
+      final url = Uri.parse(
+          "https://dittox.in/xerox/v1/cloud-services/file/getSignedUrl");
+      final headers = {"X-auth-token": "bearer ${widget.accessToken}"};
+      // print("Filename is ${fileName}");
+      final params = {"fileName": fileName};
+
+      var url_get = Uri.https(url.authority, url.path, params);
+      var response = await http.get(url_get, headers: headers);
+      final signed = json.decode(response.body);
+      // print(signed);
+      if (signed["responseCode"] == "OK") {
+        final filePath = signed["result"]["filePath"];
+        final signedUrl = signed["result"]["signedUrl"];
+        // print("signed url is $signedUrl");
+        // print("filepath is $filePath");
+
+        final headersUploadUrl = {
+          "Content-Type": "multipart/form-data",
+          "X-auth-token": "bearer ${widget.accessToken}"
+        };
+
+        // final file = File("/content/2310.03046.pdf");
+        final responseUpload = await http.put(Uri.parse(signedUrl),
+            body: await pdffile.readAsBytes(), headers: headersUploadUrl);
+
+        if (responseUpload.statusCode == 200) {
+          // Print the status code
+          // print("Status Code: ${responseUpload.statusCode}");
+          // Print the content of the response
+          // print("Content: ${responseUpload.body}");
+          final url_download = Uri.parse(
+              "https://dittox.in/xerox/v1/cloud-services/file/getDownloadableUrl");
+          final paramsDownloadUrl = {"filePath": filePath};
+          final url_download_get = Uri.http(
+              url_download.authority, url_download.path, paramsDownloadUrl);
+          final responseDownloadUrl =
+              await http.get(url_download_get, headers: headers);
+          if (responseDownloadUrl.statusCode == 200) {
+            final responseDownloadUrlJson =
+                json.decode(responseDownloadUrl.body);
+
+            if (responseDownloadUrlJson["responseCode"] == "OK") {
+              // print(responseDownloadUrlJson);
+              return responseDownloadUrlJson["result"];
+            } else {
+              throw Exception(responseDownloadUrlJson["message"]);
+            }
+          } else {
+            throw Exception(
+                "Error: Try uploading again. Sorry for the inconvenience.");
+          }
+        } else {
+          throw Exception(
+              "Error: Try uploading again. Sorry for the inconvenience.");
+        }
+      } else {
+        throw Exception(signed["message"]);
+      }
+    } catch (e) {
+      print("Caught an exception: $e");
+      throw Exception(e);
+    }
+  }
+
   Future<void> pickFiles(
       BuildContext ctx, ListOfPDFFiles listofpdffiles) async {
     String endpoint = "https://dittox.in/xerox/v1/fileUpload/create";
@@ -73,25 +140,16 @@ class _UploadDocState extends State<UploadDoc> {
       // Count pages
       final pdfDocument = await PDFDocument.fromFile(pdfFile);
       final pageCount = pdfDocument.count;
-      print("befrore true");
-      print("after true");
-      var request = http.MultipartRequest('POST', Uri.parse(endpoint))
-        ..headers.addAll(headers)
-        ..files.add(http.MultipartFile(
-          'files',
-          pdfFile.readAsBytes().asStream(),
-          pdfFile.lengthSync(),
-          filename: result.files[i].name,
-        ));
-      var response = await request.send();
-
-      if (response.statusCode == 200) {
-        print("File uploaded successfully.");
-        var responseData = await response.stream.toBytes();
-        var responseString = utf8.decode(responseData);
-        // print(responseString);
-        Map<String, dynamic> responseMap = json.decode(responseString);
-        String id = responseMap["result"][0]["_id"];
+      print("<<<<<---- pages ${i + 1}------>");
+      print(result.names[i]);
+      print(result.paths[i]);
+      print(pdfFile);
+      try {
+        final downloadDocumentUrl = await uploadFileGetDownloadUrl(
+            pdfFile, result.names[i].toString(), result.paths[i].toString());
+        print(downloadDocumentUrl);
+        print("befrore true");
+        print("after true");
         PdfData pdf = PdfData(
           name: result.files[i].name,
           bondPages: false,
@@ -102,21 +160,52 @@ class _UploadDocState extends State<UploadDoc> {
           paperSize: "A4",
           pdfSides: "Single side",
           pdfPrintLayout: "Portraint",
-          color: "bw",
+          color: "Black & White",
           pageRange: "1 - $pageCount",
           colorParDesciption: "",
           colorParPageNumbers: "",
           colorParTotal: 0,
           additionDesciption: "",
-          uploadID: id,
+          documents: downloadDocumentUrl.toString(),
         );
         print("------ ${pdf.name}");
         listofpdffiles.addPDFFile(pdf);
-      } else {
-        print("Error uploading file. Status code: ${response.statusCode}");
-        throw Exception(
-            "Error uploading file. Pls Try Again after a while !\nif LARGE FILES  try upload them individually");
+      } catch (e) {
+        print(e);
       }
+
+      // if (response.statusCode == 200) {
+      //   print("File uploaded successfully.");
+      //   var responseData = await response.stream.toBytes();
+      //   var responseString = utf8.decode(responseData);
+      //   // print(responseString);
+      //   Map<String, dynamic> responseMap = json.decode(responseString);
+      //   String id = responseMap["result"][0]["_id"];
+      //   PdfData pdf = PdfData(
+      //     name: result.files[i].name,
+      //     bondPages: false,
+      //     size: bytesToMB(result.files[i].size),
+      //     totalPages: pageCount as int,
+      //     copies: 1,
+      //     binding: "No binding",
+      //     paperSize: "A4",
+      //     pdfSides: "Single side",
+      //     pdfPrintLayout: "Portraint",
+      //     color: "bw",
+      //     pageRange: "1 - $pageCount",
+      //     colorParDesciption: "",
+      //     colorParPageNumbers: "",
+      //     colorParTotal: 0,
+      //     additionDesciption: "",
+      //     documents: id,
+      //   );
+      //   print("------ ${pdf.name}");
+      //   listofpdffiles.addPDFFile(pdf);
+      // } else {
+      //   print("Error uploading file. Status code: ${response.statusCode}");
+      //   throw Exception(
+      //       "Error uploading file. Pls Try Again after a while !\nif LARGE FILES  try upload them individually");
+      // }
     }
     listofpdffiles.pdfFilesList.forEach((ele) {
       print("FOR LOOP VALUES ${ele.name}");

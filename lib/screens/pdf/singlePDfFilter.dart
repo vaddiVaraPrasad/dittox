@@ -25,9 +25,9 @@ enum JobTypes {
 
 String getStringPageOrientations(PageOrientation orient) {
   if (orient == PageOrientation.landScape) {
-    return "Landscape";
+    return "LandScape";
   } else {
-    return "Potrait";
+    return "Portrait";
   }
 }
 
@@ -40,11 +40,11 @@ String getStringPrintingSides(PritingSides side) {
 
 String getStringJobType(JobTypes job) {
   if (job == JobTypes.blackAndWhite) {
-    return "bw";
+    return "Black & White";
   } else if (job == JobTypes.fullColor) {
-    return "multi";
+    return "All Color";
   } else {
-    return "colPar";
+    return "Partial Color";
   }
 }
 
@@ -385,7 +385,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                 colorParTotal: oldPdfdata.colorParTotal,
                                 additionDesciption:
                                     oldPdfdata.additionDesciption,
-                                uploadID: oldPdfdata.uploadID);
+                                documents: oldPdfdata.documents);
                             pdffileList.replacePDFAtIndex(
                                 widget.index, newPDfData);
                             pdffileList.printPDFFile();
@@ -421,7 +421,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                 colorParTotal: oldPdfdata.colorParTotal,
                                 additionDesciption:
                                     oldPdfdata.additionDesciption,
-                                uploadID: oldPdfdata.uploadID);
+                                documents: oldPdfdata.documents);
                             pdffileList.replacePDFAtIndex(
                                 widget.index, newPDfData);
                             pdffileList.printPDFFile();
@@ -539,7 +539,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                         colorParTotal: oldPdfdata.colorParTotal,
                                         additionDesciption:
                                             oldPdfdata.additionDesciption,
-                                        uploadID: oldPdfdata.uploadID);
+                                        documents: oldPdfdata.documents);
                                     pdffileList.replacePDFAtIndex(
                                         widget.index, newPDfData);
                                     pdffileList.printPDFFile();
@@ -636,7 +636,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                           colorParPageNumbers: oldPdfdata.colorParPageNumbers,
                           colorParTotal: oldPdfdata.colorParTotal,
                           additionDesciption: oldPdfdata.additionDesciption,
-                          uploadID: oldPdfdata.uploadID);
+                          documents: oldPdfdata.documents);
                       pdffileList.replacePDFAtIndex(widget.index, newPDfData);
                       pdffileList.printPDFFile();
                     });
@@ -666,7 +666,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                           colorParPageNumbers: oldPdfdata.colorParPageNumbers,
                           colorParTotal: oldPdfdata.colorParTotal,
                           additionDesciption: oldPdfdata.additionDesciption,
-                          uploadID: oldPdfdata.uploadID);
+                          documents: oldPdfdata.documents);
                       pdffileList.replacePDFAtIndex(widget.index, newPDfData);
                       pdffileList.printPDFFile();
                     });
@@ -763,7 +763,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                   colorParTotal: oldPdfdata.colorParTotal,
                                   additionDesciption:
                                       oldPdfdata.additionDesciption,
-                                  uploadID: oldPdfdata.uploadID);
+                                  documents: oldPdfdata.documents);
                               pdffileList.replacePDFAtIndex(
                                   widget.index, newPDfData);
                               pdffileList.printPDFFile();
@@ -819,7 +819,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                   colorParTotal: oldPdfdata.colorParTotal,
                                   additionDesciption:
                                       oldPdfdata.additionDesciption,
-                                  uploadID: oldPdfdata.uploadID);
+                                  documents: oldPdfdata.documents);
                               pdffileList.replacePDFAtIndex(
                                   widget.index, newPDfData);
                               pdffileList.printPDFFile();
@@ -932,7 +932,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                   colorParTotal: oldPdfdata.colorParTotal,
                                   additionDesciption:
                                       oldPdfdata.additionDesciption,
-                                  uploadID: oldPdfdata.uploadID);
+                                  documents: oldPdfdata.documents);
                               pdffileList.replacePDFAtIndex(
                                   widget.index, newPDfData);
                               pdffileList.printPDFFile();
@@ -989,7 +989,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                   colorParTotal: oldPdfdata.colorParTotal,
                                   additionDesciption:
                                       oldPdfdata.additionDesciption,
-                                  uploadID: oldPdfdata.uploadID);
+                                  documents: oldPdfdata.documents);
                               pdffileList.replacePDFAtIndex(
                                   widget.index, newPDfData);
                               pdffileList.printPDFFile();
@@ -1099,7 +1099,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                       colorParPageNumbers: oldPdfdata.colorParPageNumbers,
                       colorParTotal: oldPdfdata.colorParTotal,
                       additionDesciption: oldPdfdata.additionDesciption,
-                      uploadID: oldPdfdata.uploadID);
+                      documents: oldPdfdata.documents);
                   pdffileList.replacePDFAtIndex(widget.index, newPDfData);
                   pdffileList.printPDFFile();
                 }),
@@ -1193,7 +1193,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                     colorParTotal: oldPdfdata.colorParTotal,
                                     additionDesciption:
                                         oldPdfdata.additionDesciption,
-                                    uploadID: oldPdfdata.uploadID);
+                                    documents: oldPdfdata.documents);
                                 pdffilesList.replacePDFAtIndex(
                                     widget.index, newPDfData);
                                 pdffilesList.printPDFFile();
@@ -1253,7 +1253,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                     colorParTotal: oldPdfdata.colorParTotal,
                                     additionDesciption:
                                         oldPdfdata.additionDesciption,
-                                    uploadID: oldPdfdata.uploadID);
+                                    documents: oldPdfdata.documents);
                                 pdffilesList.replacePDFAtIndex(
                                     widget.index, newPDfData);
                                 pdffilesList.printPDFFile();
@@ -1307,7 +1307,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                     colorParTotal: oldPdfdata.colorParTotal,
                                     additionDesciption:
                                         oldPdfdata.additionDesciption,
-                                    uploadID: oldPdfdata.uploadID);
+                                    documents: oldPdfdata.documents);
                                 pdffilesList.replacePDFAtIndex(
                                     widget.index, newPDfData);
                                 pdffilesList.printPDFFile();
@@ -1425,7 +1425,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                               oldPdfdata.colorParTotal,
                                           additionDesciption:
                                               oldPdfdata.additionDesciption,
-                                          uploadID: oldPdfdata.uploadID);
+                                          documents: oldPdfdata.documents);
                                       pdffilesList.replacePDFAtIndex(
                                           widget.index, newPDfData);
                                       pdffilesList.printPDFFile();
@@ -1467,7 +1467,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                               oldPdfdata.colorParTotal,
                                           additionDesciption:
                                               oldPdfdata.additionDesciption,
-                                          uploadID: oldPdfdata.uploadID);
+                                          documents: oldPdfdata.documents);
                                       pdffilesList.replacePDFAtIndex(
                                           widget.index, newPDfData);
                                       pdffilesList.printPDFFile();
@@ -1722,7 +1722,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                       colorParPageNumbers: oldPdfdata.colorParPageNumbers,
                       colorParTotal: oldPdfdata.colorParTotal,
                       additionDesciption: oldPdfdata.additionDesciption,
-                      uploadID: oldPdfdata.uploadID);
+                      documents: oldPdfdata.documents);
                   pdffilesList.replacePDFAtIndex(widget.index, newPDfData);
                   pdffilesList.printPDFFile();
                 }),
@@ -1813,7 +1813,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                     colorParTotal: oldPdfdata.colorParTotal,
                                     additionDesciption:
                                         oldPdfdata.additionDesciption,
-                                    uploadID: oldPdfdata.uploadID);
+                                    documents: oldPdfdata.documents);
                                 pdffilesList.replacePDFAtIndex(
                                     widget.index, newPDfData);
                                 pdffilesList.printPDFFile();
@@ -1896,7 +1896,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                                     colorParTotal: oldPdfdata.colorParTotal,
                                     additionDesciption:
                                         oldPdfdata.additionDesciption,
-                                    uploadID: oldPdfdata.uploadID);
+                                    documents: oldPdfdata.documents);
                                 pdffilesList.replacePDFAtIndex(
                                     widget.index, newPDfData);
                                 pdffilesList.printPDFFile();
@@ -2271,7 +2271,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                       colorParPageNumbers: oldPdfdata.colorParPageNumbers,
                       colorParTotal: oldPdfdata.colorParTotal,
                       additionDesciption: _instructionsController.text,
-                      uploadID: oldPdfdata.uploadID);
+                      documents: oldPdfdata.documents);
                   pdffilesList.replacePDFAtIndex(widget.index, newPDfData);
                   pdffilesList.printPDFFile();
                 });
@@ -2301,7 +2301,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
                       colorParPageNumbers: oldPdfdata.colorParPageNumbers,
                       colorParTotal: oldPdfdata.colorParTotal,
                       additionDesciption: _instructionsController.text,
-                      uploadID: oldPdfdata.uploadID);
+                      documents: oldPdfdata.documents);
                   pdffilesList.replacePDFAtIndex(widget.index, newPDfData);
                   pdffilesList.printPDFFile();
                 });

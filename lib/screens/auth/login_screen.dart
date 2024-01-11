@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print("ADDED ACCESS TOKEN TO SHARED PREFERENCE");
         var userId = jsonResponce["result"]["user"]["_id"].toString();
         bool isUserNotPresnt = await SQLHelpers.checkUserPresent(userId);
-        if (isUserNotPresnt) {
+        // if (isUserNotPresnt) {
           print("user is not present so get new data");
           Position userCurrentPosition = await UserLocation.getUserLatLong();
           Map<String, dynamic> userPlaceMark =
@@ -125,15 +125,15 @@ class _LoginScreenState extends State<LoginScreen> {
           print(
               "<<<<------------------Provider Map is ------------------------>");
           print(currentUser.getCurrentUserMap);
-        } else {
-          // while init user , need to update the user location tooo , so calulate here
+        // } else {
+        //   // while init user , need to update the user location tooo , so calulate here
           
-          Position userCurrentPosition = await UserLocation.getUserLatLong();
+        //   Position userCurrentPosition = await UserLocation.getUserLatLong();
           
-          currentUser.initCurrentUser(
-              userId, jsonResponce["result"]["access_token"].toString(),userCurrentPosition.latitude,userCurrentPosition.longitude);
-          print("OLD USER WITH NEW ACCESS TOKEN IS LOADED");
-        }
+        //   currentUser.initCurrentUser(
+        //       userId, jsonResponce["result"]["access_token"].toString(),userCurrentPosition.latitude,userCurrentPosition.longitude);
+        //   print("OLD USER WITH NEW ACCESS TOKEN IS LOADED");
+        // }
         print("singined IN SUCCESSULLY");
 
         // Navigator.of(context).pushNamed(ButtonNavigationBar.routeName);

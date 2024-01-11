@@ -13,4 +13,21 @@ class seletedShop extends ChangeNotifier {
   Shop getSeletedShop() {
     return userSeletedShop;
   }
+
+  void printSeletedShop() {
+    print(userSeletedShop.toMap());
+  }
+
+  Map<String, String> shopOrderPreview() {
+    return {
+      "shopName": userSeletedShop.storeName,
+      "contactNumber": userSeletedShop.contactNumber,
+      "shopEmail": userSeletedShop.email,
+      "distance": userSeletedShop.distance,
+      "duration": userSeletedShop.duration,
+      "rating": userSeletedShop.avgRating.toString(),
+      "shopAddress": userSeletedShop.address,
+      "price":userSeletedShop.cost.toString(),
+    };
+  }
 }

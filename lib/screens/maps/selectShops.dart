@@ -404,14 +404,56 @@ class _SelectShopsState extends State<SelectShops> {
                 ],
               ),
             ),
+            const SizedBox(
+              width: 5,
+            ),
             Expanded(
                 flex: 2,
-                child: Container(
-                  margin: const EdgeInsets.only(right: 12, top: 15, bottom: 15),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(16)),
-                      image: DecorationImage(
-                          image: AssetImage("assets/image/defaultStore.jpg"))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                      flex: 2,
+                      // child: FittedBox(
+                      //   fit: BoxFit
+                      //       .cover, // or any other BoxFit option based on your preference
+                      //   child: Text(
+                      //     "Rs: ${shop.cost}",
+                      //     style: const TextStyle(
+                      //       fontWeight: FontWeight.bold,
+                      //       color: ColorPallets.white,
+                      //       fontSize: 1,
+                      //     ),
+                      //   ),
+                      // ),
+                      child: Text(
+                        "Rs: ${shop.cost}",
+                        style: const TextStyle(
+                            // fontWeight: FontWeight.bold,
+                            color: ColorPallets.white,
+                            fontSize: 30,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 4,
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                              right: 12, top: 15, bottom: 15),
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16)),
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/image/defaultStore.jpg"))),
+                        )),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                  ],
                 ))
           ],
         ));
