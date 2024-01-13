@@ -36,7 +36,9 @@ class _ButtonNavigationBarState extends State<ButtonNavigationBar> {
         accessToken: widget.accessToken,
       ),
       // ProfilePage()
-      DummyHome()
+      ProfilePage(
+        accessToken: widget.accessToken,
+      )
     ];
     // TODO: implement initState
     super.initState();

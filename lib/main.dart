@@ -22,6 +22,10 @@ import "./screens/auth/auth_screen.dart";
 import "providers/ListOfShops.dart";
 import "providers/search_place.dart";
 import "providers/seletedShop.dart";
+import "screens/Orders/historyOrders.dart";
+import "screens/Orders/paylaterOrders.dart";
+import "screens/additional/aboutUs.dart";
+import "screens/additional/contactUs.dart";
 import "screens/additional/notifications.dart";
 import "screens/additional/summaryScreen.dart";
 import "screens/auth/forget_password_screen.dart";
@@ -31,6 +35,7 @@ import "screens/home/dummy_home.dart";
 import "screens/maps/selectShops.dart";
 import "screens/maps/setLocationMaps.dart";
 import "screens/maps/textLocation.dart";
+import "screens/navBar_Screens/profile_Screen.dart";
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -177,7 +182,9 @@ class dittox extends StatelessWidget {
           // ContactUs.routeName: (context) => const ContactUs(),
           // HomeScreen.routeName: (context) => const HomeScreen(),
           // OrderScreen.routeName: (context) => const OrderScreen(),
-          // ProfilePage.routeName: (context) => const ProfilePage(),
+          ProfilePage.routeName: (context) => ProfilePage(
+                accessToken: accessToken,
+              ),
           // OrderPreviewScreen.routeName: (context) => const OrderPreviewScreen(),
           // CustomPDFPreview.routeName: (context) => const CustomPDFPreview(),
           // PdfImagesRender.routeName: (context) => const PdfImagesRender(),
@@ -187,7 +194,11 @@ class dittox extends StatelessWidget {
           // ButtonNavigationBar.routeName: (context) =>
           //     const ButtonNavigationBar(),
           setLocationMaps.routeName: (context) => const setLocationMaps(),
-          LocationText.routeName: (context) => const LocationText(),
+          LocationText.routeName: (context) => const PayLater(),
+          HistoryOrders.routeName: (context) => const HistoryOrders(),
+          PayLater.routeName: (context) => const PayLater(),
+          AboutUs.routeName: (context) => const AboutUs(),
+          ContactUs.routeName: (context) => const ContactUs(),
           // HiddenSideZoomDrawer.routeName: (context) => const HiddenSideZoomDrawer()
         },
       ),

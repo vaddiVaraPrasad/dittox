@@ -19,7 +19,8 @@ class CurrentUser with ChangeNotifier {
     userAccessToken: "",
   );
 
-  void initCurrentUser(String id, String userNewAccessToken,double locationX,double locationY) async {
+  void initCurrentUser(String id, String userNewAccessToken, double locationX,
+      double locationY) async {
     Map<String, dynamic> user_map = await SQLHelpers.getUserById(id);
     Users tempuser = Users(
       userId: user_map["userId"],
@@ -84,7 +85,7 @@ class CurrentUser with ChangeNotifier {
     print("in provider");
     print(idUserMap);
     if (idUserMap.isEmpty) {
-      // need to add after gauvrav send this     
+      // need to add after gauvrav send this
 
       // print("need to load the user Data!!!!!");
       // final data =
@@ -107,14 +108,18 @@ class CurrentUser with ChangeNotifier {
       // print("USER FROM FIREBASE IS USED");
       notifyListeners();
     } else {
+      Position userCurrentPosition = await UserLocation.getUserLatLong();
+      Map<String, dynamic> userPlaceMark = await UserLocation.getUserPlaceMarks(
+          userCurrentPosition.latitude, userCurrentPosition.longitude);
+
       Users id_user = Users(
           userId: idUserMap["userId"],
           userName: idUserMap["userName"],
           userEmail: idUserMap["userEmail"],
-          userPlaceName: idUserMap["userPlaceName"],
-          latitude: idUserMap["latitude"],
-          longitude: idUserMap["longitude"],
-          userContryName: idUserMap["userContryName"],
+          userPlaceName: userPlaceMark["locality"],
+          latitude: userCurrentPosition.latitude,
+          longitude: userCurrentPosition.longitude,
+          userContryName: userPlaceMark["country"],
           userPhoneNumber: idUserMap["userPhoneNumber"],
           userAccessToken: idUserMap["userAccessToken"]);
       current_user = id_user;
