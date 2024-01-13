@@ -3,19 +3,91 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../providers/current_user.dart';
+import '../../screens/nav_drawers/navBar.dart';
 import '../../utils/color_pallets.dart';
 
-class HistoryCard extends StatefulWidget {
-  Map<String, dynamic> historyXeroxItem;
-  HistoryCard({super.key, required this.historyXeroxItem});
+class PayLaterCard extends StatefulWidget {
+  Map<String, dynamic> PayLaterXeroxItem;
+  String accessToken;
+  PayLaterCard({
+    super.key,
+    required this.PayLaterXeroxItem,
+    required this.accessToken,
+  });
 
   @override
-  State<HistoryCard> createState() => _HistoryCardState();
+  State<PayLaterCard> createState() => _PayLaterCardState();
 }
 
-class _HistoryCardState extends State<HistoryCard> {
+class _PayLaterCardState extends State<PayLaterCard> {
+  late Razorpay _razorPay;
+  bool isInit = true;
+
+  void _handlePaymentSuccess(
+      BuildContext ctx, PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+    print("PAYMENT MADE SUCCESSFULLY");
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (ctx) => ButtonNavigationBar(
+            accessToken: widget.accessToken,
+          ),
+        ),
+        (route) => false);
+  }
+
+  void _handlePaymentError(BuildContext ctx, PaymentFailureResponse response) {
+    // Do something when payment fails
+    print("PAYMENT IS FAILURE");
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Payment Status'),
+          content: Text('Payment is failed. Please try again once.'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Dismiss the dialog
+                // showFailedAlertDialog(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    _razorPay.clear();
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet was selected
+    print("EXTERNAL WALLET IS SELETED");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (isInit) {
+      _razorPay = Razorpay();
+      // _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+      _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) {
+        _handlePaymentSuccess(context, response);
+      });
+      _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, (responce) {
+        _handlePaymentError(context, responce);
+      });
+      _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    }
+    setState(() {
+      isInit = false;
+    });
+  }
+
   void fetchData(String downloadUrl) async {
     final response = await http.get(Uri.parse(downloadUrl)
         // Uri.parse('http://xerox-bucket.s3.ap-south-1.amazonaws.com/users/654b38f06fbd53e8ae895492-1705153162465-form%2011.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2S5BGTLKY4PRAOMX%2F20240113%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240113T133923Z&X-Amz-Expires=604800&X-Amz-Signature=c98ad7cef56ca3975d387bc01714fe8288b97e2f2a715cec2ecc44915d2ad588&X-Amz-SignedHeaders=host'),
@@ -114,7 +186,7 @@ class _HistoryCardState extends State<HistoryCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.historyXeroxItem["orderId"],
+                  widget.PayLaterXeroxItem["orderId"],
                   style: const TextStyle(
                     color: ColorPallets.deepBlue,
                     fontSize: 22,
@@ -127,7 +199,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   height: 3,
                 ),
                 Text(
-                  widget.historyXeroxItem["storeName"],
+                  widget.PayLaterXeroxItem["storeName"],
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 18),
                 ),
@@ -136,7 +208,7 @@ class _HistoryCardState extends State<HistoryCard> {
                 ),
                 Text(
                   getDate(
-                    widget.historyXeroxItem["orderDate"],
+                    widget.PayLaterXeroxItem["orderDate"],
                   ),
                   style: TextStyle(fontSize: 13),
                 ),
@@ -277,8 +349,8 @@ class _HistoryCardState extends State<HistoryCard> {
 
   @override
   Widget build(BuildContext context) {
-    CurrentUser curUser = Provider.of<CurrentUser>(context);
-    List<dynamic> itemsList = widget.historyXeroxItem["items"];
+    CurrentUser currentUser = Provider.of<CurrentUser>(context);
+    List<dynamic> itemsList = widget.PayLaterXeroxItem["items"];
 
     List<Widget> itemWidgets = [];
 
@@ -326,6 +398,37 @@ class _HistoryCardState extends State<HistoryCard> {
       );
     }
 
+    Future<void> makePayment() async {
+      try {
+        var options = {
+          "key": "rzp_test_F9dV31vBF1OjLd",
+          "amount": widget.PayLaterXeroxItem['totalCost'] * 100,
+          "currency": "INR",
+          "name": "Dittox", //your business name
+          "description": "Test Transaction",
+          "orderId": widget.PayLaterXeroxItem['_id'],
+          "receipt": "cnlna",
+          "timeout": 300,
+          "prefill": {
+            "name": currentUser.getUserName,
+            "email": currentUser.getUserEmail,
+            "contact": currentUser.getUserPhoneNumber,
+          },
+          "notes": {
+            "address": "Razorpay Corporate Office",
+          },
+          "theme": {
+            "color": "#3399cc",
+          },
+        };
+        print(options);
+        // _razorPay.open(options);
+        print("-------------- PAYMENT IS DONE -------------");
+      } catch (e) {
+        print("ERROR ${e}");
+      }
+    }
+
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         child: Container(
@@ -362,87 +465,6 @@ class _HistoryCardState extends State<HistoryCard> {
                 children: itemWidgets,
               ),
 
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   itemCount: itemsList.length,
-              //   itemBuilder: (context, index) {
-              //     return Column(
-              //       children: [
-              //         KeyValueOfFeatureDownload(
-              //             index + 1, itemsList[index]["downloadUrl"]),
-              //         KeyValueOfFeature(
-              //             "Copies ", itemsList[index]["copies"].toString()),
-              //         KeyValueOfFeature("Total Pages ",
-              //             itemsList[index]["totalPages"].toString()),
-              //         KeyValueOfFeature(
-              //             "Cost ", itemsList[index]["itemCost"].toString()),
-              //         KeyValueOfFeature(
-              //             "Color ", itemsList[index]["itemColor"]),
-              //         if (itemsList[index]["colorPartialPagesList"] != null)
-              //           KeyValueOfFeature("Color Partials  ",
-              //               itemsList[index]["colorPartialPagesList"]),
-              //         if (itemsList[index]["bondPage"] != null)
-              //           KeyValueOfFeature("Bond Papers  ", "YES"),
-              //         KeyValueOfFeature(
-              //             "Paper Size ", itemsList[index]["paperSize"]),
-              //         KeyValueOfFeature(
-              //             "Print Layout ", itemsList[index]["printLayout"]),
-              //         KeyValueOfFeature(
-              //             "Binding Formate ", itemsList[index]["binding"]),
-              //         KeyValueOfFeature(
-              //             "Print Side Formate ", itemsList[index]["side"]),
-              //         const SizedBox(
-              //             height: 10), // Adjust the spacing as needed
-              //       ],
-              //     );
-              //   },
-              // ),
-              // KeyValueOfFeatureDownload(1, itemsList[0]["downloadUrl"]),
-              // KeyValueOfFeature("Copies ", itemsList[0]["copies"].toString()),
-              // KeyValueOfFeature(
-              //     "Total Pages ", itemsList[0]["totalPages"].toString()),
-              // KeyValueOfFeature("Cost ", itemsList[0]["itemCost"].toString()),
-              // KeyValueOfFeature("Color ", itemsList[0]["itemColor"]),
-              // itemsList[0]["colorPartialPagesList"] != null
-              //     ? KeyValueOfFeature(
-              //         "Color Partials  ", itemsList[0]["colorPartialPagesList"])
-              //     : const SizedBox(),
-              // itemsList[0]["bondPage"] != null
-              //     ? KeyValueOfFeature("Bond Papers  ", "YES")
-              //     : const SizedBox(),
-              // KeyValueOfFeature("Paper Size ", itemsList[0]["paperSize"]),
-              // KeyValueOfFeature("Print Layout ", itemsList[0]["printLayout"]),
-              // KeyValueOfFeature("Binding Formate ", itemsList[0]["binding"]),
-              // KeyValueOfFeature("Print Side Formate ", itemsList[0]["side"]),
-
-              // KeyValueOfFeature(
-              //     "No of Copies", widget.historyXeroxItem["noOfCopies"]),
-              // KeyValueOfFeature("Total No.of Pages",
-              //     "${widget.historyXeroxItem["noOfPages"]} Pages X ${widget.historyXeroxItem["noOfCopies"]} Copies  "),
-              // KeyValueOfFeature(
-              //     "Page Orientation ", widget.historyXeroxItem["pageOrient"]),
-              // KeyValueOfFeature(
-              //     "Page Types", widget.historyXeroxItem["pageSize"]),
-              // KeyValueOfFeature(
-              //     "Print Type", widget.historyXeroxItem["pagePrintSide"]),
-              // KeyValueOfFeature(
-              //     "Color ", widget.historyXeroxItem["printJobType"]),
-              // widget.historyXeroxItem["printJobType"] == "Partial Color"
-              //     ? KeyValueOfFeature("Color Pages",
-              //         "${widget.historyXeroxItem['colorPagesCount']} ( ${widget.historyXeroxItem['colorPagesRange']} )")
-              //     : const SizedBox(),
-              // widget.historyXeroxItem['bindingType'] != "NoBound"
-              //     ? KeyValueOfFeature(
-              //         "Binding Type", widget.historyXeroxItem['bindingType'])
-              //     : const SizedBox(),
-              // widget.historyXeroxItem['isBondPaperNeeded'] == "true"
-              //     ? KeyValueOfFeature(
-              //         "Bond Pages", widget.historyXeroxItem['bondPaperRange'])
-              //     : const SizedBox(),
-              // widget.historyXeroxItem['isTransparentSheetNeed'] == "true"
-              //     ? KeyValueOfFeature("Transparent Color",
-              //         widget.historyXeroxItem['transparentSheetColor'])
-              //     : const SizedBox(),
               const SizedBox(
                 height: 10,
               ),
@@ -458,13 +480,13 @@ class _HistoryCardState extends State<HistoryCard> {
                 child: Divider(color: ColorPallets.deepBlue, thickness: 2),
               ),
               KeyValueOfFeature(
-                  "Shope Name", widget.historyXeroxItem['storeName']),
+                  "Shope Name", widget.PayLaterXeroxItem['storeName']),
               KeyValueOfFeature("Contact-Number",
-                  widget.historyXeroxItem['storeContactNumber']),
+                  widget.PayLaterXeroxItem['storeContactNumber']),
               KeyValueOfFeature(
-                  "Shop Email", widget.historyXeroxItem['storeEmail']),
+                  "Shop Email", widget.PayLaterXeroxItem['storeEmail']),
               KeyValueLong(
-                  "Shop Addres", widget.historyXeroxItem['storeAddress']),
+                  "Shop Addres", widget.PayLaterXeroxItem['storeAddress']),
 
               const SizedBox(
                 height: 10,
@@ -482,16 +504,46 @@ class _HistoryCardState extends State<HistoryCard> {
               ),
               // KeyValueOfFeature("OrderId", widget.historyXeroxItem['orderId']),
 
-              KeyValueLong("OrderId", widget.historyXeroxItem['orderId']),
+              KeyValueLong("OrderId", widget.PayLaterXeroxItem['orderId']),
               KeyValueOfFeature("Date Of Order",
-                  getDate(widget.historyXeroxItem['orderDate'])),
+                  getDate(widget.PayLaterXeroxItem['orderDate'])),
               // KeyValueLong("Date Of Order",
               //     getDate(widget.historyXeroxItem['orderDate'])),
               KeyValueOfFeature("Total Cost",
-                  widget.historyXeroxItem['totalCost'].toString()),
+                  widget.PayLaterXeroxItem['totalCost'].toString()),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
+              InkWell(
+                onTap: () async {
+                  await makePayment();
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  // Make the container fill the entire width
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: ColorPallets
+                        .deepBlue, // Set the background color to green
+                    borderRadius:
+                        BorderRadius.circular(10), // Set round borders
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Pay Now",
+                      style: TextStyle(
+                        color: Colors
+                            .white, // Assuming ColorPallets.white is equivalent to Colors.white
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              )
             ],
           ),
         ));

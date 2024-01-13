@@ -265,7 +265,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           // If the server returns a 200 OK response, parse and print the JSON response
           Map<String, dynamic> jsonResponse = json.decode(response.body);
           if (jsonResponse["responseCode"] == "OK") {
-            final orderID = jsonResponse["result"]["orderId"];
+            final orderID = jsonResponse["result"]["_id"];
             final totalCost = jsonResponse['result']['totalCost'];
             var options = {
               "key": "rzp_test_F9dV31vBF1OjLd",

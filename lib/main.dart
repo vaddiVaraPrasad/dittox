@@ -194,9 +194,13 @@ class dittox extends StatelessWidget {
           // ButtonNavigationBar.routeName: (context) =>
           //     const ButtonNavigationBar(),
           setLocationMaps.routeName: (context) => const setLocationMaps(),
-          LocationText.routeName: (context) => const PayLater(),
-          HistoryOrders.routeName: (context) => const HistoryOrders(),
-          PayLater.routeName: (context) => const PayLater(),
+          LocationText.routeName: (context) => const LocationText(),
+          HistoryOrders.routeName: (context) => HistoryOrders(
+                accessToken: accessToken,
+              ),
+          PayLater.routeName: (context) => PayLater(
+                accessToken: accessToken,
+              ),
           AboutUs.routeName: (context) => const AboutUs(),
           ContactUs.routeName: (context) => const ContactUs(),
           // HiddenSideZoomDrawer.routeName: (context) => const HiddenSideZoomDrawer()

@@ -20,7 +20,7 @@ class NoOrders extends StatelessWidget {
           ),
         ),
         const Text(
-          "No On-Going Xerox",
+          "No On-Going prints ",
           textAlign: TextAlign.center,
           style: TextStyle(color: ColorPallets.deepBlue, fontSize: 26),
         ),
@@ -28,7 +28,7 @@ class NoOrders extends StatelessWidget {
           height: 5,
         ),
         const Text(
-          "Check  History for old Xerox Details ",
+          "Check  History Orders for past prints ",
           style: TextStyle(color: ColorPallets.lightBlue, fontSize: 16),
         ),
       ],

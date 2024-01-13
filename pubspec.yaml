@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   animations: ^2.0.7
+  intl: ^0.18.1
   get: ^4.6.1
   font_awesome_flutter: ^10.2.1
   google_fonts: ^4.0.4
@@ -45,6 +46,8 @@ dependencies:
   path_provider: ^2.0.11
   http: ^0.13.5
   flutter_rating_bar: ^4.0.1
+
+  timeline_tile: ^2.0.0
 
   provider: ^6.0.5
   connectivity_plus: ^3.0.3
@@ -111,9 +114,9 @@ flutter:
     - assets/image/current_loaction.png
     # - assets/image/pin_1.png
     # - assets/image/pin_2.png
-    - assets/image/pin_gif.gif
-    # - assets/image/no_order.png
-    # - assets/image/xerox_sample.png
+    # - assets/image/pin_gif.gif
+    - assets/image/no_order.png
+    - assets/image/xerox_sample.png
     # - assets/image/order_placed.png
     # - assets/image/smartphone.png
     # - assets/image/started_xerox.png

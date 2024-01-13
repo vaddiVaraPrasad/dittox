@@ -22,6 +22,8 @@ import "./forget_password_Screen.dart";
 import "../../widgets/auth/sing_in_up_bar.dart";
 
 import "../../model/user.dart";
+import "privacy_policy.dart";
+import "termsandcondictions.dart";
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback callRegisterScreen;
@@ -102,34 +104,33 @@ class _LoginScreenState extends State<LoginScreen> {
         var userId = jsonResponce["result"]["user"]["_id"].toString();
         bool isUserNotPresnt = await SQLHelpers.checkUserPresent(userId);
         // if (isUserNotPresnt) {
-          print("user is not present so get new data");
-          Position userCurrentPosition = await UserLocation.getUserLatLong();
-          Map<String, dynamic> userPlaceMark =
-              await UserLocation.getUserPlaceMarks(
-                  userCurrentPosition.latitude, userCurrentPosition.longitude);
-          var user = Users(
-            userId: userId,
-            userName: jsonResponce["result"]["user"]["name"].toString(),
-            userEmail:
-                jsonResponce["result"]["user"]["email"]["address"].toString(),
-            userPlaceName: userPlaceMark["locality"],
-            latitude: userCurrentPosition.latitude,
-            longitude: userCurrentPosition.longitude,
-            userPhoneNumber:
-                jsonResponce["result"]["user"]["mobile"].toString(),
-            userContryName: userPlaceMark["country"],
-            userAccessToken: jsonResponce["result"]["access_token"].toString(),
-          );
-          currentUser.setCurrentUser(user);
+        print("user is not present so get new data");
+        Position userCurrentPosition = await UserLocation.getUserLatLong();
+        Map<String, dynamic> userPlaceMark =
+            await UserLocation.getUserPlaceMarks(
+                userCurrentPosition.latitude, userCurrentPosition.longitude);
+        var user = Users(
+          userId: userId,
+          userName: jsonResponce["result"]["user"]["name"].toString(),
+          userEmail:
+              jsonResponce["result"]["user"]["email"]["address"].toString(),
+          userPlaceName: userPlaceMark["locality"],
+          latitude: userCurrentPosition.latitude,
+          longitude: userCurrentPosition.longitude,
+          userPhoneNumber: jsonResponce["result"]["user"]["mobile"].toString(),
+          userContryName: userPlaceMark["country"],
+          userAccessToken: jsonResponce["result"]["access_token"].toString(),
+        );
+        currentUser.setCurrentUser(user);
 
-          print(
-              "<<<<------------------Provider Map is ------------------------>");
-          print(currentUser.getCurrentUserMap);
+        print(
+            "<<<<------------------Provider Map is ------------------------>");
+        print(currentUser.getCurrentUserMap);
         // } else {
         //   // while init user , need to update the user location tooo , so calulate here
-          
+
         //   Position userCurrentPosition = await UserLocation.getUserLatLong();
-          
+
         //   currentUser.initCurrentUser(
         //       userId, jsonResponce["result"]["access_token"].toString(),userCurrentPosition.latitude,userCurrentPosition.longitude);
         //   print("OLD USER WITH NEW ACCESS TOKEN IS LOADED");
@@ -668,8 +669,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                // Navigator.of(context)
-                                //     .pushNamed(PrivacyPolicy.routeName);
+                                Navigator.of(context)
+                                    .pushNamed(PrivacyPolicy.routeName);
                               },
                               child: const Text(
                                 "Privacy policy",
@@ -680,8 +681,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             InkWell(
                               onTap: () {
-                                // Navigator.of(context)
-                                //     .pushNamed(TermsAndCond.routeName);
+                                Navigator.of(context)
+                                    .pushNamed(TermsAndCond.routeName);
                               },
                               child: const Text(
                                 "Terms & conditions",

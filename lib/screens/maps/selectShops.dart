@@ -27,10 +27,12 @@ class SelectShops extends StatefulWidget {
 
 class _SelectShopsState extends State<SelectShops> {
   Completer<GoogleMapController> _controller = Completer();
+
   static const CameraPosition _initialCameraPosition = CameraPosition(
     target: LatLng(20.5937, 78.9629),
     zoom: 5,
   );
+
   final carouselCtrl = CarouselController();
   final lat_lng_index = {};
 

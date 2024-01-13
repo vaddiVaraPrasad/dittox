@@ -119,7 +119,7 @@ class _UploadDocState extends State<UploadDoc> {
     }
   }
 
-  Future<void> pickFiles(
+  Future<bool> pickFiles(
       BuildContext ctx, ListOfPDFFiles listofpdffiles) async {
     String endpoint = "https://dittox.in/xerox/v1/fileUpload/create";
 
@@ -131,7 +131,7 @@ class _UploadDocState extends State<UploadDoc> {
     final result = await FilePicker.platform.pickFiles(
         allowMultiple: true, type: FileType.custom, allowedExtensions: ["pdf"]);
     if (result == null) {
-      return null;
+      return false;
     }
 
     listofpdffiles.emptyPDFfile();
@@ -211,6 +211,7 @@ class _UploadDocState extends State<UploadDoc> {
       print("FOR LOOP VALUES ${ele.name}");
     });
     print(listofpdffiles.pdfFilesList);
+    return true;
   }
 
   @override
@@ -224,9 +225,11 @@ class _UploadDocState extends State<UploadDoc> {
           isPdfLoading = true;
         });
         try {
-          await pickFiles(context, listofpdffiles);
-          // await Future.delayed(const Duration(seconds: 2));
-          Navigator.of(context).pushNamed(PDFFilters.routeName);
+          var fileIsPicked = await pickFiles(context, listofpdffiles);
+          if (fileIsPicked) {
+            // await Future.delayed(const Duration(seconds: 2));
+            Navigator.of(context).pushNamed(PDFFilters.routeName);
+          }
         } catch (e) {
           // Display alert dialog on error
           showDialog(
