@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:dittox/providers/ListOfPdfFiles.dart";
+import "package:dittox/screens/auth/forgetPasswordOTP.dart";
 import "package:dittox/screens/auth/regsiterOtp.dart";
 import "package:dittox/screens/nav_drawers/navBar.dart";
 import "package:dittox/screens/pdf/pdfFilter.dart";
@@ -206,6 +207,7 @@ class dittox extends StatelessWidget {
           AboutUs.routeName: (context) => const AboutUs(),
           ContactUs.routeName: (context) => const ContactUs(),
           RegisterOtp.routeName: (context) => const RegisterOtp(),
+          PasswordOTP.routeName: (context) => const PasswordOTP()
           // HiddenSideZoomDrawer.routeName: (context) => const HiddenSideZoomDrawer()
         },
       ),

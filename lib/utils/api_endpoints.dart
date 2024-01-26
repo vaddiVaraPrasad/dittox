@@ -5,6 +5,8 @@ class ApiEndPoiunts {
   static const createUser = "https://dittox.in/xerox/v1/account/create";
   static const resetPasswordOtp =
       "https://dittox.in/xerox/v1/account/generateResetPasswordOtp";
+  static const resetPasswordConfirm =
+      "https://dittox.in/xerox/v1/account/resetForgotPassword";
 
   //   endpoint: https://dittox.in/xerox/v1/account/login
 

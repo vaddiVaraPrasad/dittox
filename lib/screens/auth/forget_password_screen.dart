@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:dittox/screens/auth/forgetPasswordOTP.dart';
 import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:http/http.dart' as http;
+import '../../utils/api_endpoints.dart';
 import '../../utils/color_pallets.dart';
 
 import "../../widgets/IconButton.dart";
@@ -14,65 +18,89 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  final emailController = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
+  bool _isLoading = false;
   @override
   void dispose() {
-    emailController.dispose();
+    phoneNumberController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    emailController.addListener(() => setState(() {}));
+    phoneNumberController.addListener(() => setState(() {}));
     super.initState();
   }
 
-  Future<void> sendPasswordLink() async {
-    // try {
-    //   await FirebaseAuth.instance
-    //       .sendPasswordResetEmail(email: emailController.text.trim());
-    //   showDialog(
-    //     context: context,
-    //     builder: (context) => AlertDialog(
-    //       content: const Text(
-    //           "Email is sent to reset your password\ncheck your spam box"),
-    //       actions: [
-    //         IconButton(
-    //             onPressed: () => Navigator.of(context).pop(),
-    //             icon: const Icon(
-    //               FontAwesomeIcons.check,
-    //               size: 30,
-    //             ))
-    //       ],
-    //     ),
-    //   );
-    // } on FirebaseAuthException catch (e) {
-    //   var msg = e.code;
-    //   ScaffoldMessenger.of(context).clearSnackBars();
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       backgroundColor: ColorPallets.deepBlue,
-    //       content: Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //         children: [
-    //           const Icon(
-    //             FontAwesomeIcons.triangleExclamation,
-    //             color: Colors.red,
-    //           ),
-    //           Text(
-    //             msg,
-    //             style: const TextStyle(
-    //               fontSize: 18,
-    //               fontStyle: FontStyle.normal,
-    //               color: ColorPallets.white,
-    //             ),
-    //           )
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // }
+  Future<void> sendOtpToPhoneNumber() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      var requestBody = {
+        "mobile": phoneNumberController.text.toString().trim(),
+        "password": "random"
+      };
+
+      var responce = await http.post(
+        Uri.parse(ApiEndPoiunts.resetPasswordOtp),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(requestBody),
+      );
+
+      var jsonResponce = jsonDecode(responce.body);
+      // print(jsonResponce);
+      var responseCode = jsonResponce["responseCode"].toString();
+      if (responseCode == "OK") {
+        String otp = jsonResponce["result"]["otp"].toString().trim();
+        Map<String, String> arguments = {
+          "phoneNumber": phoneNumberController.text.toString().trim(),
+          "otp": otp.toString()
+        };
+        print(arguments);
+        Navigator.of(context).pushNamed(
+          PasswordOTP.routeName,
+          arguments: arguments,
+        );
+      } else if (responseCode == "CLIENT_ERROR") {
+        var errorMessage = jsonResponce["message"].toString();
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: ColorPallets.deepBlue,
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Icon(
+                  FontAwesomeIcons.triangleExclamation,
+                  color: Colors.red,
+                ),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      errorMessage,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontStyle: FontStyle.normal,
+                        color: ColorPallets.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -106,7 +134,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             ),
           ),
           Expanded(
-              flex: 5,
+              flex: 4,
               child: Image.asset(
                 "assets/image/forgotPassword.png",
                 fit: BoxFit.cover,
@@ -119,7 +147,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 child: Column(
                   children: [
                     const Text(
-                      "Enter Your Email\nLink will be sent to reset password",
+                      "Enter Your PhoneNumber\nConfirm OTP to  reset password",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 20, color: Color.fromARGB(255, 6, 1, 8)),
@@ -128,15 +156,16 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       height: 10,
                     ),
                     TextField(
-                      controller: emailController,
+                      controller: phoneNumberController,
                       cursorHeight: 22,
                       cursorWidth: 2,
                       cursorColor: ColorPallets.deepBlue,
+                      keyboardType: TextInputType.phone,
                       style: const TextStyle(
                           fontSize: 18, color: ColorPallets.deepBlue),
                       decoration: InputDecoration(
                           label: const Text(
-                            "email",
+                            "Phone Number",
                             style: TextStyle(color: ColorPallets.deepBlue),
                           ),
                           // border: const OutlineInputBorder(
@@ -153,14 +182,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             ),
                           ),
                           focusColor: ColorPallets.deepBlue,
-                          hintText: "vachira@xerox.com",
-                          suffixIcon: emailController.text.isEmpty
+                          hintText: "XXX-XXX-XXXX",
+                          suffixIcon: phoneNumberController.text.isEmpty
                               ? const SizedBox()
                               : Padding(
                                   padding: const EdgeInsets.only(top: 0),
                                   child: IconButton(
                                       onPressed: () {
-                                        emailController.clear();
+                                        phoneNumberController.clear();
                                       },
                                       icon: const Icon(
                                         FontAwesomeIcons.xmark,
@@ -172,7 +201,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       height: 40,
                     ),
                     InkWell(
-                      onTap: sendPasswordLink,
+                      onTap: sendOtpToPhoneNumber,
                       child: Container(
                         height: 50,
                         width: 180,
@@ -181,7 +210,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             borderRadius: BorderRadius.circular(20),
                             color: ColorPallets.deepBlue.withOpacity(.9)),
                         child: const Text(
-                          "Send Link",
+                          "Send OTP",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: ColorPallets.white,

@@ -1,129 +1,78 @@
 import 'dart:convert';
 
+import 'package:dittox/screens/auth/auth_screen.dart';
+import 'package:dittox/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:pinput/pinput.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../helpers/user_location.dart';
-import '../../model/user.dart';
-import '../../providers/current_user.dart';
 import '../../utils/api_endpoints.dart';
 import '../../utils/color_pallets.dart';
 import '../../widgets/IconButton.dart';
-import '../nav_drawers/navBar.dart';
 
-class RegisterOtp extends StatefulWidget {
-  static const routeName = "/registerOtp";
-  const RegisterOtp({super.key});
+class PasswordOTP extends StatefulWidget {
+  static const routeName = "/forgetPasswordOtp";
+  const PasswordOTP({super.key});
 
   @override
-  State<RegisterOtp> createState() => _registerOtpState();
+  State<PasswordOTP> createState() => _PasswordOTPState();
 }
 
-class _registerOtpState extends State<RegisterOtp> {
+class _PasswordOTPState extends State<PasswordOTP> {
   final pinController = TextEditingController();
+  final newPasswordController = TextEditingController();
   final focusNode = FocusNode();
-  final formKey = GlobalKey<FormState>();
   bool _isLoading = false;
-  late SharedPreferences prefs;
+  bool isObsecureText = false;
 
   @override
   void initState() {
+    // TODO: implement initState
     pinController.addListener(() => setState(() {}));
-    initSharePref();
+    newPasswordController.addListener(() => setState(() {}));
     super.initState();
   }
 
   @override
   void dispose() {
+    // TODO: implement dispose
     pinController.dispose();
+    newPasswordController.dispose();
     focusNode.dispose();
     super.dispose();
   }
 
-  void initSharePref() async {
-    prefs = await SharedPreferences.getInstance();
-  }
-
-  Future<void> _createNewUser(
-      String userName,
-      String userEmail,
-      String userPhoneNumber,
-      String userPassword,
-      String otp,
-      CurrentUser currentUser) async {
-    focusNode.unfocus();
-    bool isValid = true;
-    // final isValid = formKey.currentState!.validate();
-    if (isValid) {
+  Future<void> _resetPassword(
+      String newPassword, String phoneNumber, String otp) async {
+    try {
       setState(() {
         _isLoading = true;
       });
-      print("$userName $userEmail , $userPassword , $userPhoneNumber $otp");
-      var requestBody = {
-        "name": userName.toString(),
-        "email": userEmail.toString(),
-        "password": userPassword.toString(),
-        "otp": otp.toString().trim(),
-        "mobile": userPhoneNumber.toString().trim(),
+
+      Map<String, String> requestBody = {
+        "password": newPassword,
+        "otp": otp,
+        "mobile": phoneNumber
       };
-      // print(requestBody);
+
       var responce = await http.post(
-        Uri.parse(ApiEndPoiunts.createUser),
+        Uri.parse(ApiEndPoiunts.resetPasswordConfirm),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(requestBody),
       );
       var jsonResponce = jsonDecode(responce.body);
       // print(jsonResponce);
       var responseCode = jsonResponce["responseCode"].toString();
-      // print(jsonResponce);
       if (responseCode == "OK") {
-        var accessToken = jsonResponce["result"]["access_token"].toString();
-        prefs.setString("AccessToken", accessToken.toString());
-        // print("ADDED ACCESS TOKEN TO SHARED PREFERENCE");
-        var userId = jsonResponce["result"]["user"]["_id"].toString();
-        Position userCurrentPosition = await UserLocation.getUserLatLong();
-        Map<String, dynamic> userPlaceMark =
-            await UserLocation.getUserPlaceMarks(
-                userCurrentPosition.latitude, userCurrentPosition.longitude);
-
-        var user = Users(
-          userId: userId,
-          userName: jsonResponce["result"]["user"]["name"].toString(),
-          userEmail:
-              jsonResponce["result"]["user"]["email"]["address"].toString(),
-          userPlaceName: userPlaceMark["locality"],
-          latitude: userCurrentPosition.latitude,
-          longitude: userCurrentPosition.longitude,
-          userPhoneNumber: jsonResponce["result"]["user"]["mobile"].toString(),
-          userContryName: userPlaceMark["country"],
-          userAccessToken: jsonResponce["result"]["access_token"].toString(),
-        );
-
-        currentUser.setCurrentUser(user);
-
-        print(
-            "<<<<------------------Provider Map is ------------------------>");
-        print(currentUser.getCurrentUserMap);
-
-        print("REGISTED IN SUCCESSULLY");
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (ctx) => ButtonNavigationBar(
-                accessToken: accessToken,
-              ),
+              builder: (ctx) => AuthScreen(),
             ),
             (route) => false);
       } else if (responseCode == "CLIENT_ERROR") {
-        // show error msg there
         var errorMessage = jsonResponce["message"].toString();
-
         ScaffoldMessenger.of(context).clearSnackBars();
-
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: ColorPallets.deepBlue,
@@ -152,16 +101,17 @@ class _registerOtpState extends State<RegisterOtp> {
           ),
         );
       }
+    } catch (e) {
+      print(e);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    CurrentUser currUser = Provider.of<CurrentUser>(context, listen: true);
     final defaultPinTheme = PinTheme(
       width: 42,
       height: 50,
@@ -197,9 +147,6 @@ class _registerOtpState extends State<RegisterOtp> {
 
     Map<String, String> myMap =
         ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    String email = myMap["email"].toString();
-    String userName = myMap["userName"].toString();
-    String password = myMap["password"].toString();
     String otp = myMap["otp"].toString();
     String phoneNumber = myMap["phoneNumber"].toString();
 
@@ -232,7 +179,7 @@ class _registerOtpState extends State<RegisterOtp> {
           ),
         ),
         Expanded(
-          flex: 3,
+          flex: 2,
           child: Image.asset(
             "assets/image/otp.png",
             fit: BoxFit.cover,
@@ -284,23 +231,82 @@ class _registerOtpState extends State<RegisterOtp> {
                       border: Border.all(color: Colors.redAccent),
                     ),
                     onCompleted: (value) {
-                      _createNewUser(userName, email, phoneNumber, password,
-                          otp, currUser);
+                      // _createNewUser(userName, email, phoneNumber, password,
+                      //     otp, currUser);
                     },
                     showCursor: true,
                     cursor: cursor,
                     onSubmitted: (value) {
-                      _createNewUser(userName, email, phoneNumber, password,
-                          otp, currUser);
+                      // _createNewUser(userName, email, phoneNumber, password,
+                      //     otp, currUser);
                     },
+                  ),
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  TextField(
+                    controller: newPasswordController,
+                    cursorHeight: 22,
+                    cursorWidth: 2,
+                    cursorColor: ColorPallets.deepBlue,
+                    keyboardType: TextInputType.text,
+                    obscureText: isObsecureText,
+                    textInputAction: TextInputAction.done,
+                    style: const TextStyle(
+                        fontSize: 18, color: ColorPallets.deepBlue),
+                    decoration: InputDecoration(
+                      suffixIcon: newPasswordController.text.isEmpty
+                          ? const SizedBox()
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: IconButton(
+                                color: ColorPallets.white,
+                                icon: isObsecureText
+                                    ? const Icon(
+                                        Icons.visibility,
+                                        size: 22,
+                                      )
+                                    : const Icon(
+                                        Icons.visibility_off,
+                                        size: 22,
+                                      ),
+                                onPressed: () {
+                                  setState(() {
+                                    isObsecureText = !isObsecureText;
+                                  });
+                                },
+                              ),
+                            ),
+                      label: const Text(
+                        "New - Password",
+                        style: TextStyle(color: ColorPallets.deepBlue),
+                      ),
+                      // border: const OutlineInputBorder(
+                      //   borderSide:
+                      //         BorderSide(color: ColorPallets.deepBlue)
+                      // ),
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: ColorPallets.deepBlue)),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2,
+                          color: ColorPallets.deepBlue,
+                        ),
+                      ),
+                      focusColor: ColorPallets.deepBlue,
+                    ),
                   ),
                   const SizedBox(
                     height: 40,
                   ),
                   InkWell(
                     onTap: () {
-                      _createNewUser(userName, email, phoneNumber, password,
-                          otp, currUser);
+                      _resetPassword(
+                          newPasswordController.text.toString().trim(),
+                          phoneNumber,
+                          otp);
+                      // _createNewUser(userName, email, phoneNumber, password,
+                      //     otp, currUser);
                     },
                     child: Container(
                       height: 50,
@@ -316,7 +322,7 @@ class _registerOtpState extends State<RegisterOtp> {
                               ),
                             )
                           : const Text(
-                              "Verity OTP",
+                              "Re-Set Password",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: ColorPallets.white,
@@ -334,3 +340,47 @@ class _registerOtpState extends State<RegisterOtp> {
     ));
   }
 }
+
+
+
+// TextField(
+//                       controller: emailController,
+//                       cursorHeight: 22,
+//                       cursorWidth: 2,
+//                       cursorColor: ColorPallets.deepBlue,
+//                       style: const TextStyle(
+//                           fontSize: 18, color: ColorPallets.deepBlue),
+//                       decoration: InputDecoration(
+//                           label: const Text(
+//                             "email",
+//                             style: TextStyle(color: ColorPallets.deepBlue),
+//                           ),
+//                           // border: const OutlineInputBorder(
+//                           //   borderSide:
+//                           //         BorderSide(color: ColorPallets.deepBlue)
+//                           // ),
+//                           focusedBorder: const OutlineInputBorder(
+//                               borderSide:
+//                                   BorderSide(color: ColorPallets.deepBlue)),
+//                           enabledBorder: const OutlineInputBorder(
+//                             borderSide: BorderSide(
+//                               width: 2,
+//                               color: ColorPallets.deepBlue,
+//                             ),
+//                           ),
+//                           focusColor: ColorPallets.deepBlue,
+//                           hintText: "vachira@xerox.com",
+//                           suffixIcon: emailController.text.isEmpty
+//                               ? const SizedBox()
+//                               : Padding(
+//                                   padding: const EdgeInsets.only(top: 0),
+//                                   child: IconButton(
+//                                       onPressed: () {
+//                                         emailController.clear();
+//                                       },
+//                                       icon: const Icon(
+//                                         FontAwesomeIcons.xmark,
+//                                         size: 18,
+//                                       )),
+//                                 )),
+//                     ),
