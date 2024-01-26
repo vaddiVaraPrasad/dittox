@@ -39,6 +39,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+  final focusNode = FocusNode();
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -66,11 +67,13 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
   Future<void> submitSinginform(
       BuildContext ctx, CurrentUser currentUser) async {
+    focusNode.unfocus();
     var isValid = formKey.currentState!.validate();
     if (isValid) {
       formKey.currentState!.save();
@@ -85,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
       };
 
       var responce = await http.post(
-        Uri.parse(ApiEndPoiunts.Login_endpoint),
+        Uri.parse(ApiEndPoiunts.loginEndpoint),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(requestBody),
       );
@@ -477,6 +480,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 : Padding(
                                     padding: const EdgeInsets.only(top: 10),
                                     child: IconButton(
+                                        color: ColorPallets.deepBlue,
                                         onPressed: () {
                                           emailController.clear();
                                         },
@@ -528,6 +532,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: IconButton(
+                                    color: ColorPallets.deepBlue,
                                     icon: isObsureText
                                         ? const Icon(Icons.visibility)
                                         : const Icon(Icons.visibility_off),

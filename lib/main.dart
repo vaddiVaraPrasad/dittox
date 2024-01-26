@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:dittox/providers/ListOfPdfFiles.dart";
+import "package:dittox/screens/auth/regsiterOtp.dart";
 import "package:dittox/screens/nav_drawers/navBar.dart";
 import "package:dittox/screens/pdf/pdfFilter.dart";
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ import "screens/additional/notifications.dart";
 import "screens/additional/summaryScreen.dart";
 import "screens/auth/forget_password_screen.dart";
 import "screens/auth/privacy_policy.dart";
+
 import "screens/auth/termsandcondictions.dart";
 import "screens/home/dummy_home.dart";
 import "screens/maps/selectShops.dart";
@@ -203,6 +205,7 @@ class dittox extends StatelessWidget {
               ),
           AboutUs.routeName: (context) => const AboutUs(),
           ContactUs.routeName: (context) => const ContactUs(),
+          RegisterOtp.routeName: (context) => const RegisterOtp(),
           // HiddenSideZoomDrawer.routeName: (context) => const HiddenSideZoomDrawer()
         },
       ),

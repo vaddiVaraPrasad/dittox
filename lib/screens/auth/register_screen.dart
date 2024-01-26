@@ -1,16 +1,13 @@
-import "dart:io";
+import 'dart:convert';
+
+import 'package:dittox/screens/auth/regsiterOtp.dart';
 import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/current_user.dart';
-import '../../helpers/user_location.dart';
-import '../../model/user.dart';
+import '../../utils/api_endpoints.dart';
 import "../../utils/color_pallets.dart";
-
+import 'package:http/http.dart' as http;
 import "../../widgets/auth/sing_in_up_bar.dart";
 
 class RegisterScreen extends StatefulWidget {
@@ -37,18 +34,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool isObsecureText = true;
 
-  Map<String, String> _userDetails = {
-    "email": "",
-    "password": "",
-    "userName": "",
-    "phoneNumber": ""
-  };
-
   @override
   void initState() {
     emailController.addListener(() => setState(() {}));
     userNameController.addListener(() => setState(() {}));
     passwordController.addListener(() => setState(() {}));
+    // addressController.addListener(() => setState(() {}));
+    phonenumberController.addListener(() => setState(() {}));
+    // dobcontroller.addListener(() => setState(() {}));
     super.initState();
   }
 
@@ -57,10 +50,119 @@ class _RegisterScreenState extends State<RegisterScreen> {
     emailController.dispose();
     userNameController.dispose();
     passwordController.dispose();
+    // addressController.dispose();
+    phonenumberController.dispose();
+    // dobcontroller.dispose();
     super.dispose();
   }
 
-  Future<void> registerUser(CurrentUser currUser, BuildContext ctx) async {}
+  Future<void> registerUser(BuildContext ctx) async {
+    var msg = "Invalid Credentials !!!";
+    final isValid = formKeyRegister.currentState!.validate();
+
+    if (isValid) {
+      formKeyRegister.currentState!.save();
+      print("FORM IS VALID");
+      Map<String, String> _userDetails = {
+        "email": emailController.text,
+        "password": passwordController.text,
+        "userName": userNameController.text,
+        "phoneNumber": phonenumberController.text,
+        // "bod": "",
+        // "address": ""
+      };
+      emailController.text = "";
+      phonenumberController.text = "";
+      userNameController.text = "";
+      phonenumberController.text = "";
+
+      setState(() {
+        _isLoading = true;
+      });
+      var requestBody = {
+        "name": _userDetails["userName"].toString().trim(),
+        "email": _userDetails["email"].toString().trim(),
+        "mobile": _userDetails["phoneNumber"].toString().trim()
+      };
+
+      var responce = await http.post(
+        Uri.parse(ApiEndPoiunts.registerForOtp),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(requestBody),
+      );
+
+      var jsonResponce = jsonDecode(responce.body);
+      // print(jsonResponce);
+      var responseCode = jsonResponce["responseCode"].toString();
+      if (responseCode == "OK") {
+        _userDetails["otp"] = jsonResponce["result"]["otp"].toString().trim();
+
+        print(_userDetails["otp"]);
+        Navigator.of(context).pushNamed(
+          RegisterOtp.routeName,
+          arguments: _userDetails,
+        );
+      } else if (responseCode == "CLIENT_ERROR") {
+        var errorMessage = jsonResponce["message"].toString();
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: ColorPallets.deepBlue,
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Icon(
+                  FontAwesomeIcons.triangleExclamation,
+                  color: Colors.red,
+                ),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      errorMessage,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontStyle: FontStyle.normal,
+                        color: ColorPallets.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: ColorPallets.deepBlue,
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Icon(
+                FontAwesomeIcons.triangleExclamation,
+                color: Colors.red,
+              ),
+              Text(
+                msg,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontStyle: FontStyle.normal,
+                  color: ColorPallets.white,
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+  }
 
   // Future<void> registerUser(CurrentUser currUser, BuildContext ctx) async {
   //   var msg = "Invalid Credentials !!!";
@@ -208,9 +310,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //   });
   // }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      // barrierColor: ColorPallets.deepBlue,
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null && picked != DateTime.now()) {
+      // Format the selected date as needed
+      String formattedDate = "${picked.day}-${picked.month}-${picked.year}";
+      dobcontroller.text = formattedDate;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var currentUser = Provider.of<CurrentUser>(context, listen: true);
+    // var currentUser = Provider.of<CurrentUser>(context, listen: true);
     return Container(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -230,7 +348,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               )),
           Expanded(
-              flex: 5,
+              flex: 7,
               child: Container(
                 constraints: const BoxConstraints(minWidth: 220),
                 child: Form(
@@ -280,6 +398,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: IconButton(
+                                      color: ColorPallets.white,
                                       onPressed: () {
                                         emailController.clear();
                                       },
@@ -288,7 +407,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         size: 18,
                                       ))),
                           errorStyle: const TextStyle(
-                              color: ColorPallets.pinkinshShadedPurple),
+                              // color: ColorPallets.pinkinshShadedPurple,
+                              color: Colors.red),
                           focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.white)),
@@ -311,7 +431,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                         onSaved: (newMailId) {
-                          _userDetails["email"] = newMailId.toString().trim();
+                          emailController.text = newMailId.toString().trim();
                         },
                       ),
 
@@ -329,34 +449,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
-                            suffixIcon: userNameController.text.isEmpty
-                                ? const SizedBox()
-                                : Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: IconButton(
-                                        onPressed: () {
-                                          userNameController.clear();
-                                        },
-                                        icon: const Icon(
-                                          FontAwesomeIcons.xmark,
-                                          size: 18,
-                                        ))),
-                            focusedBorder: const UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: ColorPallets.white)),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: ColorPallets.white,
-                              ),
+                          suffixIcon: userNameController.text.isEmpty
+                              ? const SizedBox()
+                              : Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: IconButton(
+                                      color: ColorPallets.white,
+                                      onPressed: () {
+                                        userNameController.clear();
+                                      },
+                                      icon: const Icon(
+                                        FontAwesomeIcons.xmark,
+                                        size: 18,
+                                      ))),
+                          focusedBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: ColorPallets.white)),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: ColorPallets.white,
                             ),
-                            focusColor: ColorPallets.white,
-                            label: const Text(
-                              "UserName",
-                              style: TextStyle(color: ColorPallets.white),
-                            ),
-                            errorStyle: const TextStyle(
-                                color: ColorPallets.pinkinshShadedPurple)),
+                          ),
+                          focusColor: ColorPallets.white,
+                          label: const Text(
+                            "UserName",
+                            style: TextStyle(color: ColorPallets.white),
+                          ),
+                          // errorStyle: const TextStyle(
+                          //     color: ColorPallets.pinkinshShadedPurple)),
+                          errorStyle: const TextStyle(
+                              // color: ColorPallets.pinkinshShadedPurple,
+                              color: Colors.red),
+                        ),
                         validator: (newUserName) {
                           if (newUserName!.isEmpty) {
                             return "InValid password";
@@ -364,7 +489,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                         onSaved: (newUserName) {
-                          _userDetails["userName"] =
+                          userNameController.text =
                               newUserName.toString().trim();
                         },
                       ),
@@ -389,6 +514,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: IconButton(
+                                    color: ColorPallets.white,
                                     icon: isObsecureText
                                         ? const Icon(
                                             Icons.visibility,
@@ -405,8 +531,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     },
                                   ),
                                 ),
+                          // errorStyle: const TextStyle(
+                          //     color: ColorPallets.pinkinshShadedPurple),
                           errorStyle: const TextStyle(
-                              color: ColorPallets.pinkinshShadedPurple),
+                              // color: ColorPallets.pinkinshShadedPurple,
+                              color: Colors.red),
                           focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.white)),
@@ -429,7 +558,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                         onSaved: (newPassword) {
-                          _userDetails["password"] =
+                          passwordController.text =
                               newPassword.toString().trim();
                         },
                       ),
@@ -453,6 +582,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: IconButton(
+                                      color: ColorPallets.white,
                                       onPressed: () {
                                         phonenumberController.clear();
                                       },
@@ -461,7 +591,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         size: 18,
                                       ))),
                           errorStyle: const TextStyle(
-                              color: ColorPallets.pinkinshShadedPurple),
+                              // color: ColorPallets.pinkinshShadedPurple,
+                              color: Colors.red),
                           focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.white)),
@@ -479,25 +610,81 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         validator: (newMobilenumber) {
                           if (newMobilenumber!.isEmpty ||
-                              newMobilenumber.length == 10) {
-                            return "Invalid EmailId";
+                              newMobilenumber.length != 10) {
+                            return "Invalid PhoneNumber";
                           }
                           return null;
                         },
                         onSaved: (newMobilenumber) {
-                          _userDetails["phoneNumber"] =
+                          phonenumberController.text =
                               newMobilenumber.toString().trim();
                         },
                       ),
+
+                      // date of birth
+
+                      // TextFormField(
+                      //   controller: dobcontroller,
+                      //   key: const ValueKey("dob"),
+                      //   cursorHeight: 22,
+                      //   cursorWidth: 2,
+                      //   cursorColor: Colors.white,
+                      //   style: const TextStyle(
+                      //     fontSize: 18,
+                      //     color: Colors.white,
+                      //   ),
+                      //   keyboardType: TextInputType.text,
+                      //   textInputAction: TextInputAction.next,
+                      //   decoration: InputDecoration(
+                      //     suffixIcon: dobcontroller.text.isEmpty
+                      //         ? const SizedBox()
+                      //         : Padding(
+                      //             padding: const EdgeInsets.only(top: 10),
+                      //             child: IconButton(
+                      //               onPressed: () {
+                      //                 dobcontroller.clear();
+                      //               },
+                      //               icon: const Icon(
+                      //                 Icons.clear,
+                      //                 size: 18,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //     errorStyle: const TextStyle(color: Colors.pink),
+                      //     focusedBorder: const UnderlineInputBorder(
+                      //       borderSide: BorderSide(color: Colors.white),
+                      //     ),
+                      //     enabledBorder: const UnderlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         width: 2,
+                      //         color: Colors.white,
+                      //       ),
+                      //     ),
+                      //     focusColor: Colors.white,
+                      //     label: const Text(
+                      //       "Date of Birth",
+                      //       style: TextStyle(color: Colors.white),
+                      //     ),
+                      //   ),
+                      //   onTap: () => _selectDate(context),
+                      //   validator: (dob) {
+                      //     // Implement validation for date of birth if needed
+                      //     return null;
+                      //   },
+                      //   onSaved: (dob) {
+                      //     _userDetails["dob"] = dobcontroller.text.trim();
+                      //   },
+                      // ),
+
                       const SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
 
                       // signUp pages
                       SignUpBar(
                         isLoading: _isLoading,
                         label: "Register",
-                        onPressed: () => registerUser(currentUser, context),
+                        onPressed: () => registerUser(context),
                       ),
                       // nav from register to login
                       Padding(

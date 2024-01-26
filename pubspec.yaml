@@ -72,6 +72,7 @@ dependencies:
 
   url_launcher: ^6.1.10
   maps_launcher: ^2.2.0
+  pinput: ^3.0.1
 
 
 
@@ -128,6 +129,7 @@ flutter:
     - assets/image/whatsapp.png
     # - assets/image/browser.png
     - assets/image/chrome.png
+    - assets/image/otp.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

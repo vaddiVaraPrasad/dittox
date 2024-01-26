@@ -1,7 +1,10 @@
-import "package:flutter/material.dart";
-
 class ApiEndPoiunts {
-  static const Login_endpoint = "https://dittox.in/xerox/v1/account/login";
+  static const loginEndpoint = "https://dittox.in/xerox/v1/account/login";
+  static const registerForOtp =
+      "https://dittox.in/xerox/v1/account/registrationOtp";
+  static const createUser = "https://dittox.in/xerox/v1/account/create";
+  static const resetPasswordOtp =
+      "https://dittox.in/xerox/v1/account/generateResetPasswordOtp";
 
   //   endpoint: https://dittox.in/xerox/v1/account/login
 
