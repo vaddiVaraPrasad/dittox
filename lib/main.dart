@@ -39,6 +39,7 @@ import "screens/maps/selectShops.dart";
 import "screens/maps/setLocationMaps.dart";
 import "screens/maps/textLocation.dart";
 import "screens/navBar_Screens/profile_Screen.dart";
+import "screens/pdf/scanImageToPdf.dart";
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -207,7 +208,8 @@ class dittox extends StatelessWidget {
           AboutUs.routeName: (context) => const AboutUs(),
           ContactUs.routeName: (context) => const ContactUs(),
           RegisterOtp.routeName: (context) => const RegisterOtp(),
-          PasswordOTP.routeName: (context) => const PasswordOTP()
+          PasswordOTP.routeName: (context) => const PasswordOTP(),
+          ScaneImageToPdf.routeName: (context) => const ScaneImageToPdf(),
           // HiddenSideZoomDrawer.routeName: (context) => const HiddenSideZoomDrawer()
         },
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // import '../../screens/pdf/images_grid_file.dart';
+import '../../screens/pdf/scanImageToPdf.dart';
 import '../../utils/color_pallets.dart';
 
 class ScanDoc extends StatelessWidget {
@@ -15,7 +16,7 @@ class ScanDoc extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.of(context).pushNamed(PdfImagesRender.routeName);
+        Navigator.of(context).pushNamed(ScaneImageToPdf.routeName);
       },
       splashColor: ColorPallets.lightPurple.withOpacity(.3),
       child: Container(
