@@ -27,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     CurrentUser curUser = Provider.of(context, listen: true);
-    print(curUser.getPlaceName);
+    print(curUser.getUserId);
 
-    if (curUser.getPlaceName == "Loading...") {
+    if (curUser.getUserId == "Loading...") {
       setState(() {
         isLoading = true;
       });
