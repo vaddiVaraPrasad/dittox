@@ -1,3 +1,4 @@
+import 'package:dittox/widgets/Cart/review.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +10,12 @@ import '../../utils/color_pallets.dart';
 
 class HistoryCard extends StatefulWidget {
   Map<String, dynamic> historyXeroxItem;
-  HistoryCard({super.key, required this.historyXeroxItem});
+  String accesstoken;
+  HistoryCard({
+    super.key,
+    required this.historyXeroxItem,
+    required this.accesstoken,
+  });
 
   @override
   State<HistoryCard> createState() => _HistoryCardState();
@@ -283,7 +289,9 @@ class _HistoryCardState extends State<HistoryCard> {
     List<Widget> itemWidgets = [];
 
     for (int index = 0; index < itemsList.length; index++) {
-      print(itemsList[index]);
+      // print(itemsList[index]);
+      // print(
+      //     'take Review ----------------------->>>>>>.${itemsList[index]["takeReview"]}');
       itemWidgets.add(
         Column(
           children: [
@@ -346,6 +354,12 @@ class _HistoryCardState extends State<HistoryCard> {
               const SizedBox(
                 height: 20,
               ),
+              widget.historyXeroxItem['takeReview']
+                  ? ReviewWidget(
+                      id: widget.historyXeroxItem['_Id'],
+                      accessToken: widget.accesstoken,
+                      shopId: widget.historyXeroxItem['storeId'])
+                  : SizedBox(),
               const Text(
                 "Document Details",
                 style: TextStyle(

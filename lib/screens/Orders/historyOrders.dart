@@ -122,6 +122,15 @@ class _HistoryOrdersState extends State<HistoryOrders> {
               eachOrderWantedData["totalCost"] = eachOrder["totalCost"];
               eachOrderWantedData["status"] = eachOrder["status"];
 
+              if (eachOrder["feedBack"] == null) {
+                // print("feedback item is not give in request");
+                // print(eachOrder["feedBack"]);
+                eachOrderWantedData["takeReview"] = true;
+                // eachOrderWantedData["reviewEndpoint"] = "${eachOrder["_id"]},${eachOrder["storeId"]}";
+              } else {
+                // print("feedback item is give in request");
+                eachOrderWantedData["takeReview"] = false;
+              }
               eachOrderWantedData["storeId"] = eachOrder["storeId"];
               Map<String, dynamic> shopDetails =
                   await getStoreDetails(eachOrderWantedData["storeId"]);
@@ -157,12 +166,13 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                 singleItem["side"] = eachItem["side"] == "one"
                     ? "single-side Print"
                     : "Both-side Print";
+
                 wantedItems.add(singleItem);
               }
               eachOrderWantedData["items"] = wantedItems;
               allOrder.add(eachOrderWantedData);
-              print(eachOrderWantedData);
-              print(allOrder.length);
+              // print(eachOrderWantedData);
+              // print(allOrder.length);
             }
           }
         } else {
@@ -214,6 +224,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                                 var eachOrderData = listOrders[index];
                                 return HistoryCard(
                                   historyXeroxItem: eachOrderData,
+                                  accesstoken: widget.accessToken,
                                 );
                                 // return SizedBox();
                               }),
