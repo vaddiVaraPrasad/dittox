@@ -5,6 +5,7 @@ import "package:dittox/screens/auth/forgetPasswordOTP.dart";
 import "package:dittox/screens/auth/regsiterOtp.dart";
 import "package:dittox/screens/nav_drawers/navBar.dart";
 import "package:dittox/screens/pdf/pdfFilter.dart";
+import "package:dittox/screens/pdf/scannedPdfRender.dart";
 import 'package:flutter/material.dart';
 import "package:connectivity_plus/connectivity_plus.dart";
 import "package:provider/provider.dart";
@@ -210,6 +211,9 @@ class dittox extends StatelessWidget {
           RegisterOtp.routeName: (context) => const RegisterOtp(),
           PasswordOTP.routeName: (context) => const PasswordOTP(),
           ScaneImageToPdf.routeName: (context) => const ScaneImageToPdf(),
+          ScanPicrender.routeName: (context) => ScanPicrender(
+                accessToken: accessToken,
+              )
           // HiddenSideZoomDrawer.routeName: (context) => const HiddenSideZoomDrawer()
         },
       ),

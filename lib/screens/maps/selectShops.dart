@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../model/pdfFile.dart';
 import '../../model/shop.dart';
+import '../../providers/ListOfPdfFiles.dart';
 import '../../providers/ListOfShops.dart';
 import '../../providers/current_user.dart';
 import '../../providers/seletedShop.dart';
@@ -26,6 +28,8 @@ class SelectShops extends StatefulWidget {
 }
 
 class _SelectShopsState extends State<SelectShops> {
+  bool isNoService = false;
+
   Completer<GoogleMapController> _controller = Completer();
 
   static const CameraPosition _initialCameraPosition = CameraPosition(
@@ -119,8 +123,140 @@ class _SelectShopsState extends State<SelectShops> {
     });
   }
 
-  Future<void> fetchShopsData(
-      CurrentUser curUser, NearestShop shopsList, String accessToken) async {
+  String getModifiedSize(String crt) {
+    if (crt == "A4") {
+      return "sizeA4";
+    } else if (crt == "A5") {
+      return "sizeA5";
+    } else if (crt == "Legal") {
+      return "legal";
+    } else if (crt == "Letter") {
+      return "letter";
+    } else if (crt == "B5") {
+      return "sizeB5";
+    } else if (crt == "A6") {
+      return "sizeA6";
+    } else if (crt == "Post Card") {
+      return "postCard";
+    } else if (crt == "5*7") {
+      return "size5*7";
+    } else if (crt == "4*6") {
+      return "size4*6";
+    } else {
+      return "size35*6";
+    }
+  }
+
+  String getModifiedBinding(String crt) {
+    if (crt == "No binding") {
+      return "No binding";
+    } else if (crt == "") {
+      return "spiralBinding";
+    } else if (crt == "") {
+      return "staplesBinding";
+    } else {
+      return "stickFile";
+    }
+  }
+
+  double calculateSingleFileCost(PdfData singlePdfFile, Shop shopDetails) {
+    double singlePdfcost = 0.0;
+    Map<String, dynamic> pdfDetails = singlePdfFile.toMap;
+    Map<String, dynamic> storeDetails = shopDetails.toMap;
+    print(pdfDetails["binding"]);
+    // calculate cost for one side
+    double sideCost = 0;
+    if (pdfDetails["pdfSides"] == "Single side") {
+      sideCost = double.parse(storeDetails["costOneSide"]);
+    } else {
+      sideCost = double.parse(storeDetails["costTwoSide"]);
+    }
+
+    // Calculate cost for color/bw/colorPar
+    double totalBlackPages = 0;
+    double totalColorPages = 0;
+    double blackCost = 0;
+    double colorCost = 0;
+
+    if (pdfDetails["color"] == "Black & White") {
+      totalBlackPages = double.parse(pdfDetails["totalPages"].toString());
+      blackCost = double.parse(storeDetails["costBlack"]);
+    } else if (pdfDetails["color"] == "All Color") {
+      totalColorPages = double.parse(pdfDetails["totalPages"].toString());
+      colorCost = double.parse(storeDetails["costColor"]);
+    } else {
+      totalColorPages = countDigits(pdfDetails["colorParPageNumbers"]);
+      totalBlackPages = double.parse(pdfDetails["totalPages"].toString());
+      -totalColorPages;
+      blackCost = double.parse(storeDetails["costBlack"]);
+      colorCost = double.parse(storeDetails["costColor"]);
+    }
+
+    // Calculate paper size cost
+    double paperSizeCost = 0;
+    String paperSize = getModifiedSize(pdfDetails["paperSize"]);
+    if (storeDetails["paperSize"] != null) {
+      paperSizeCost = double.parse(storeDetails[paperSize.toString()]);
+    }
+
+    // calculate bondpaper
+    double bondPrice =
+        pdfDetails["bondpages"] ? double.parse(storeDetails["bondPage"]) : 0;
+
+    // Calculate binding cost
+    double bindingCost = 0;
+    String binding = getModifiedBinding(pdfDetails["binding"]);
+    if (binding != "No binding") {
+      bindingCost = double.parse(storeDetails[binding.toString()]);
+    }
+
+    // No binding
+    // Spiral
+    // Stick File
+    // Staples
+
+    // Calculate total color and black pages cost
+    double totalColorPagesCost = totalColorPages * colorCost;
+    double totalBlackPagesCost = totalBlackPages * blackCost;
+
+    singlePdfcost = (totalColorPagesCost +
+            totalBlackPagesCost +
+            paperSizeCost +
+            sideCost +
+            bondPrice) *
+        int.parse(pdfDetails["copies"].toString());
+
+    return singlePdfcost;
+  }
+
+  double countDigits(String input) {
+    List<String> digitStrings = input.split(',');
+    double count = 0;
+
+    for (String digitString in digitStrings) {
+      try {
+        int digit = int.parse(digitString.trim());
+        count += digit.toString().length;
+      } catch (e) {
+        // Handle parsing error if needed
+      }
+    }
+
+    return count;
+  }
+
+  double calcualteTotalCost(List<PdfData> pdfFileList, Shop storeDetails) {
+    double totalCost = 0.0;
+    for (int i = 0; i < pdfFileList.length; i++) {
+      double singlePdfCost =
+          calculateSingleFileCost(pdfFileList[i], storeDetails);
+      totalCost += singlePdfCost;
+    }
+    return totalCost;
+  }
+
+  Future<void> fetchShopsData(CurrentUser curUser, NearestShop shopsList,
+      String accessToken, ListOfPDFFiles listofpdffile) async {
     // shopsList.emptyList();
     final String apiUrl = 'https://dittox.in/xerox/v1/store/list';
     int count_index = 0;
@@ -137,7 +273,11 @@ class _SelectShopsState extends State<SelectShops> {
       List<dynamic> shopsData = responseData['result']['data'];
       List<Map<String, dynamic>> fixedShopsData =
           List<Map<String, dynamic>>.from(shopsData);
-
+      if (fixedShopsData.isEmpty) {
+        setState(() {
+          isNoService = true;
+        });
+      }
       for (Map<String, dynamic> shopData in fixedShopsData) {
         print(shopData);
         double locationX = shopData['location']['x'];
@@ -153,7 +293,8 @@ class _SelectShopsState extends State<SelectShops> {
         String address = DisDuration["shopAddresByPlacesId"] as String;
 
         Shop tempShop = Shop.fromJson(shopData, 0, distance, address, duration);
-
+        print(tempShop.toMap);
+        tempShop.cost = calcualteTotalCost(listofpdffile.allPdfList, tempShop);
         shopsList.addShop(tempShop);
 
         setMarkers(locationX, locationY);
@@ -180,8 +321,9 @@ class _SelectShopsState extends State<SelectShops> {
       try {
         CurrentUser curUser = Provider.of<CurrentUser>(context);
         NearestShop shopsList = Provider.of<NearestShop>(context);
-
-        fetchShopsData(curUser, shopsList, widget.accessToken);
+        ListOfPDFFiles listofPdfFile = Provider.of<ListOfPDFFiles>(context);
+        // shopsList.emptyList();
+        fetchShopsData(curUser, shopsList, widget.accessToken, listofPdfFile);
       } catch (error) {
         print("$error");
       } finally {
@@ -205,61 +347,65 @@ class _SelectShopsState extends State<SelectShops> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              height: screenHeight,
-              width: screenWidth,
-              child: GoogleMap(
-                initialCameraPosition: _initialCameraPosition,
-                mapType: MapType.normal,
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                  goToProviderLocation(curUSer, 16);
-                },
-                rotateGesturesEnabled: true,
-                scrollGesturesEnabled: true,
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: true,
-                compassEnabled: false,
-                markers: _markers,
+      body: isNoService
+          ? Center(
+              child: Text("No Service"),
+            )
+          : SafeArea(
+              child: Stack(
+                children: [
+                  Container(
+                    height: screenHeight,
+                    width: screenWidth,
+                    child: GoogleMap(
+                      initialCameraPosition: _initialCameraPosition,
+                      mapType: MapType.normal,
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller.complete(controller);
+                        goToProviderLocation(curUSer, 16);
+                      },
+                      rotateGesturesEnabled: true,
+                      scrollGesturesEnabled: true,
+                      zoomControlsEnabled: false,
+                      zoomGesturesEnabled: true,
+                      compassEnabled: false,
+                      markers: _markers,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    child: Container(
+                      // padding: EdgeInsets.symmetric(vertical: 5, horizontal: ),
+                      height: 230.0,
+                      width: screenWidth,
+                      child: CarouselSlider.builder(
+                        carouselController: carouselCtrl,
+                        options: CarouselOptions(
+                          height: 210,
+                          autoPlay: false,
+                          reverse: false,
+                          enableInfiniteScroll: false,
+                          enlargeCenterPage: false,
+                          initialPage: 0,
+                          enlargeStrategy: CenterPageEnlargeStrategy.height,
+                          onPageChanged: (index, reason) async {
+                            await goToSearchedPlace(
+                                shopsList.getShopAtIndexLat(index),
+                                shopsList.getShopAtIndexLng(index),
+                                19);
+                          },
+                        ),
+                        itemCount: shopsList.getShopsListSize(),
+                        itemBuilder: (context, index, realIndex) {
+                          return ShopContainer(shopsList.getShopAtIndex(index),
+                              context, seletedShopProvider);
+                        },
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            Positioned(
-              bottom: 20,
-              child: Container(
-                // padding: EdgeInsets.symmetric(vertical: 5, horizontal: ),
-                height: 230.0,
-                width: screenWidth,
-                child: CarouselSlider.builder(
-                  carouselController: carouselCtrl,
-                  options: CarouselOptions(
-                    height: 210,
-                    autoPlay: false,
-                    reverse: false,
-                    enableInfiniteScroll: false,
-                    enlargeCenterPage: false,
-                    initialPage: 0,
-                    enlargeStrategy: CenterPageEnlargeStrategy.height,
-                    onPageChanged: (index, reason) async {
-                      await goToSearchedPlace(
-                          shopsList.getShopAtIndexLat(index),
-                          shopsList.getShopAtIndexLng(index),
-                          19);
-                    },
-                  ),
-                  itemCount: shopsList.getShopsListSize(),
-                  itemBuilder: (context, index, realIndex) {
-                    return ShopContainer(shopsList.getShopAtIndex(index),
-                        context, seletedShopProvider);
-                  },
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 
@@ -436,7 +582,7 @@ class _SelectShopsState extends State<SelectShops> {
                         style: const TextStyle(
                             // fontWeight: FontWeight.bold,
                             color: ColorPallets.white,
-                            fontSize: 30,
+                            fontSize: 23,
                             overflow: TextOverflow.ellipsis),
                       ),
                     ),

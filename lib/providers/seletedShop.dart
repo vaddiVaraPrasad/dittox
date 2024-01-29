@@ -15,7 +15,7 @@ class seletedShop extends ChangeNotifier {
   }
 
   void printSeletedShop() {
-    print(userSeletedShop.toMap());
+    print(userSeletedShop.toMap);
   }
 
   Map<String, String> shopOrderPreview() {
@@ -27,7 +27,7 @@ class seletedShop extends ChangeNotifier {
       "duration": userSeletedShop.duration,
       "rating": userSeletedShop.avgRating.toString(),
       "shopAddress": userSeletedShop.address,
-      "price":userSeletedShop.cost.toString(),
+      "price": userSeletedShop.cost.toString(),
     };
   }
 }

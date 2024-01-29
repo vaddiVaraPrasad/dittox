@@ -23,6 +23,12 @@ class ListOfPDFFiles with ChangeNotifier {
     print(pdfFilesList[0].toMap);
   }
 
+  void printALLPDFfile() {
+    for (int i = 0; i < pdfFilesList.length; i++) {
+      print(pdfFilesList[i].toMap);
+    }
+  }
+
   void replacePDFAtIndex(int index, PdfData newPdfData) {
     pdfFilesList[index] = newPdfData;
     // print(pdfFilesList[0].toMap);

@@ -74,7 +74,7 @@ class _SinglePageCustomizationState extends State<SinglePageCustomization> {
     "Post Card",
     "5*7",
     "4*6",
-    "3.5*5",
+    "35*5",
   ];
 
   final sheetsBondList = [

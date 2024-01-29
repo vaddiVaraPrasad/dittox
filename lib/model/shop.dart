@@ -76,7 +76,7 @@ class Shop {
     duration = _duration;
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> get toMap {
     return {
       'id': id,
       'name': name,

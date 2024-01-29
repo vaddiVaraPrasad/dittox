@@ -17,7 +17,7 @@ class NearestShop extends ChangeNotifier {
   void PrintShops() {
     allShops.forEach((element) {
       print("<<<<<---------- EACH SHOPS ----------->>>>>>>>");
-      print(element.toMap());
+      print(element.toMap);
     });
   }
 

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/ListOfPdfFiles.dart';
+import '../../providers/ListOfShops.dart';
 import '../../utils/color_pallets.dart';
 import '../maps/selectShops.dart';
 
@@ -26,6 +27,7 @@ class _PDFFiltersState extends State<PDFFilters> {
 
   @override
   Widget build(BuildContext context) {
+    NearestShop shopsList = Provider.of<NearestShop>(context);
     ListOfPDFFiles pdffileList =
         Provider.of<ListOfPDFFiles>(context, listen: true);
     return Scaffold(
@@ -67,6 +69,7 @@ class _PDFFiltersState extends State<PDFFilters> {
             ]),
         child: InkWell(
           onTap: () {
+            shopsList.emptyList();
             Navigator.of(context).pushReplacementNamed(SelectShops.routeName);
           },
           child: const Row(

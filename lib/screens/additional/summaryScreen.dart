@@ -31,7 +31,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
   void _handlePaymentSuccess(
       BuildContext ctx, PaymentSuccessResponse response) {
     // Do something when payment succeeds
-    print("PAYMENT MADE SUCCESSFULLY");
+    print(
+        "<<<<----------------------PAYMENT MADE SUCCESSFULLY----------------------->>>>>>>>>>");
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (ctx) => ButtonNavigationBar(
@@ -43,7 +44,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   void _handlePaymentError(BuildContext ctx, PaymentFailureResponse response) {
     // Do something when payment fails
-    print("PAYMENT IS FAILURE");
+    print(
+        "<<<<<<--------------------PAYMENT IS FAILURE---------------->>>>>>>>>>>>>");
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -67,7 +69,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet was selected
-    print("EXTERNAL WALLET IS SELETED");
+    print(
+        "<<<-----------------EXTERNAL WALLET IS SELETED---------------------------->>>>>>>>>>>>>>>>");
   }
 
   // @override
