@@ -30,6 +30,7 @@ import "screens/Orders/paylaterOrders.dart";
 import "screens/additional/aboutUs.dart";
 import "screens/additional/contactUs.dart";
 import "screens/additional/notifications.dart";
+import "screens/additional/splashScreen.dart";
 import "screens/additional/summaryScreen.dart";
 import "screens/auth/forget_password_screen.dart";
 import "screens/auth/privacy_policy.dart";
@@ -121,51 +122,52 @@ class dittox extends StatelessWidget {
             systemOverlayStyle: SystemUiOverlayStyle.light,
           ),
         ),
-        home: StreamBuilder<ConnectivityResult>(
-            stream: Connectivity().onConnectivityChanged,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                print(accessToken);
-                switch (snapshot.data!) {
-                  case ConnectivityResult.wifi:
-                  case ConnectivityResult.mobile:
-                    // return ((accessToken == null) ||
-                    //         (JwtDecoder.isExpired(accessToken) == ))
-                    //     ? const AuthScreen()
-                    //     : const DummyHome();
-                    // return accessToken == null
-                    //     ? AuthScreen()
-                    //     : (JwtDecoder.isExpired(accessToken) == false)
-                    //         ? DummyHome()
-                    //         : AuthScreen();
-                    if (accessToken == null) {
-                      return const AuthScreen();
-                    } else {
-                      return StreamBuilder<bool>(
-                          stream: loginInConditionStream(accessToken),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              if (snapshot.data == true) {
-                                return ButtonNavigationBar(
-                                  accessToken: accessToken,
-                                );
-                              } else {
-                                return const AuthScreen();
-                              }
-                            } else if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            } else {
-                              return const CircularProgressIndicator();
-                            }
-                          });
-                    }
-                  default:
-                    return const NetworkError();
-                }
-              } else {
-                return const CircularProgressIndicator();
-              }
-            }),
+        home: DittoxSplash(accessToken: accessToken),
+        // home: StreamBuilder<ConnectivityResult>(
+        //     stream: Connectivity().onConnectivityChanged,
+        //     builder: (context, snapshot) {
+        //       if (snapshot.hasData) {
+        //         print(accessToken);
+        //         switch (snapshot.data!) {
+        //           case ConnectivityResult.wifi:
+        //           case ConnectivityResult.mobile:
+        //             // return ((accessToken == null) ||
+        //             //         (JwtDecoder.isExpired(accessToken) == ))
+        //             //     ? const AuthScreen()
+        //             //     : const DummyHome();
+        //             // return accessToken == null
+        //             //     ? AuthScreen()
+        //             //     : (JwtDecoder.isExpired(accessToken) == false)
+        //             //         ? DummyHome()
+        //             //         : AuthScreen();
+        //             if (accessToken == null) {
+        //               return const AuthScreen();
+        //             } else {
+        //               return StreamBuilder<bool>(
+        //                   stream: loginInConditionStream(accessToken),
+        //                   builder: (context, snapshot) {
+        //                     if (snapshot.hasData) {
+        //                       if (snapshot.data == true) {
+        //                         return ButtonNavigationBar(
+        //                           accessToken: accessToken,
+        //                         );
+        //                       } else {
+        //                         return const AuthScreen();
+        //                       }
+        //                     } else if (snapshot.hasError) {
+        //                       return Text('Error: ${snapshot.error}');
+        //                     } else {
+        //                       return const CircularProgressIndicator();
+        //                     }
+        //                   });
+        //             }
+        //           default:
+        //             return const NetworkError();
+        //         }
+        //       } else {
+        //         return const CircularProgressIndicator();
+        //       }
+        //     }),
         routes: {
           ForgetPasswordScreen.routeName: (context) =>
               const ForgetPasswordScreen(),

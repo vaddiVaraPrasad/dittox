@@ -32,7 +32,17 @@ class TopCont extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          const Expanded(flex: 2, child: SizedBox()),
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 9, left: 0),
+              child: Center(
+                  child: Image.asset(
+                'assets/image/dittox_home_logo.png',
+                fit: BoxFit.contain,
+              )),
+            ),
+          ),
           Expanded(
             flex: 8,
             child: GestureDetector(
@@ -43,16 +53,23 @@ class TopCont extends StatelessWidget {
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(
                       height: 5,
                     ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
+                        SizedBox(
+                          width: 5,
+                        ),
                         Text(
-                          "   Current Location  ",
+                          "Current Location",
                           style: TextStyle(color: Colors.white60, fontSize: 16),
+                        ),
+                        SizedBox(
+                          width: 5,
                         ),
                         Icon(
                           FontAwesomeIcons.caretDown,

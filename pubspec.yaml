@@ -137,7 +137,8 @@ flutter:
     # - assets/image/browser.png
     - assets/image/chrome.png
     - assets/image/otp.png
-
+    - assets/image/dittox_home_logo.png
+    - assets/image/dittox_splash_logo.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
