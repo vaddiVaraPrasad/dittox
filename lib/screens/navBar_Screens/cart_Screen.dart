@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 import "../../providers/current_user.dart";
 import "../../utils/color_pallets.dart";
+import "../../utils/dynamicSizing.dart";
 import "../../widgets/Cart/onGoing_xerox_Item.dart";
 
 class CartScreen extends StatefulWidget {
@@ -182,6 +183,9 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     CurrentUser curUSer = Provider.of<CurrentUser>(context);
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
+
     print(curUSer.getUserId);
     return Scaffold(
         appBar: AppBar(
@@ -191,7 +195,20 @@ class _CartScreenState extends State<CartScreen> {
 
         // ),
         body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 15),
+          // padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 15),
+          padding: EdgeInsets.symmetric(
+              vertical: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 30,
+                // heightSpecific: true,
+              ),
+              horizontal: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 6,
+                // heightSpecific: false,
+              )),
           child: isLoading == true
               ? const Center(
                   child: CircularProgressIndicator(

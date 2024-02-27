@@ -9,6 +9,7 @@ import "package:url_launcher/url_launcher.dart";
 
 import "../../providers/current_user.dart";
 import "../../utils/color_pallets.dart";
+import "../../utils/dynamicSizing.dart";
 import "../Orders/historyOrders.dart";
 import "../Orders/paylaterOrders.dart";
 import "../additional/aboutUs.dart";
@@ -67,6 +68,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     CurrentUser curUser = Provider.of<CurrentUser>(context);
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -78,20 +81,80 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            // height: 20,
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 50,
+              // heightSpecific: true,
+            ),
           ),
           Container(
-            padding: const EdgeInsets.only(
-              top: 10,
-              bottom: 20,
-              left: 5,
-              right: 10,
+            padding: EdgeInsets.only(
+              // top: 10,
+              // bottom: 20,
+              // left: 5,
+              // right: 10,
+              top: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: true,
+              ),
+              bottom: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 40,
+                // heightSpecific: true,
+              ),
+              left: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 10,
+                // heightSpecific: false,
+              ),
+              right: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: false,
+              ),
             ),
-            margin: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+            margin: EdgeInsets.only(
+              // left: 10,
+              // right: 10,
+              // bottom: 20,
+              bottom: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: true,
+              ),
+              left: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: false,
+              ),
+              right: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: false,
+              ),
+            ),
             decoration: BoxDecoration(
                 color: ColorPallets.lightPurplishWhile.withOpacity(.2),
-                borderRadius: BorderRadius.circular(14)),
+                borderRadius: BorderRadius.circular(
+                  // 14,
+                  calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 14,
+                    // heightSpecific: true,
+                  ),
+                )),
             child: Row(
               children: [
                 Expanded(
@@ -101,14 +164,26 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Text(
                           curUser.getUserName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: ColorPallets.deepBlue,
-                            fontSize: 35,
+                            // fontSize: 35,
+                            fontSize: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 60,
+                              // heightSpecific: true,
+                            ),
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(
-                          height: 10,
+                        SizedBox(
+                          // height: 10,
+                          height: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 15,
+                            // heightSpecific: true,
+                          ),
                         ),
                         Text(
                           curUser.getUserEmail,
@@ -126,56 +201,131 @@ class _ProfilePageState extends State<ProfilePage> {
                   //       ColorPallets.lightPurplishWhile.withOpacity(.2),
                   // ),
                 ),
-                const SizedBox(
-                  width: 10,
-                )
+                // SizedBox(
+                //   // width: 10,
+                //   width: calculateDynamicFontSize(
+                //     totalScreenHeight: totalScreenHeight,
+                //     totalScreenWidth: totalScreenWidth,
+                //     currentFontSize: 30,
+                //     // heightSpecific: false,
+                //   ),
+                // )
               ],
             ),
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            // height: 20,
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: true,
+            ),
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                width: 20,
+                // width: 20,
+                width: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 30,
+                  // heightSpecific: false,
+                ),
               ),
               Text(
                 "Your Information",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: ColorPallets.black,
-                    fontSize: 24,
+                    // fontSize: 24,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 45,
+                      // heightSpecific: true,
+                    ),
                     fontWeight: FontWeight.w500),
               ),
             ],
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            // height: 10,
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 30,
+              // heightSpecific: true,
+            ),
           ),
           Expanded(
               child: ListView(
             children: [
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: EdgeInsets.symmetric(
+                  // horizontal: 10,
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 20,
+                    // heightSpecific: false,
+                  ),
+                ),
+                // padding:
+                //     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(
+                    vertical: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: true,
+                    ),
+                    horizontal: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: false,
+                    )),
                 decoration: BoxDecoration(
                     color: ColorPallets.lightPurplishWhile.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(
+                      // 14,
+                      calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 20,
+                        // heightSpecific: true,
+                      ),
+                    )),
                 child: ListTile(
                   onTap: () {
                     Navigator.of(context).pushNamed(PayLater.routeName);
                   },
-                  title: const Text(
+                  title: Text(
                     "PayLater Orders",
-                    style:
-                        TextStyle(color: ColorPallets.deepBlue, fontSize: 18),
+                    style: TextStyle(
+                      color: ColorPallets.deepBlue,
+                      // fontSize: 18,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 40,
+                        // heightSpecific: true,
+                      ),
+                    ),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     "Make payment for Saved Orders",
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                      // fontSize: 12,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 25,
+                        // heightSpecific: true,
+                      ),
+                    ),
                   ),
                   trailing: const Icon(
                     FontAwesomeIcons.arrowRight,
@@ -183,28 +333,79 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                // height: 10,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: true,
+                ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: EdgeInsets.symmetric(
+                  // horizontal: 10,
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 20,
+                    // heightSpecific: false,
+                  ),
+                ),
+                // padding:
+                //     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(
+                    vertical: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: true,
+                    ),
+                    horizontal: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: false,
+                    )),
                 decoration: BoxDecoration(
                     color: ColorPallets.lightPurplishWhile.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(
+                      // 14,
+                      calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 20,
+                        // heightSpecific: true,
+                      ),
+                    )),
                 child: ListTile(
                   onTap: () {
                     Navigator.of(context).pushNamed(HistoryOrders.routeName);
                   },
-                  title: const Text(
+                  title: Text(
                     "History Orders",
-                    style:
-                        TextStyle(color: ColorPallets.deepBlue, fontSize: 18),
+                    style: TextStyle(
+                      color: ColorPallets.deepBlue,
+                      // fontSize: 18,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 40,
+                        // heightSpecific: true,
+                      ),
+                    ),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     "Find the completed Orders",
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                      // fontSize: 12,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 25,
+                        // heightSpecific: true,
+                      ),
+                    ),
                   ),
                   trailing: const Icon(
                     FontAwesomeIcons.arrowRight,
@@ -212,59 +413,159 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
-                    color: ColorPallets.lightPurplishWhile.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(14)),
-                child: ListTile(
-                  onTap: () {
-                    // AppSettings.openBluetoothSettings();
-                    // OpenSettings.openNotificationSetting();
-                  },
-                  title: const Text(
-                    "Notifications",
-                    style:
-                        TextStyle(color: ColorPallets.deepBlue, fontSize: 18),
-                  ),
-                  subtitle: const Text(
-                    "Change the notification setting",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  trailing: const Icon(
-                    FontAwesomeIcons.arrowRight,
-                    color: ColorPallets.deepBlue,
-                  ),
+              SizedBox(
+                // height: 10,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: true,
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              // Container(
+              //   margin: EdgeInsets.symmetric(
+              //     // horizontal: 10,
+              //     horizontal: calculateDynamicFontSize(
+              //       totalScreenHeight: totalScreenHeight,
+              //       totalScreenWidth: totalScreenWidth,
+              //       currentFontSize: 20,
+              //       // heightSpecific: false,
+              //     ),
+              //   ),
+              //   // padding:
+              //   //     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              //   padding: EdgeInsets.symmetric(
+              //       vertical: calculateDynamicFontSize(
+              //         totalScreenHeight: totalScreenHeight,
+              //         totalScreenWidth: totalScreenWidth,
+              //         currentFontSize: 20,
+              //         // heightSpecific: true,
+              //       ),
+              //       horizontal: calculateDynamicFontSize(
+              //         totalScreenHeight: totalScreenHeight,
+              //         totalScreenWidth: totalScreenWidth,
+              //         currentFontSize: 20,
+              //         // heightSpecific: false,
+              //       )),
+              //   decoration: BoxDecoration(
+              //       color: ColorPallets.lightPurplishWhile.withOpacity(.2),
+              //       borderRadius: BorderRadius.circular(
+              //         // 14,
+              //         calculateDynamicFontSize(
+              //           totalScreenHeight: totalScreenHeight,
+              //           totalScreenWidth: totalScreenWidth,
+              //           currentFontSize: 20,
+              //           // heightSpecific: true,
+              //         ),
+              //       )),
+              //   child: ListTile(
+              //     onTap: () {
+              //       // AppSettings.openBluetoothSettings();
+              //       // OpenSettings.openNotificationSetting();
+              //     },
+              //     title: Text(
+              //       "Notifications",
+              //       style: TextStyle(
+              //         color: ColorPallets.deepBlue,
+              //         // fontSize: 18,
+              //         fontSize: calculateDynamicFontSize(
+              //           totalScreenHeight: totalScreenHeight,
+              //           totalScreenWidth: totalScreenWidth,
+              //           currentFontSize: 40,
+              //           // heightSpecific: true,
+              //         ),
+              //       ),
+              //     ),
+              //     subtitle: Text(
+              //       "Change the notification setting",
+              //       style: TextStyle(
+              //         // fontSize: 12,
+              //         fontSize: calculateDynamicFontSize(
+              //           totalScreenHeight: totalScreenHeight,
+              //           totalScreenWidth: totalScreenWidth,
+              //           currentFontSize: 30,
+              //           // heightSpecific: true,
+              //         ),
+              //       ),
+              //     ),
+              //     trailing: const Icon(
+              //       FontAwesomeIcons.arrowRight,
+              //       color: ColorPallets.deepBlue,
+              //     ),
+              //   ),
+              // ),
+              SizedBox(
+                // height: 10,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 10,
+                  // heightSpecific: true,
+                ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: EdgeInsets.symmetric(
+                  // horizontal: 10,
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 20,
+                    // heightSpecific: false,
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(
+                    vertical: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: true,
+                    ),
+                    horizontal: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: false,
+                    )),
                 decoration: BoxDecoration(
                     color: ColorPallets.lightPurplishWhile.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(
+                      // 14,
+                      calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 20,
+                        // heightSpecific: true,
+                      ),
+                    )),
                 child: ListTile(
                   onTap: () {
                     Navigator.of(context).pushNamed(ContactUs.routeName);
                   },
-                  title: const Text(
+                  title: Text(
                     "Contact Us",
-                    style:
-                        TextStyle(color: ColorPallets.deepBlue, fontSize: 18),
+                    style: TextStyle(
+                      color: ColorPallets.deepBlue,
+                      // fontSize: 18,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 40,
+                        // heightSpecific: true,
+                      ),
+                    ),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     "Share your experience , Complaints , Queries about Xerox app",
                     maxLines: 3,
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                      // fontSize: 12,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 25,
+                        // heightSpecific: true,
+                      ),
+                    ),
                   ),
                   trailing: const Icon(
                     FontAwesomeIcons.arrowRight,
@@ -272,29 +573,77 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                // height: 10,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: true,
+                ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: EdgeInsets.symmetric(
+                  // horizontal: 10,
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 20,
+                    // heightSpecific: false,
+                  ),
+                ),
+                // padding:
+                //     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(
+                    vertical: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: true,
+                    ),
+                    horizontal: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: false,
+                    )),
                 decoration: BoxDecoration(
                     color: ColorPallets.lightPurplishWhile.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(
+                        // 14,
+                        calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: true,
+                    ))),
                 child: ListTile(
                   onTap: () {
                     Navigator.of(context).pushNamed(AboutUs.routeName);
                   },
-                  title: const Text(
+                  title: Text(
                     "About Us",
-                    style:
-                        TextStyle(color: ColorPallets.deepBlue, fontSize: 18),
+                    style: TextStyle(
+                        color: ColorPallets.deepBlue,
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        )),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     "Know about Xerox App ",
                     maxLines: 3,
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                        // fontSize: 12,
+                        fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 25,
+                      // heightSpecific: true,
+                    )),
                   ),
                   trailing: const Icon(
                     FontAwesomeIcons.arrowRight,
@@ -302,16 +651,49 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                // height: 10,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: true,
+                ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: EdgeInsets.symmetric(
+                    // horizontal: 10,
+                    horizontal: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: true,
+                )),
+                // padding:
+                //     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(
+                    vertical: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: true,
+                    ),
+                    horizontal: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: false,
+                    )),
                 decoration: BoxDecoration(
                     color: ColorPallets.lightPurplishWhile.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(
+                        // 14,
+                        calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: true,
+                    ))),
                 child: ListTile(
                   onTap: () {
                     setState(() {
@@ -322,15 +704,29 @@ class _ProfilePageState extends State<ProfilePage> {
                       isLoading = false;
                     });
                   },
-                  title: const Text(
+                  title: Text(
                     "Logout",
-                    style:
-                        TextStyle(color: ColorPallets.deepBlue, fontSize: 18),
+                    style: TextStyle(
+                        color: ColorPallets.deepBlue,
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        )),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     "Logout from device",
                     maxLines: 3,
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                        // fontSize: 12,
+                        fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 25,
+                      // heightSpecific: true,
+                    )),
                   ),
                   trailing: isLoading
                       ? const CircularProgressIndicator(

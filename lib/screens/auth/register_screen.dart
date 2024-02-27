@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../utils/api_endpoints.dart';
 import "../../utils/color_pallets.dart";
 import 'package:http/http.dart' as http;
+import '../../utils/dynamicSizing.dart';
 import "../../widgets/auth/sing_in_up_bar.dart";
 
 class RegisterScreen extends StatefulWidget {
@@ -56,7 +57,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  Future<void> registerUser(BuildContext ctx) async {
+  Future<void> registerUser(
+    BuildContext ctx,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) async {
     var msg = "Invalid Credentials !!!";
     final isValid = formKeyRegister.currentState!.validate();
 
@@ -120,8 +125,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       errorMessage,
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        ),
                         fontStyle: FontStyle.normal,
                         color: ColorPallets.white,
                       ),
@@ -151,8 +162,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               Text(
                 msg,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: TextStyle(
+                  // fontSize: 18,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 40,
+                    // heightSpecific: true,
+                  ),
                   fontStyle: FontStyle.normal,
                   color: ColorPallets.white,
                 ),
@@ -329,10 +346,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     // var currentUser = Provider.of<CurrentUser>(context, listen: true);
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Container(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(
+        // 32,
+        calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 60,
+          // heightSpecific: true,
+        ),
+      ),
       child: Column(
         children: [
+          SizedBox(
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 80,
+              // heightSpecific: true,
+            ),
+          ),
           Expanded(
               flex: 2,
               child: Align(
@@ -341,7 +376,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   "Create\nAccount",
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontSize: 40,
+                      // fontSize: 40,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 80,
+                        // heightSpecific: true,
+                      ),
                       color: ColorPallets.white,
                       fontWeight: FontWeight.w600,
                       fontFamily: GoogleFonts.audiowide().fontFamily),
@@ -350,7 +391,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Expanded(
               flex: 7,
               child: Container(
-                constraints: const BoxConstraints(minWidth: 220),
+                constraints: BoxConstraints(
+                  // minWidth: 220,
+                  minWidth: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 220,
+                    // heightSpecific: false,
+                  ),
+                ),
                 child: Form(
                   key: formKeyRegister,
                   child: ListView(
@@ -375,19 +424,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       //       : null,
                       // ),
 
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        // height: 10,
+                        height: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 50,
+                          // heightSpecific: true,
+                        ),
                       ),
 
                       // email form text filed
                       TextFormField(
                         controller: emailController,
                         key: const ValueKey("mail"),
-                        cursorHeight: 22,
-                        cursorWidth: 2,
+                        // cursorHeight: 22,
+                        cursorHeight: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 50,
+                          // heightSpecific: true,
+                        ),
+                        // cursorWidth: 2,
+                        cursorWidth: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 5,
+                          // heightSpecific: false,
+                        ),
                         cursorColor: ColorPallets.white,
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          // fontSize: 18,
+                          fontSize: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 40,
+                            // heightSpecific: true,
+                          ),
                           color: ColorPallets.white,
                         ),
                         keyboardType: TextInputType.text,
@@ -396,15 +469,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           suffixIcon: emailController.text.isEmpty
                               ? const SizedBox()
                               : Padding(
-                                  padding: const EdgeInsets.only(top: 10),
+                                  padding: EdgeInsets.only(
+                                    // top: 10,
+                                    top: calculateDynamicFontSize(
+                                      totalScreenHeight: totalScreenHeight,
+                                      totalScreenWidth: totalScreenWidth,
+                                      currentFontSize: 40,
+                                      // heightSpecific: true,
+                                    ),
+                                  ),
                                   child: IconButton(
                                       color: ColorPallets.white,
                                       onPressed: () {
                                         emailController.clear();
                                       },
-                                      icon: const Icon(
+                                      icon: Icon(
                                         FontAwesomeIcons.xmark,
-                                        size: 18,
+                                        // size: 18,
+                                        size: calculateDynamicFontSize(
+                                          totalScreenHeight: totalScreenHeight,
+                                          totalScreenWidth: totalScreenWidth,
+                                          currentFontSize: 40,
+                                          // heightSpecific: true,
+                                        ),
                                       ))),
                           errorStyle: const TextStyle(
                               // color: ColorPallets.pinkinshShadedPurple,
@@ -412,16 +499,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.white)),
-                          enabledBorder: const UnderlineInputBorder(
+                          enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              width: 2,
+                              // width: 2,
+                              width: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 2,
+                                // heightSpecific: false,
+                              ),
                               color: ColorPallets.white,
                             ),
                           ),
                           focusColor: ColorPallets.white,
-                          label: const Text(
+                          label: Text(
                             "E-mail",
-                            style: TextStyle(color: ColorPallets.white),
+                            style: TextStyle(
+                              color: ColorPallets.white,
+                              fontSize: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 45,
+                                // heightSpecific: false,
+                              ),
+                            ),
                           ),
                         ),
                         validator: (newMailId) {
@@ -439,11 +540,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         key: const ValueKey("userName"),
                         controller: userNameController,
-                        cursorHeight: 22,
-                        cursorWidth: 2,
+                        // cursorHeight: 22,
+                        // cursorWidth: 2,
+                        cursorHeight: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 50,
+                          // heightSpecific: true,
+                        ),
+
+                        cursorWidth: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 5,
+                          // heightSpecific: false,
+                        ),
                         cursorColor: ColorPallets.white,
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          // fontSize: 18,
+                          fontSize: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 40,
+                            // heightSpecific: true,
+                          ),
                           color: ColorPallets.white,
                         ),
                         keyboardType: TextInputType.text,
@@ -452,29 +572,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           suffixIcon: userNameController.text.isEmpty
                               ? const SizedBox()
                               : Padding(
-                                  padding: const EdgeInsets.only(top: 10),
+                                  padding: EdgeInsets.only(
+                                    // top: 10,
+                                    top: calculateDynamicFontSize(
+                                      totalScreenHeight: totalScreenHeight,
+                                      totalScreenWidth: totalScreenWidth,
+                                      currentFontSize: 40,
+                                      // heightSpecific: true,
+                                    ),
+                                  ),
                                   child: IconButton(
                                       color: ColorPallets.white,
                                       onPressed: () {
                                         userNameController.clear();
                                       },
-                                      icon: const Icon(
+                                      icon: Icon(
                                         FontAwesomeIcons.xmark,
-                                        size: 18,
+                                        // size: 18,
+                                        size: calculateDynamicFontSize(
+                                          totalScreenHeight: totalScreenHeight,
+                                          totalScreenWidth: totalScreenWidth,
+                                          currentFontSize: 40,
+                                          // heightSpecific: true,
+                                        ),
                                       ))),
                           focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.white)),
-                          enabledBorder: const UnderlineInputBorder(
+                          enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              width: 2,
+                              // width: 2,
+                              width: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 2,
+                                // heightSpecific: false,
+                              ),
                               color: ColorPallets.white,
                             ),
                           ),
                           focusColor: ColorPallets.white,
-                          label: const Text(
+                          label: Text(
                             "UserName",
-                            style: TextStyle(color: ColorPallets.white),
+                            style: TextStyle(
+                              color: ColorPallets.white,
+                              fontSize: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 45,
+                                // heightSpecific: false,
+                              ),
+                            ),
                           ),
                           // errorStyle: const TextStyle(
                           //     color: ColorPallets.pinkinshShadedPurple)),
@@ -498,11 +646,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         key: const ValueKey("passWoRd"),
                         controller: passwordController,
-                        cursorHeight: 22,
-                        cursorWidth: 2,
+                        // cursorHeight: 22,
+                        // cursorWidth: 2,
+                        // cursorColor: ColorPallets.white,
+                        // style: const TextStyle(
+                        //   fontSize: 18,
+                        //   color: ColorPallets.white,
+                        // ),
+                        cursorHeight: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 50,
+                          // heightSpecific: true,
+                        ),
+
+                        cursorWidth: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 5,
+                          // heightSpecific: false,
+                        ),
                         cursorColor: ColorPallets.white,
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          // fontSize: 18,
+                          fontSize: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 40,
+                            // heightSpecific: true,
+                          ),
                           color: ColorPallets.white,
                         ),
                         keyboardType: TextInputType.text,
@@ -512,17 +684,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           suffixIcon: passwordController.text.isEmpty
                               ? const SizedBox()
                               : Padding(
-                                  padding: const EdgeInsets.only(top: 10),
+                                  padding: EdgeInsets.only(
+                                    // top: 10,
+                                    top: calculateDynamicFontSize(
+                                      totalScreenHeight: totalScreenHeight,
+                                      totalScreenWidth: totalScreenWidth,
+                                      currentFontSize: 40,
+                                      // heightSpecific: true,
+                                    ),
+                                  ),
                                   child: IconButton(
                                     color: ColorPallets.white,
                                     icon: isObsecureText
-                                        ? const Icon(
+                                        ? Icon(
                                             Icons.visibility,
-                                            size: 22,
+                                            // size: 22,
+                                            size: calculateDynamicFontSize(
+                                              totalScreenHeight:
+                                                  totalScreenHeight,
+                                              totalScreenWidth:
+                                                  totalScreenWidth,
+                                              currentFontSize: 40,
+                                              // heightSpecific: true,
+                                            ),
                                           )
-                                        : const Icon(
+                                        : Icon(
                                             Icons.visibility_off,
-                                            size: 22,
+                                            // size: 22,
+                                            size: calculateDynamicFontSize(
+                                              totalScreenHeight:
+                                                  totalScreenHeight,
+                                              totalScreenWidth:
+                                                  totalScreenWidth,
+                                              currentFontSize: 40,
+                                              // heightSpecific: true,
+                                            ),
                                           ),
                                     onPressed: () {
                                       setState(() {
@@ -539,16 +735,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.white)),
-                          enabledBorder: const UnderlineInputBorder(
+                          enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              width: 2,
+                              // width: 2,
+                              width: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 2,
+                                // heightSpecific: false,
+                              ),
                               color: ColorPallets.white,
                             ),
                           ),
                           focusColor: ColorPallets.white,
-                          label: const Text(
+                          label: Text(
                             "Password",
-                            style: TextStyle(color: ColorPallets.white),
+                            style: TextStyle(
+                              color: ColorPallets.white,
+                              fontSize: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 45,
+                                // heightSpecific: false,
+                              ),
+                            ),
                           ),
                         ),
                         validator: (newPassword) {
@@ -567,11 +777,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: phonenumberController,
                         key: const ValueKey("phonenumber"),
-                        cursorHeight: 22,
-                        cursorWidth: 2,
+                        // cursorHeight: 22,
+                        // cursorWidth: 2,
+                        // cursorColor: ColorPallets.white,
+                        // style: const TextStyle(
+                        //   fontSize: 18,
+                        //   color: ColorPallets.white,
+                        // ),
+                        cursorHeight: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 50,
+                          // heightSpecific: true,
+                        ),
+                        cursorWidth: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 5,
+                          // heightSpecific: false,
+                        ),
                         cursorColor: ColorPallets.white,
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          // fontSize: 18,
+                          fontSize: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 40,
+                            // heightSpecific: true,
+                          ),
                           color: ColorPallets.white,
                         ),
                         keyboardType: TextInputType.phone,
@@ -580,15 +813,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           suffixIcon: phonenumberController.text.isEmpty
                               ? const SizedBox()
                               : Padding(
-                                  padding: const EdgeInsets.only(top: 10),
+                                  // padding: const EdgeInsets.only(top: 10),
+                                  padding: EdgeInsets.only(
+                                    // top: 10,
+                                    top: calculateDynamicFontSize(
+                                      totalScreenHeight: totalScreenHeight,
+                                      totalScreenWidth: totalScreenWidth,
+                                      currentFontSize: 40,
+                                      // heightSpecific: true,
+                                    ),
+                                  ),
                                   child: IconButton(
                                       color: ColorPallets.white,
                                       onPressed: () {
                                         phonenumberController.clear();
                                       },
-                                      icon: const Icon(
+                                      icon: Icon(
                                         FontAwesomeIcons.xmark,
-                                        size: 18,
+                                        // size: 18,
+                                        size: calculateDynamicFontSize(
+                                          totalScreenHeight: totalScreenHeight,
+                                          totalScreenWidth: totalScreenWidth,
+                                          currentFontSize: 40,
+                                          // heightSpecific: true,
+                                        ),
                                       ))),
                           errorStyle: const TextStyle(
                               // color: ColorPallets.pinkinshShadedPurple,
@@ -596,16 +844,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.white)),
-                          enabledBorder: const UnderlineInputBorder(
+                          enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              width: 2,
+                              // width: 2,
+                              width: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 2,
+                                // heightSpecific: false,
+                              ),
                               color: ColorPallets.white,
                             ),
                           ),
                           focusColor: ColorPallets.white,
-                          label: const Text(
+                          label: Text(
                             "Mobile number",
-                            style: TextStyle(color: ColorPallets.white),
+                            style: TextStyle(
+                              color: ColorPallets.white,
+                              fontSize: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 45,
+                                // heightSpecific: false,
+                              ),
+                            ),
                           ),
                         ),
                         validator: (newMobilenumber) {
@@ -676,26 +938,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       //   },
                       // ),
 
-                      const SizedBox(
-                        height: 40,
+                      SizedBox(
+                        // height: 40,
+                        height: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 120,
+                          // heightSpecific: true,
+                        ),
                       ),
 
                       // signUp pages
                       SignUpBar(
                         isLoading: _isLoading,
                         label: "Register",
-                        onPressed: () => registerUser(context),
+                        onPressed: () => registerUser(
+                          context,
+                          totalScreenHeight,
+                          totalScreenWidth,
+                        ),
+                      ),
+                      SizedBox(
+                        // height: 40,
+                        height: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 50,
+                          // heightSpecific: true,
+                        ),
                       ),
                       // nav from register to login
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 8),
+                        // padding: const EdgeInsets.symmetric(
+                        //     vertical: 15, horizontal: 8),
+                        padding: EdgeInsets.symmetric(
+                            vertical: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 15,
+                              // heightSpecific: true,
+                            ),
+                            horizontal: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 8,
+                              // heightSpecific: false,
+                            )),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            const Text(
+                            Text(
                               "I'm a member  !!",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                // fontSize: 18,
+                                fontSize: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 40,
+                                  // heightSpecific: true,
+                                ),
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -703,11 +1005,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   widget.callLoginScreen();
                                 }
                               },
-                              child: const Text(
+                              child: Text(
                                 "Login",
                                 style: TextStyle(
-                                    color: ColorPallets.pinkinshShadedPurple,
-                                    fontSize: 18),
+                                  color: ColorPallets.pinkinshShadedPurple,
+                                  // fontSize: 18,
+                                  fontSize: calculateDynamicFontSize(
+                                    totalScreenHeight: totalScreenHeight,
+                                    totalScreenWidth: totalScreenWidth,
+                                    currentFontSize: 40,
+                                    // heightSpecific: true,
+                                  ),
+                                ),
                               ),
                             ),
                           ],

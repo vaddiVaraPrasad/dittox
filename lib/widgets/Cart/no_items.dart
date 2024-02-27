@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/color_pallets.dart';
+import '../../utils/dynamicSizing.dart';
 
 class NoOrders extends StatelessWidget {
   const NoOrders({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Column(
       // mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -19,17 +22,41 @@ class NoOrders extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        const Text(
+        Text(
           "No On-Going prints ",
           textAlign: TextAlign.center,
-          style: TextStyle(color: ColorPallets.deepBlue, fontSize: 26),
+          style: TextStyle(
+            color: ColorPallets.deepBlue,
+            // fontSize: 26,
+            fontSize: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 50,
+              // heightSpecific: true,
+            ),
+          ),
         ),
-        const SizedBox(
-          height: 5,
+        SizedBox(
+          // height: 5,
+          height: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 10,
+            // heightSpecific: true,
+          ),
         ),
-        const Text(
-          "Check  History Orders for past prints ",
-          style: TextStyle(color: ColorPallets.lightBlue, fontSize: 16),
+        Text(
+          "Navigate to Home Screen to place \nPhotoCopy order ",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: ColorPallets.lightBlue,
+              // fontSize: 16,
+              fontSize: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 35,
+                // heightSpecific: true,
+              )),
         ),
       ],
     );

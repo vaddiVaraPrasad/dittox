@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../providers/current_user.dart';
 import '../../utils/color_pallets.dart';
+import '../../utils/dynamicSizing.dart';
 import '../../widgets/home/inviteCont.dart';
 import '../../widgets/home/scanDoc.dart';
 import '../../widgets/home/topBar.dart';
@@ -27,7 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     CurrentUser curUser = Provider.of(context, listen: true);
-    print(curUser.getUserId);
+
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
+
+    // print(curUser.getUserId);
 
     if (curUser.getUserId == "Loading...") {
       setState(() {
@@ -63,31 +68,62 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                       flex: 25,
                       child: Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
+                        // margin: const EdgeInsets.symmetric(
+                        //     horizontal: 20, vertical: 20),
+                        margin: EdgeInsets.symmetric(
+                            vertical: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 30,
+                              // heightSpecific: true,
+                            ),
+                            horizontal: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 30,
+                              // heightSpecific: false,
+                            )),
                         child: Column(
                           children: [
                             const Expanded(flex: 4, child: InviteCont()),
-                            const SizedBox(
-                              height: 20,
+                            SizedBox(
+                              // height: 20,
+                              height: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 40,
+                                // heightSpecific: true,
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
-                                  child: const Text(
-                                    "Select  Option",
+                                  child: Text(
+                                    "Select a Option",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: ColorPallets.black,
-                                        fontSize: 28,
+                                        // fontSize: 28,
+                                        fontSize: calculateDynamicFontSize(
+                                          totalScreenHeight: totalScreenHeight,
+                                          totalScreenWidth: totalScreenWidth,
+                                          currentFontSize: 60,
+                                          // heightSpecific: true,
+                                        ),
                                         fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 20,
+                            SizedBox(
+                              // height: 20,
+                              height: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 20,
+                                // heightSpecific: true,
+                              ),
                             ),
                             Expanded(
                                 flex: 3,
@@ -95,8 +131,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ctx: context,
                                   accessToken: widget.accessToken,
                                 )),
-                            const SizedBox(
-                              height: 20,
+                            SizedBox(
+                              // height: 20,
+                              height: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 20,
+                                // heightSpecific: true,
+                              ),
                             ),
                             Expanded(
                                 flex: 3,

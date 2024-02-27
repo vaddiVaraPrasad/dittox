@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:dittox/utils/color_pallets.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/dynamicSizing.dart';
 import '../../widgets/Cart/History_item.dart';
 import '../../widgets/Cart/no_items.dart';
 import '../../widgets/Cart/payLater.dart';
@@ -185,6 +186,8 @@ class _PayLaterState extends State<PayLater> {
   Widget build(BuildContext context) {
     // CurrentUser curUSer = Provider.of<CurrentUser>(context);
     // print(curUSer.getUserId);
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
           foregroundColor: ColorPallets.white,
@@ -193,7 +196,20 @@ class _PayLaterState extends State<PayLater> {
 
         // ),
         body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 15),
+          // padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 15),
+          padding: EdgeInsets.symmetric(
+              vertical: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 3,
+                // heightSpecific: true,
+              ),
+              horizontal: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 15,
+                // heightSpecific: false,
+              )),
           child: isLoading == true
               ? const Center(
                   child: CircularProgressIndicator(

@@ -31,7 +31,7 @@ class Shop {
   late String closingTime;
   late List<dynamic> feedback;
   late List<dynamic> reviewer;
-  late int avgRating;
+  late double avgRating;
   late double cost;
   late String distance;
   late String duration;
@@ -70,7 +70,7 @@ class Shop {
     closingTime = json['meta']['closingTime'];
     feedback = json['feedBack'];
     reviewer = json['reviewer'];
-    avgRating = json['avgRating'];
+    avgRating = double.parse(json['avgRating'].toString());
     cost = _cost;
     distance = _distance;
     duration = _duration;

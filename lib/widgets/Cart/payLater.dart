@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../providers/current_user.dart';
 import '../../screens/nav_drawers/navBar.dart';
 import '../../utils/color_pallets.dart';
+import '../../utils/dynamicSizing.dart';
 
 class PayLaterCard extends StatefulWidget {
   Map<String, dynamic> PayLaterXeroxItem;
@@ -120,9 +121,27 @@ class _PayLaterCardState extends State<PayLaterCard> {
     return dateString;
   }
 
-  Widget KeyValueLong(String key, String value) {
+  Widget KeyValueLong(
+    String key,
+    String value,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      // padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      padding: EdgeInsets.symmetric(
+          vertical: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 7,
+            // heightSpecific: true,
+          ),
+          horizontal: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 12,
+            // heightSpecific: false,
+          )),
       child: Column(
         children: [
           Row(
@@ -130,32 +149,62 @@ class _PayLaterCardState extends State<PayLaterCard> {
               Text(
                 maxLines: 2,
                 key,
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 18,
+                    // fontSize: 18,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 18,
+                      // heightSpecific: true,
+                    ),
                     color: ColorPallets.deepBlue),
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(
-                width: 10,
+              SizedBox(
+                // width: 10,
+                width: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 10,
+                  // heightSpecific: true,
+                ),
               ),
-              const Text(":",
+              Text(":",
                   style: TextStyle(
-                    fontSize: 18,
+                    // fontSize: 18,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 18,
+                      // heightSpecific: true,
+                    ),
                     color: ColorPallets.deepBlue,
                     fontWeight: FontWeight.w600,
                   ))
             ],
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            // height: 10,
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 10,
+              // heightSpecific: true,
+            ),
           ),
           Text(
             value,
             maxLines: 3,
-            style: const TextStyle(
+            style: TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                // fontSize: 18,
+                fontSize: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 18,
+                  // heightSpecific: true,
+                ),
                 color: Colors.black54),
             overflow: TextOverflow.ellipsis,
           ),
@@ -164,9 +213,20 @@ class _PayLaterCardState extends State<PayLaterCard> {
     );
   }
 
-  Widget expandedTitle() {
+  Widget expandedTitle(
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 16),
+      margin: EdgeInsets.symmetric(
+        // vertical: 16,
+        vertical: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 16,
+          // heightSpecific: true,
+        ),
+      ),
       child: Row(
         children: [
           Expanded(
@@ -176,8 +236,14 @@ class _PayLaterCardState extends State<PayLaterCard> {
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(
-            width: 20,
+          SizedBox(
+            // width: 20,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: false,
+            ),
           ),
           Expanded(
             flex: 4,
@@ -187,33 +253,73 @@ class _PayLaterCardState extends State<PayLaterCard> {
               children: [
                 Text(
                   widget.PayLaterXeroxItem["orderId"],
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: ColorPallets.deepBlue,
-                    fontSize: 22,
+                    // fontSize: 22,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 22,
+                      // heightSpecific: true,
+                    ),
                     // fontWeight: FontWeight.,
                     fontStyle: FontStyle.normal,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(
-                  height: 3,
+                SizedBox(
+                  // height: 3,
+                  height: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 3,
+                    // heightSpecific: true,
+                  ),
                 ),
                 Text(
                   widget.PayLaterXeroxItem["storeName"],
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                    // fontSize: 18,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 18,
+                      // heightSpecific: true,
+                    ),
+                  ),
                 ),
-                const SizedBox(
-                  height: 3,
+                SizedBox(
+                  // height: 3,
+                  height: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 3,
+                    // heightSpecific: true,
+                  ),
                 ),
                 Text(
                   getDate(
                     widget.PayLaterXeroxItem["orderDate"],
                   ),
-                  style: TextStyle(fontSize: 13),
+                  style: TextStyle(
+                    // fontSize: 13,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 13,
+                      // heightSpecific: true,
+                    ),
+                  ),
                 ),
-                const SizedBox(
-                  height: 3,
+                SizedBox(
+                  // height: 3,
+                  height: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 3,
+                    // heightSpecific: true,
+                  ),
                 ),
                 // Row(
                 //   children: [
@@ -253,43 +359,91 @@ class _PayLaterCardState extends State<PayLaterCard> {
     );
   }
 
-  Widget KeyValueOfFeature(String key, String value) {
+  Widget KeyValueOfFeature(
+    String key,
+    String value,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      // padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      padding: EdgeInsets.symmetric(
+          vertical: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 7,
+            // heightSpecific: true,
+          ),
+          horizontal: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 12,
+            // heightSpecific: false,
+          )),
       child: Row(
         children: [
           Expanded(
             child: Text(
               maxLines: 2,
               key,
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  // fontSize: 18,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 18,
+                    // heightSpecific: true,
+                  ),
                   color: ColorPallets.deepBlue),
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(
-            width: 10,
+          SizedBox(
+            // width: 10,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 10,
+              // heightSpecific: false,
+            ),
           ),
-          const Text(
+          Text(
             ":",
             style: TextStyle(
-              fontSize: 18,
+              // fontSize: 18,
+              fontSize: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 18,
+                // heightSpecific: true,
+              ),
               color: ColorPallets.deepBlue,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(
-            width: 20,
+          SizedBox(
+            // width: 20,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: false,
+            ),
           ),
           Expanded(
             child: Text(
               maxLines: 8,
               value,
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  // fontSize: 18,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 18,
+                    // heightSpecific: true,
+                  ),
                   color: Colors.black54),
               overflow: TextOverflow.ellipsis,
             ),
@@ -299,44 +453,98 @@ class _PayLaterCardState extends State<PayLaterCard> {
     );
   }
 
-  Widget KeyValueOfFeatureDownload(int fileNumber, String downloadUrl) {
+  Widget KeyValueOfFeatureDownload(
+    int fileNumber,
+    String downloadUrl,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) {
     return Container(
-      padding: const EdgeInsets.only(top: 5, left: 12, right: 12),
+      // padding: const EdgeInsets.only(top: 5, left: 12, right: 12),
+      padding: EdgeInsets.only(
+          top: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 5,
+            // heightSpecific: true,
+          ),
+          left: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 12,
+            // heightSpecific: false,
+          ),
+          right: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 12,
+            // heightSpecific: false,
+          )),
       child: Row(
         children: [
           Expanded(
             child: Text(
               maxLines: 2,
               "File ${fileNumber} ",
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  // fontSize: 18,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 18,
+                    // heightSpecific: true,
+                  ),
                   color: ColorPallets.deepBlue),
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(
-            width: 10,
+          SizedBox(
+            // width: 10,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 10,
+              // heightSpecific: false,
+            ),
           ),
-          const Text(
+          Text(
             ":",
             style: TextStyle(
-              fontSize: 18,
+              // fontSize: 18,
+              fontSize: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 18,
+                // heightSpecific: true,
+              ),
               color: ColorPallets.deepBlue,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(
-            width: 20,
+          SizedBox(
+            // width: 20,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: true,
+            ),
           ),
           Expanded(
               child: TextButton(
-            child: const Text(
+            child: Text(
               maxLines: 8,
               "download file",
               style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  // fontSize: 18,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 18,
+                    // heightSpecific: true,
+                  ),
                   color: ColorPallets.darkPurple),
               overflow: TextOverflow.ellipsis,
             ),
@@ -351,6 +559,8 @@ class _PayLaterCardState extends State<PayLaterCard> {
   Widget build(BuildContext context) {
     CurrentUser currentUser = Provider.of<CurrentUser>(context);
     List<dynamic> itemsList = widget.PayLaterXeroxItem["items"];
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
 
     List<Widget> itemWidgets = [];
 
@@ -360,45 +570,132 @@ class _PayLaterCardState extends State<PayLaterCard> {
         Column(
           children: [
             KeyValueOfFeatureDownload(
-                index + 1, itemsList[index]["downloadUrl"]),
-            KeyValueOfFeature("Copies ", itemsList[index]["copies"].toString()),
+              index + 1,
+              itemsList[index]["downloadUrl"],
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
             KeyValueOfFeature(
-                "Total Pages ", itemsList[index]["totalPages"].toString()),
-            KeyValueOfFeature("Cost ", itemsList[index]["itemCost"].toString()),
-            KeyValueOfFeature("Color ", itemsList[index]["itemColor"]),
+              "Copies ",
+              itemsList[index]["copies"].toString(),
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
+            KeyValueOfFeature(
+              "Total Pages ",
+              itemsList[index]["totalPages"].toString(),
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
+            KeyValueOfFeature(
+              "Cost ",
+              itemsList[index]["itemCost"].toString(),
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
+            KeyValueOfFeature(
+              "Color ",
+              itemsList[index]["itemColor"],
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
             itemsList[index]["colorPartialPagesList"] != null &&
                     itemsList[index]["colorPartialPagesList"]
                         .toString()
                         .trim()
                         .isNotEmpty
-                ? KeyValueOfFeature("Color Partials  ",
-                    itemsList[index]["colorPartialPagesList"])
+                ? KeyValueOfFeature(
+                    "Color Partials  ",
+                    itemsList[index]["colorPartialPagesList"],
+                    totalScreenHeight,
+                    totalScreenWidth,
+                  )
                 : const SizedBox(),
             itemsList[index]["bondPage"] != null
-                ? KeyValueOfFeature("Bond Papers  ", "Yes")
-                : KeyValueOfFeature("Bond Papers  ", "No"),
-            KeyValueOfFeature("Paper Size ", itemsList[index]["paperSize"]),
-            KeyValueOfFeature("Print Layout ", itemsList[index]["printLayout"]),
-            KeyValueOfFeature("Binding Formate ", itemsList[index]["binding"]),
-            KeyValueOfFeature("Print Side Formate ", itemsList[index]["side"]),
+                ? KeyValueOfFeature(
+                    "Bond Papers  ",
+                    "Yes",
+                    totalScreenHeight,
+                    totalScreenWidth,
+                  )
+                : KeyValueOfFeature(
+                    "Bond Papers  ",
+                    "No",
+                    totalScreenHeight,
+                    totalScreenWidth,
+                  ),
+            KeyValueOfFeature(
+              "Paper Size ",
+              itemsList[index]["paperSize"],
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
+            KeyValueOfFeature(
+              "Print Layout ",
+              itemsList[index]["printLayout"],
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
+            KeyValueOfFeature(
+              "Binding Formate ",
+              itemsList[index]["binding"],
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
+            KeyValueOfFeature(
+              "Print Side Formate ",
+              itemsList[index]["side"],
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
 
             index == itemsList.length - 1
                 ? const SizedBox()
                 : Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    // padding: const EdgeInsets.only(left: 12, right: 12),
+                    padding: EdgeInsets.symmetric(
+                        vertical: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 12,
+                          // heightSpecific: true,
+                        ),
+                        horizontal: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 12,
+                          // heightSpecific: false,
+                        )),
                     child: Divider(
-                        color: Colors.black54.withOpacity(.2), thickness: 1),
+                      color: Colors.black54.withOpacity(.2),
+                      // thickness: 1,
+                      thickness: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 1,
+                        // heightSpecific: true,
+                      ),
+                    ),
                   ),
 
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              // height: 10,
+              height: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 10,
+                // heightSpecific: true,
+              ),
             ), // Adjust the spacing as needed
           ],
         ),
       );
     }
 
-    Future<void> makePayment() async {
+    Future<void> makePayment(
+      double totalScreenHeight,
+      double totalScreenWidth,
+    ) async {
       try {
         var options = {
           "key": "rzp_test_F9dV31vBF1OjLd",
@@ -430,9 +727,26 @@ class _PayLaterCardState extends State<PayLaterCard> {
     }
 
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+        padding: EdgeInsets.symmetric(
+          // horizontal: 20,
+          horizontal: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 20,
+            // heightSpecific: false,
+          ),
+          vertical: 0,
+        ),
         child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 15),
+          margin: EdgeInsets.symmetric(
+            // vertical: 15,
+            vertical: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 15,
+              // heightSpecific: true,
+            ),
+          ),
           decoration: BoxDecoration(
               border: Border.all(
                 color: ColorPallets.deepBlue,
@@ -441,108 +755,266 @@ class _PayLaterCardState extends State<PayLaterCard> {
               borderRadius: BorderRadius.circular(8)),
           child: ExpansionTile(
             iconColor: ColorPallets.deepBlue,
-            title: expandedTitle(),
+            title: expandedTitle(
+              totalScreenHeight,
+              totalScreenWidth,
+            ),
             backgroundColor:
                 const Color.fromARGB(255, 178, 239, 240).withOpacity(0.1),
             children: <Widget>[
               // progressOrderTracker(widget.historyXeroxItem["orderStatus"]),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                // height: 20,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: true,
+                ),
               ),
-              const Text(
+              Text(
                 "Document Details",
                 style: TextStyle(
                     color: ColorPallets.deepBlue,
-                    fontSize: 22,
+                    // fontSize: 22,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 22,
+                      // heightSpecific: true,
+                    ),
                     fontStyle: FontStyle.italic),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Divider(color: ColorPallets.deepBlue, thickness: 2),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    // horizontal: 20,
+                    horizontal: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: false,
+                )),
+                child: Divider(
+                  color: ColorPallets.deepBlue,
+                  // thickness: 2,
+                  thickness: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 2,
+                    // heightSpecific: true,
+                  ),
+                ),
               ),
 
               Column(
                 children: itemWidgets,
               ),
 
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                // height: 10,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 10,
+                  // heightSpecific: true,
+                ),
               ),
-              const Text(
+              Text(
                 "Shop Detials",
                 style: TextStyle(
                     color: ColorPallets.deepBlue,
-                    fontSize: 22,
+                    // fontSize: 22,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 22,
+                      // heightSpecific: true,
+                    ),
                     fontStyle: FontStyle.italic),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Divider(color: ColorPallets.deepBlue, thickness: 2),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    // horizontal: 20,
+                    horizontal: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: false,
+                )),
+                child: Divider(
+                  color: ColorPallets.deepBlue,
+                  // thickness: 2,
+                  thickness: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 2,
+                    // heightSpecific: true,
+                  ),
+                ),
               ),
               KeyValueOfFeature(
-                  "Shope Name", widget.PayLaterXeroxItem['storeName']),
-              KeyValueOfFeature("Contact-Number",
-                  widget.PayLaterXeroxItem['storeContactNumber']),
+                "Shope Name",
+                widget.PayLaterXeroxItem['storeName'],
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
               KeyValueOfFeature(
-                  "Shop Email", widget.PayLaterXeroxItem['storeEmail']),
+                "Contact-Number",
+                widget.PayLaterXeroxItem['storeContactNumber'],
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
+              KeyValueOfFeature(
+                "Shop Email",
+                widget.PayLaterXeroxItem['storeEmail'],
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
               KeyValueLong(
-                  "Shop Addres", widget.PayLaterXeroxItem['storeAddress']),
-
-              const SizedBox(
-                height: 10,
+                "Shop Addres",
+                widget.PayLaterXeroxItem['storeAddress'],
+                totalScreenHeight,
+                totalScreenWidth,
               ),
-              const Text(
+
+              SizedBox(
+                // height: 10,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 10,
+                  // heightSpecific: true,
+                ),
+              ),
+              Text(
                 "Order Detials",
                 style: TextStyle(
                     color: ColorPallets.deepBlue,
-                    fontSize: 22,
+                    // fontSize: 22,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 22,
+                      // heightSpecific: true,
+                    ),
                     fontStyle: FontStyle.italic),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Divider(color: ColorPallets.deepBlue, thickness: 2),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  // horizontal: 20,
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 20,
+                    // heightSpecific: false,
+                  ),
+                ),
+                child: Divider(
+                  color: ColorPallets.deepBlue,
+                  // thickness: 2,
+                  thickness: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 2,
+                    // heightSpecific: true,
+                  ),
+                ),
               ),
               // KeyValueOfFeature("OrderId", widget.historyXeroxItem['orderId']),
 
-              KeyValueLong("OrderId", widget.PayLaterXeroxItem['orderId']),
-              KeyValueOfFeature("Date Of Order",
-                  getDate(widget.PayLaterXeroxItem['orderDate'])),
+              KeyValueLong(
+                "OrderId",
+                widget.PayLaterXeroxItem['orderId'],
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
+              KeyValueOfFeature(
+                "Date Of Order",
+                getDate(widget.PayLaterXeroxItem['orderDate']),
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
               // KeyValueLong("Date Of Order",
               //     getDate(widget.historyXeroxItem['orderDate'])),
-              KeyValueOfFeature("Total Cost",
-                  widget.PayLaterXeroxItem['totalCost'].toString()),
-              const SizedBox(
-                height: 20,
+              KeyValueOfFeature(
+                "Total Cost",
+                widget.PayLaterXeroxItem['totalCost'].toString(),
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
+              SizedBox(
+                // height: 20,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: true,
+                ),
               ),
               InkWell(
                 onTap: () async {
-                  await makePayment();
+                  await makePayment(
+                    totalScreenHeight,
+                    totalScreenWidth,
+                  );
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.8,
                   // Make the container fill the entire width
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                  padding: EdgeInsets.symmetric(
+                    // vertical: 10,
+                    vertical: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 10,
+                      // heightSpecific: true,
+                    ),
+                    // horizontal: 8,
+                    horizontal: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 8,
+                      // heightSpecific: false,
+                    ),
+                  ),
                   decoration: BoxDecoration(
                     color: ColorPallets
                         .deepBlue, // Set the background color to green
-                    borderRadius:
-                        BorderRadius.circular(10), // Set round borders
+                    borderRadius: BorderRadius.circular(
+                        // 10,
+                        calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 10,
+                      // heightSpecific: true,
+                    )), // Set round borders
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       "Pay Now",
                       style: TextStyle(
                         color: Colors
                             .white, // Assuming ColorPallets.white is equivalent to Colors.white
-                        fontSize: 22,
+                        // fontSize: 22,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 22,
+                          // heightSpecific: true,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 15,
+              SizedBox(
+                // height: 15,
+                height: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 15,
+                  // heightSpecific: true,
+                ),
               )
             ],
           ),

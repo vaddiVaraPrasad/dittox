@@ -5,6 +5,7 @@ import "package:line_icons/line_icons.dart";
 
 import "../../utils/color_pallets.dart";
 
+import "../../utils/dynamicSizing.dart";
 import "../navBar_Screens/cart_Screen.dart";
 import "../navBar_Screens/home_screen.dart";
 import "../navBar_Screens/profile_Screen.dart";
@@ -20,8 +21,6 @@ class ButtonNavigationBar extends StatefulWidget {
 
 class _ButtonNavigationBarState extends State<ButtonNavigationBar> {
   int _seletedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
 
   late List<Widget> _screens;
 
@@ -64,29 +63,84 @@ class _ButtonNavigationBarState extends State<ButtonNavigationBar> {
   // ];
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: _screens[_seletedIndex],
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(vertical: 3),
+        padding: EdgeInsets.symmetric(
+          // vertical: 3,
+          vertical: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 10,
+            // heightSpecific: true,
+          ),
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              blurRadius: 20,
+              // blurRadius: 20,
+              blurRadius: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: true,
+              ),
               color: Colors.black.withOpacity(.1),
             )
           ],
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            // padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            padding: EdgeInsets.symmetric(
+                vertical: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 24,
+                  // heightSpecific: true,
+                ),
+                horizontal: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 30,
+                  // heightSpecific: false,
+                )),
             child: GNav(
               rippleColor: ColorPallets.lightPurplishWhile,
               hoverColor: ColorPallets.lightPurplishWhile,
-              gap: 8,
-              iconSize: 24,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              // gap : 8
+              gap: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: false,
+              ),
+              // iconSize: 24,
+              iconSize: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 50,
+                // heightSpecific: true,
+              ),
+              // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              padding: EdgeInsets.symmetric(
+                  vertical: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 30,
+                    // heightSpecific: true,
+                  ),
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 40,
+                    // heightSpecific: false,
+                  )),
               duration: const Duration(milliseconds: 400),
               tabBackgroundColor: Colors.grey[100]!,
               color: Colors.black,

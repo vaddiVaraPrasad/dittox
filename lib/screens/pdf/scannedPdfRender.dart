@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../model/pdfFile.dart';
+import '../../utils/dynamicSizing.dart';
 import '../../widgets/auth/sing_in_up_bar.dart';
 
 class ScanPicrender extends StatefulWidget {
@@ -196,6 +197,8 @@ class _ScanPicrenderState extends State<ScanPicrender> {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     ListOfPDFFiles pdffileList =
         Provider.of<ListOfPDFFiles>(context, listen: true);
     File file = ModalRoute.of(context)!.settings.arguments as File;
@@ -221,19 +224,51 @@ class _ScanPicrenderState extends State<ScanPicrender> {
         scrollDirection: PdfScrollDirection.vertical,
       ),
       bottomSheet: Container(
-        height: 80,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        height: 100,
+        // padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: EdgeInsets.symmetric(
+            vertical: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 10,
+              // heightSpecific: true,
+            ),
+            horizontal: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: false,
+            )),
         decoration: BoxDecoration(
             color: ColorPallets.lightBlue.withOpacity(.1),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(22),
-              topRight: Radius.circular(22),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(
+                  // 22,
+                  calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 44,
+                // heightSpecific: true,
+              )),
+              topRight: Radius.circular(
+                  // 22,
+                  calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 44,
+                // heightSpecific: true,
+              )),
             ),
             boxShadow: [
               BoxShadow(
-                color: ColorPallets.lightBlue.withOpacity(.1),
-                blurRadius: 20,
-              )
+                  color: ColorPallets.lightBlue.withOpacity(.1),
+                  // blurRadius: 20,
+                  blurRadius: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 40,
+                    // heightSpecific: true,
+                  ))
             ]),
         child: InkWell(
           onTap: () async {
@@ -259,10 +294,16 @@ class _ScanPicrenderState extends State<ScanPicrender> {
                       "Error",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    content: const Text(
+                    content: Text(
                       "Error while uploading file. Pls Try Again after!\nIf LARGE FILES  try upload them individually",
                       style: TextStyle(
-                        fontSize: 18,
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 36,
+                          // heightSpecific: true,
+                        ),
                         fontWeight: FontWeight.w500,
                         fontStyle: FontStyle.italic,
                       ),
@@ -273,12 +314,17 @@ class _ScanPicrenderState extends State<ScanPicrender> {
                           Navigator.pop(context);
                           // Navigator.of(context).pushNamed(PDFFilters.routeName);
                         },
-                        child: const Text(
+                        child: Text(
                           "OK",
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              // fontSize: 20,
+                              fontSize: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 40,
+                                // heightSpecific: true,
+                              )),
                         ),
                       ),
                     ],
@@ -303,16 +349,28 @@ class _ScanPicrenderState extends State<ScanPicrender> {
                           color: ColorPallets.deepBlue,
                         ),
                       )
-                    : const Text(
+                    : Text(
                         "Process to customize print",
                         style: TextStyle(
-                          fontSize: 26,
+                          // fontSize: 26,
+                          fontSize: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 52,
+                            // heightSpecific: true,
+                          ),
                           color: ColorPallets.deepBlue,
                         ),
                       ),
               ),
-              const SizedBox(
-                width: 15,
+              SizedBox(
+                // width: 15,
+                width: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 30,
+                  // heightSpecific: false,
+                ),
               ),
               const Icon(
                 FontAwesomeIcons.arrowRight,

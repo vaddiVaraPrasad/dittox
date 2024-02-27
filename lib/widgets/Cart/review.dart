@@ -6,6 +6,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 
+import '../../utils/dynamicSizing.dart';
+
 class ReviewWidget extends StatefulWidget {
   String id;
   String shopId;
@@ -31,7 +33,10 @@ class _ReviewWidgetState extends State<ReviewWidget> {
     reviewController.text = "";
   }
 
-  Future<void> sendReview() async {
+  Future<void> sendReview(
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) async {
     try {
       setState(() {
         _isLoading = true;
@@ -77,8 +82,14 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       "Yout Review has successfully Recored",
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 18,
+                          // heightSpecific: true,
+                        ),
                         fontStyle: FontStyle.normal,
                         color: ColorPallets.white,
                       ),
@@ -111,8 +122,14 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                   fit: BoxFit.scaleDown,
                   child: Text(
                     e.toString(),
-                    style: const TextStyle(
-                      fontSize: 18,
+                    style: TextStyle(
+                      // fontSize: 18,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 18,
+                        // heightSpecific: true,
+                      ),
                       fontStyle: FontStyle.normal,
                       color: ColorPallets.white,
                     ),
@@ -132,12 +149,43 @@ class _ReviewWidgetState extends State<ReviewWidget> {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      padding: EdgeInsets.all(16.0),
+      // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      margin: EdgeInsets.symmetric(
+          vertical: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 5,
+            // heightSpecific: true,
+          ),
+          horizontal: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 10,
+            // heightSpecific: false,
+          )),
+      padding: EdgeInsets.all(
+        // 16.0,
+        calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 16,
+          // heightSpecific: true,
+        ),
+      ),
       decoration: BoxDecoration(
           border: Border.all(color: ColorPallets.deepBlue),
-          borderRadius: BorderRadius.circular(12)),
+          borderRadius: BorderRadius.circular(
+            // 12,
+            calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 12,
+              // heightSpecific: true,
+            ),
+          )),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -148,16 +196,38 @@ class _ReviewWidgetState extends State<ReviewWidget> {
               hintText: 'Write a review...',
             ),
           ),
-          const SizedBox(height: 20.0),
+          SizedBox(
+            // height: 20.0,
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: true,
+            ),
+          ),
           RatingBar.builder(
             initialRating: rating,
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: false,
             itemCount: 5,
-            itemSize: 35,
+            // itemSize: 35,
+            itemSize: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 35,
+              // heightSpecific: true,
+            ),
             unratedColor: Colors.amber.shade100.withOpacity(.7),
-            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+            itemPadding: EdgeInsets.symmetric(
+              // horizontal: 4.0,
+              horizontal: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 4,
+                // heightSpecific: false,
+              ),
+            ),
             itemBuilder: (context, _) => const Icon(
               Icons.star,
               color: Colors.amber,
@@ -168,14 +238,23 @@ class _ReviewWidgetState extends State<ReviewWidget> {
               });
             },
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            // height: 10,
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 10,
+              // heightSpecific: true,
+            ),
           ),
           ElevatedButton(
             onPressed: () {
               print('Review: ${reviewController.text}');
               print('Rating: $rating');
-              sendReview();
+              sendReview(
+                totalScreenHeight,
+                totalScreenWidth,
+              );
             },
             child: _isLoading
                 ? const Center(
@@ -183,10 +262,18 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                       color: ColorPallets.deepBlue,
                     ),
                   )
-                : const Text(
+                : Text(
                     'Submit',
-                    style:
-                        TextStyle(color: ColorPallets.deepBlue, fontSize: 18),
+                    style: TextStyle(
+                      color: ColorPallets.deepBlue,
+                      // fontSize: 18,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 18,
+                        // heightSpecific: true,
+                      ),
+                    ),
                   ),
           ),
         ],

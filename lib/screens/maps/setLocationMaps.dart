@@ -10,6 +10,7 @@ import "package:provider/provider.dart";
 import '../../helpers/user_location.dart';
 import "../../providers/current_user.dart";
 import "../../utils/color_pallets.dart";
+import "../../utils/dynamicSizing.dart";
 import '../../widgets/IconButton.dart';
 
 class setLocationMaps extends StatefulWidget {
@@ -149,7 +150,7 @@ class _setLocationMapsState extends State<setLocationMaps> {
         children: [
           Stack(
             children: [
-              Container(
+              SizedBox(
                 height: screenHeight,
                 width: screenWidth,
                 child: GoogleMap(
@@ -271,28 +272,89 @@ class _setLocationMapsState extends State<setLocationMaps> {
               //   ),
               // ),
               Positioned(
-                top: screenHeight - 250,
-                left: screenWidth / 4,
+                // top: screenHeight - 250,
+                top: screenHeight -
+                    calculateDynamicFontSize(
+                      totalScreenHeight: screenHeight,
+                      totalScreenWidth: screenWidth,
+                      currentFontSize: 500,
+                      // heightSpecific: true,
+                    ),
+                // left: screenWidth / 4,
+                left: screenWidth /
+                    calculateDynamicFontSize(
+                      totalScreenHeight: screenHeight,
+                      totalScreenWidth: screenWidth,
+                      currentFontSize: 8,
+                      // heightSpecific: false,
+                    ),
                 child: GestureDetector(
                   onTap: () {
                     goToCurrentLocation(curUser, 18);
                   },
                   child: FittedBox(
                     child: Container(
-                      padding:
-                          const EdgeInsets.only(top: 8, left: 15, bottom: 8),
+                      padding: EdgeInsets.only(
+                        // top: 8,
+                        // left: 15,
+                        // bottom: 8,
+                        left: calculateDynamicFontSize(
+                          totalScreenHeight: screenHeight,
+                          totalScreenWidth: screenWidth,
+                          currentFontSize: 30,
+                          // heightSpecific: false,
+                        ),
+                        top: calculateDynamicFontSize(
+                          totalScreenHeight: screenHeight,
+                          totalScreenWidth: screenWidth,
+                          currentFontSize: 16,
+                          // heightSpecific: true,
+                        ),
+                        bottom: calculateDynamicFontSize(
+                          totalScreenHeight: screenHeight,
+                          totalScreenWidth: screenWidth,
+                          currentFontSize: 16,
+                          // heightSpecific: true,
+                        ),
+                      ),
                       decoration: BoxDecoration(
                         color: ColorPallets.deepBlue.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(
+                          // 25,
+                          calculateDynamicFontSize(
+                            totalScreenHeight: screenHeight,
+                            totalScreenWidth: screenWidth,
+                            currentFontSize: 50,
+                            // heightSpecific: true,
+                          ),
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: ColorPallets.deepBlue.withOpacity(1),
-                            blurRadius: 5,
+                            // blurRadius: 5,
+                            blurRadius: calculateDynamicFontSize(
+                              totalScreenHeight: screenHeight,
+                              totalScreenWidth: screenWidth,
+                              currentFontSize: 10,
+                              // heightSpecific: true,
+                            ),
                           )
                         ],
                       ),
-                      height: 50,
-                      width: 190,
+                      // height: 50,
+                      height: calculateDynamicFontSize(
+                        totalScreenHeight: screenHeight,
+                        totalScreenWidth: screenWidth,
+                        currentFontSize: 110,
+                        // heightSpecific: true,
+                      ),
+                      // width: 190,
+                      width: calculateDynamicFontSize(
+                        totalScreenHeight: screenHeight,
+                        totalScreenWidth: screenWidth,
+                        currentFontSize: 350,
+                        // heightSpecific: false,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment
                             .spaceBetween, // Adjust the alignment as needed
@@ -301,24 +363,56 @@ class _setLocationMapsState extends State<setLocationMaps> {
                             "assets/image/current_loaction.png",
                             fit: BoxFit.cover,
                             color: Colors.white,
-                            height: 35,
-                            width: 35,
+                            // height: 35,
+                            // width: 35,
+                            height: calculateDynamicFontSize(
+                              totalScreenHeight: screenHeight,
+                              totalScreenWidth: screenWidth,
+                              currentFontSize: 60,
+                              // heightSpecific: true,
+                            ),
+                            width: calculateDynamicFontSize(
+                              totalScreenHeight: screenHeight,
+                              totalScreenWidth: screenWidth,
+                              currentFontSize: 60,
+                              // heightSpecific: false,
+                            ),
                           ),
-                          const SizedBox(
-                            width: 13,
+                          SizedBox(
+                            // width: 13,
+                            width: calculateDynamicFontSize(
+                              totalScreenHeight: screenHeight,
+                              totalScreenWidth: screenWidth,
+                              currentFontSize: 20,
+                              // heightSpecific: false,
+                            ),
                           ),
-                          const Expanded(
+                          Expanded(
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
                                 "Current Location",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 17),
+                                  color: Colors.white,
+                                  // fontSize: 17,
+                                  fontSize: calculateDynamicFontSize(
+                                    totalScreenHeight: screenHeight,
+                                    totalScreenWidth: screenWidth,
+                                    currentFontSize: 33,
+                                    // heightSpecific: true,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 15,
+                          SizedBox(
+                            // width: 15,
+                            width: calculateDynamicFontSize(
+                              totalScreenHeight: screenHeight,
+                              totalScreenWidth: screenWidth,
+                              currentFontSize: 35,
+                              // heightSpecific: false,
+                            ),
                           )
                         ],
                       ),
@@ -328,22 +422,54 @@ class _setLocationMapsState extends State<setLocationMaps> {
               ),
 
               Positioned(
-                top: screenHeight - 180,
+                // top: screenHeight - 180,
+                top: screenHeight -
+                    calculateDynamicFontSize(
+                      totalScreenHeight: screenHeight,
+                      totalScreenWidth: screenWidth,
+                      currentFontSize: 330,
+                      // heightSpecific: true,
+                    ),
                 left: 0,
                 child: Container(
                   decoration: BoxDecoration(
                       color: ColorPallets.deepBlue.withOpacity(0.9),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(22),
-                        topRight: Radius.circular(22),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(
+                            // 22,
+                            calculateDynamicFontSize(
+                          totalScreenHeight: screenHeight,
+                          totalScreenWidth: screenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        )),
+                        topRight: Radius.circular(
+                            // 22,
+                            calculateDynamicFontSize(
+                          totalScreenHeight: screenHeight,
+                          totalScreenWidth: screenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        )),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: ColorPallets.deepBlue.withOpacity(1),
-                          blurRadius: 20,
-                        )
+                            color: ColorPallets.deepBlue.withOpacity(1),
+                            // blurRadius: 20,
+                            blurRadius: calculateDynamicFontSize(
+                              totalScreenHeight: screenHeight,
+                              totalScreenWidth: screenWidth,
+                              currentFontSize: 30,
+                              // heightSpecific: true,
+                            ))
                       ]),
-                  height: 180,
+                  // height: 180,
+                  height: calculateDynamicFontSize(
+                    totalScreenHeight: screenHeight,
+                    totalScreenWidth: screenWidth,
+                    currentFontSize: 330,
+                    // heightSpecific: true,
+                  ),
                   width: screenWidth,
                   child: isLoading
                       ? const Center(
@@ -354,9 +480,29 @@ class _setLocationMapsState extends State<setLocationMaps> {
                             Expanded(
                               flex: 4,
                               child: Container(
-                                width: screenWidth - 20,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 30),
+                                // width: screenWidth - 20,
+                                width: screenWidth -
+                                    calculateDynamicFontSize(
+                                      totalScreenHeight: screenHeight,
+                                      totalScreenWidth: screenWidth,
+                                      currentFontSize: 50,
+                                      // heightSpecific: false,
+                                    ),
+                                // padding: const EdgeInsets.symmetric(
+                                //     vertical: 20, horizontal: 30),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: calculateDynamicFontSize(
+                                      totalScreenHeight: screenHeight,
+                                      totalScreenWidth: screenWidth,
+                                      currentFontSize: 35,
+                                      // heightSpecific: true,
+                                    ),
+                                    horizontal: calculateDynamicFontSize(
+                                      totalScreenHeight: screenHeight,
+                                      totalScreenWidth: screenWidth,
+                                      currentFontSize: 50,
+                                      // heightSpecific: false,
+                                    )),
                                 child: Column(
                                   children: [
                                     Row(
@@ -370,15 +516,31 @@ class _setLocationMapsState extends State<setLocationMaps> {
                                             fit: BoxFit.scaleDown,
                                             child: Text(
                                               curUser.getPlaceName,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 overflow: TextOverflow.ellipsis,
                                                 color: Colors.white,
-                                                fontSize: 27,
+                                                // fontSize: 27,
+                                                fontSize:
+                                                    calculateDynamicFontSize(
+                                                  totalScreenHeight:
+                                                      screenHeight,
+                                                  totalScreenWidth: screenWidth,
+                                                  currentFontSize: 45,
+                                                  // heightSpecific: true,
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(width: 10),
+                                        SizedBox(
+                                          // width: 10,
+                                          width: calculateDynamicFontSize(
+                                            totalScreenHeight: screenHeight,
+                                            totalScreenWidth: screenWidth,
+                                            currentFontSize: 25,
+                                            // heightSpecific: false,
+                                          ),
+                                        ),
                                         Expanded(
                                           flex:
                                               1, // Takes 1/3 of the available space
@@ -388,23 +550,57 @@ class _setLocationMapsState extends State<setLocationMaps> {
                                                   LocationText.routeName);
                                             },
                                             child: Container(
-                                              height: 40,
+                                              // height: 40,
+                                              height: calculateDynamicFontSize(
+                                                totalScreenHeight: screenHeight,
+                                                totalScreenWidth: screenWidth,
+                                                currentFontSize: 80,
+                                                // heightSpecific: true,
+                                              ),
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(22),
+                                                    BorderRadius.circular(
+                                                  // 22
+                                                  calculateDynamicFontSize(
+                                                    totalScreenHeight:
+                                                        screenHeight,
+                                                    totalScreenWidth:
+                                                        screenWidth,
+                                                    currentFontSize: 35,
+                                                    // heightSpecific: true,
+                                                  ),
+                                                ),
                                                 border: Border.all(
                                                   color: Colors.white,
-                                                  width: 2,
+                                                  // width: 2,
+                                                  width:
+                                                      calculateDynamicFontSize(
+                                                    totalScreenHeight:
+                                                        screenHeight,
+                                                    totalScreenWidth:
+                                                        screenWidth,
+                                                    currentFontSize: 3,
+                                                    // heightSpecific: false,
+                                                  ),
                                                   style: BorderStyle.solid,
                                                 ),
                                               ),
-                                              child: const Center(
+                                              child: Center(
                                                 child: Text(
                                                   "Change",
                                                   style: TextStyle(
                                                     overflow: TextOverflow.clip,
                                                     color: Colors.white,
-                                                    fontSize: 18,
+                                                    // fontSize: 18,
+                                                    fontSize:
+                                                        calculateDynamicFontSize(
+                                                      totalScreenHeight:
+                                                          screenHeight,
+                                                      totalScreenWidth:
+                                                          screenWidth,
+                                                      currentFontSize: 35,
+                                                      // heightSpecific: true,
+                                                    ),
                                                   ),
                                                   textAlign: TextAlign.center,
                                                 ),
@@ -420,18 +616,35 @@ class _setLocationMapsState extends State<setLocationMaps> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8),
+                                            padding: EdgeInsets.symmetric(
+                                              // vertical: 8,
+                                              vertical:
+                                                  calculateDynamicFontSize(
+                                                totalScreenHeight: screenHeight,
+                                                totalScreenWidth: screenWidth,
+                                                currentFontSize: 8,
+                                                // heightSpecific: true,
+                                              ),
+                                            ),
                                             child: FittedBox(
                                               fit: BoxFit.scaleDown,
                                               child: Text(
                                                 "${curUser.getPlaceName}, ${curUser.getUserContryName}",
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   overflow: TextOverflow.fade,
                                                   color: Colors.white,
-                                                  fontSize: 16,
+                                                  // fontSize: 16,
+                                                  fontSize:
+                                                      calculateDynamicFontSize(
+                                                    totalScreenHeight:
+                                                        screenHeight,
+                                                    totalScreenWidth:
+                                                        screenWidth,
+                                                    currentFontSize: 30,
+                                                    // heightSpecific: true,
+                                                  ),
                                                 ),
-                                             ),
+                                              ),
                                             )),
                                       ],
                                     ))
@@ -443,19 +656,31 @@ class _setLocationMapsState extends State<setLocationMaps> {
                                 flex: 2,
                                 child: GestureDetector(
                                   onTap: () {
-                                    print(curUser.getPlaceName);
-                                    print(curUser.getUserContryName);
+                                    // print(curUser.getPlaceName);
+                                    // print(curUser.getUserContryName);
                                     Navigator.of(context).pop();
                                   },
                                   child: Container(
                                     color: ColorPallets.lightBlue,
-                                    child: const Center(
+                                    child: Center(
                                       child: Text(
                                         "Confirm",
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 25,
-                                          letterSpacing: 1,
+                                          // fontSize: 25,
+                                          fontSize: calculateDynamicFontSize(
+                                            totalScreenHeight: screenHeight,
+                                            totalScreenWidth: screenWidth,
+                                            currentFontSize: 50,
+                                            // heightSpecific: true,
+                                          ),
+                                          letterSpacing:
+                                              calculateDynamicFontSize(
+                                            totalScreenHeight: screenHeight,
+                                            totalScreenWidth: screenWidth,
+                                            currentFontSize: 2,
+                                            // heightSpecific: false,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -466,8 +691,20 @@ class _setLocationMapsState extends State<setLocationMaps> {
                 ),
               ),
               Positioned(
-                  left: 30,
-                  top: 50,
+                  // left: 30,
+                  left: calculateDynamicFontSize(
+                    totalScreenHeight: screenHeight,
+                    totalScreenWidth: screenWidth,
+                    currentFontSize: 50,
+                    // heightSpecific: false,
+                  ),
+                  // top: 50,
+                  top: calculateDynamicFontSize(
+                    totalScreenHeight: screenHeight,
+                    totalScreenWidth: screenWidth,
+                    currentFontSize: 80,
+                    // heightSpecific: true,
+                  ),
                   child: CustomIconButton(
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -475,8 +712,20 @@ class _setLocationMapsState extends State<setLocationMaps> {
                     icon: FontAwesomeIcons.chevronLeft,
                     iconColor: ColorPallets.white,
                     backGroundColor: ColorPallets.deepBlue,
-                    size: 40,
-                    iconSize: 16,
+                    // size: 40,
+                    size: calculateDynamicFontSize(
+                      totalScreenHeight: screenHeight,
+                      totalScreenWidth: screenWidth,
+                      currentFontSize: 80,
+                      // heightSpecific: true,
+                    ).toInt(),
+                    // iconSize: 16,
+                    iconSize: calculateDynamicFontSize(
+                      totalScreenHeight: screenHeight,
+                      totalScreenWidth: screenWidth,
+                      currentFontSize: 40,
+                      // heightSpecific: true,
+                    ).toInt(),
                   ))
             ],
           )

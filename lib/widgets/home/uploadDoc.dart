@@ -16,6 +16,7 @@ import '../../model/pdfFile.dart';
 import '../../providers/ListOfPdfFiles.dart';
 import '../../screens/pdf/pdfFilter.dart';
 import '../../utils/color_pallets.dart';
+import '../../utils/dynamicSizing.dart';
 
 class UploadDoc extends StatefulWidget {
   final BuildContext ctx;
@@ -216,6 +217,8 @@ class _UploadDocState extends State<UploadDoc> {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     ListOfPDFFiles listofpdffiles =
         Provider.of<ListOfPDFFiles>(context, listen: true);
     return InkWell(
@@ -240,10 +243,16 @@ class _UploadDocState extends State<UploadDoc> {
                   "Error",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                content: const Text(
+                content: Text(
                   "Error while uploading file. Pls Try Again after!\nIf LARGE FILES  try upload them individually",
                   style: TextStyle(
-                    fontSize: 18,
+                    // fontSize: 18,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 18,
+                      // heightSpecific: true,
+                    ),
                     fontWeight: FontWeight.w500,
                     fontStyle: FontStyle.italic,
                   ),
@@ -254,11 +263,17 @@ class _UploadDocState extends State<UploadDoc> {
                       Navigator.pop(context);
                       // Navigator.of(context).pushNamed(PDFFilters.routeName);
                     },
-                    child: const Text(
+                    child: Text(
                       "OK",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        // fontSize: 20,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 20,
+                          // heightSpecific: true,
+                        ),
                       ),
                     ),
                   ),
@@ -293,24 +308,42 @@ class _UploadDocState extends State<UploadDoc> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "Upload Your \nDocument",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: ColorPallets.deepBlue,
-                      fontSize: 22,
+                      // fontSize: 22,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 40,
+                        // heightSpecific: true,
+                      ),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    // height: 10,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 10,
+                      // heightSpecific: true,
+                    ),
                   ),
                   isPdfLoading
                       ? const CircularProgressIndicator()
-                      : const Icon(
+                      : Icon(
                           FontAwesomeIcons.arrowRight,
                           color: ColorPallets.deepBlue,
-                          size: 28,
+                          // size: 28,
+                          size: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 60,
+                            // heightSpecific: true,
+                          ),
                         ),
                 ],
               ),

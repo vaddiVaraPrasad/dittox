@@ -9,6 +9,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../utils/color_pallets.dart';
+import '../../utils/dynamicSizing.dart';
 import 'scannedPdfRender.dart';
 
 class ScaneImageToPdf extends StatefulWidget {
@@ -97,7 +98,11 @@ class _ScaneImageToPdfState extends State<ScaneImageToPdf> {
     return outputFile;
   }
 
-  void showGetFileName(BuildContext ctx) async {
+  void showGetFileName(
+    BuildContext ctx,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) async {
     //get the name
     showDialog(
       context: ctx,
@@ -108,13 +113,42 @@ class _ScaneImageToPdfState extends State<ScaneImageToPdf> {
           style: TextStyle(color: ColorPallets.deepBlue),
         ),
         titlePadding: const EdgeInsets.only(
-          top: 20,
+          top: 40,
         ),
-        contentPadding: const EdgeInsets.only(bottom: 0, left: 10, right: 10),
+        contentPadding: EdgeInsets.only(
+            // bottom: 0,
+            // left: 10,
+            // right: 10,
+            bottom: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 0,
+              // heightSpecific: false,
+            ),
+            left: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: true,
+            ),
+            right: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: true,
+            )),
         content: Form(
           key: formKey,
           child: Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: EdgeInsets.only(
+              // top: 10,
+              top: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: true,
+              ),
+            ),
             child: TextFormField(
               cursorColor: ColorPallets.deepBlue,
               decoration: const InputDecoration(
@@ -199,6 +233,8 @@ class _ScaneImageToPdfState extends State<ScaneImageToPdf> {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         foregroundColor: ColorPallets.white,
@@ -206,7 +242,11 @@ class _ScaneImageToPdfState extends State<ScaneImageToPdf> {
         actions: [
           listfiles.isNotEmpty
               ? IconButton(
-                  onPressed: () => showGetFileName(context),
+                  onPressed: () => showGetFileName(
+                    context,
+                    totalScreenHeight,
+                    totalScreenWidth,
+                  ),
                   // onPressed: () {},
                   icon: const Icon(Icons.save),
                 )
@@ -216,8 +256,14 @@ class _ScaneImageToPdfState extends State<ScaneImageToPdf> {
             // onPressed: () {},
             icon: const Icon(Icons.add_a_photo),
           ),
-          const SizedBox(
-            width: 10,
+          SizedBox(
+            // width: 10,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: false,
+            ),
           )
           // IconButton(
           //   onPressed: addFileToList,
@@ -226,27 +272,63 @@ class _ScaneImageToPdfState extends State<ScaneImageToPdf> {
         ],
       ),
       body: listfiles.isEmpty
-          ? const Center(
+          ? Center(
               child: Text(
               "Add files by clicking on top right button!!",
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(
+                  // fontSize: 25,
+                  fontSize: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 50,
+                // heightSpecific: true,
+              )),
               textAlign: TextAlign.center,
             ))
           : Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              // padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: EdgeInsets.symmetric(
+                  vertical: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 20,
+                    // heightSpecific: true,
+                  ),
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 40,
+                    // heightSpecific: false,
+                  )),
               child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 3 / 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
+                  crossAxisSpacing: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 40,
+                    // heightSpecific: false,
+                  ),
+                  mainAxisSpacing: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 40,
+                    // heightSpecific: true,
+                  ),
                 ),
                 itemCount: listfiles.length,
                 itemBuilder: (context, index) => ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: GridTile(
                     footer: SizedBox(
-                      height: 40,
+                      // height: 40,
+                      height: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 80,
+                        // heightSpecific: true,s
+                      ),
                       child: GridTileBar(
                           backgroundColor: Colors.black54,
                           title: IconButton(

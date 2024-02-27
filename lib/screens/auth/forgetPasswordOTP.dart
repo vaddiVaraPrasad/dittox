@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 import '../../utils/api_endpoints.dart';
 import '../../utils/color_pallets.dart';
+import '../../utils/dynamicSizing.dart';
 import '../../widgets/IconButton.dart';
 
 class PasswordOTP extends StatefulWidget {
@@ -44,7 +45,12 @@ class _PasswordOTPState extends State<PasswordOTP> {
   }
 
   Future<void> _resetPassword(
-      String newPassword, String phoneNumber, String otp) async {
+    String newPassword,
+    String phoneNumber,
+    String otp,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) async {
     try {
       setState(() {
         _isLoading = true;
@@ -88,8 +94,14 @@ class _PasswordOTPState extends State<PasswordOTP> {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       errorMessage,
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        ),
                         fontStyle: FontStyle.normal,
                         color: ColorPallets.white,
                       ),
@@ -112,14 +124,38 @@ class _PasswordOTPState extends State<PasswordOTP> {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     final defaultPinTheme = PinTheme(
-      width: 42,
-      height: 50,
+      // width: 42,
+      width: calculateDynamicFontSize(
+        totalScreenHeight: totalScreenHeight,
+        totalScreenWidth: totalScreenWidth,
+        currentFontSize: 90,
+        // heightSpecific: false,
+      ),
+
+      // height: 50,
+      height: calculateDynamicFontSize(
+        totalScreenHeight: totalScreenHeight,
+        totalScreenWidth: totalScreenWidth,
+        currentFontSize: 100,
+        // heightSpecific: true,
+      ),
       // textStyle: GoogleFonts.poppins(
       //   fontSize: 20,
       //   color: const Color.fromRGBO(70, 69, 66, 1),
       // ),
-      textStyle: const TextStyle(fontSize: 20, color: ColorPallets.deepBlue),
+      textStyle: TextStyle(
+        // fontSize: 20,
+        fontSize: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 50,
+          // heightSpecific: true,
+        ),
+        color: ColorPallets.deepBlue,
+      ),
       // decoration: BoxDecoration(
       //   color: const Color.fromRGBO(232, 235, 241, 0.37),
       //   borderRadius: BorderRadius.circular(24),
@@ -127,7 +163,13 @@ class _PasswordOTPState extends State<PasswordOTP> {
       decoration: BoxDecoration(
         // color: const Color.fromARGB(255, 162, 235, 238).withOpacity(.1),
         color: ColorPallets.lightBlue.withOpacity(.1),
-        borderRadius: BorderRadius.circular(24),
+        // borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 40,
+          // heightSpecific: true,
+        )),
         border: Border.all(color: ColorPallets.lightBlue.withOpacity(.2)),
       ),
     );
@@ -135,13 +177,37 @@ class _PasswordOTPState extends State<PasswordOTP> {
     final cursor = Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        width: 21,
-        height: 1,
-        margin: const EdgeInsets.only(bottom: 12),
-        decoration: BoxDecoration(
-          color: ColorPallets.deepBlue,
-          borderRadius: BorderRadius.circular(8),
+        // width: 21,
+        width: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 40,
+          // heightSpecific: false,
         ),
+        // height: 1,
+        height: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 3,
+          // heightSpecific: true,
+        ),
+        margin: EdgeInsets.only(
+            // bottom: 12,
+            bottom: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 12,
+          // heightSpecific: true,
+        )),
+        decoration: BoxDecoration(
+            color: ColorPallets.deepBlue,
+            // borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 18,
+              // heightSpecific: true,
+            ))),
       ),
     );
 
@@ -154,12 +220,29 @@ class _PasswordOTPState extends State<PasswordOTP> {
         body: Column(
       children: [
         SizedBox(
-          height: 90,
+          // height: 90,
+          height: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 200,
+            // heightSpecific: true,
+          ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 20,
-            ),
+            padding: EdgeInsets.symmetric(
+                // vertical: 10,
+                vertical: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: true,
+                ),
+                // horizontal: 20,
+                horizontal: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 50,
+                  // heightSpecific: false,
+                )),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -172,8 +255,20 @@ class _PasswordOTPState extends State<PasswordOTP> {
                     icon: FontAwesomeIcons.chevronLeft,
                     iconColor: ColorPallets.white,
                     backGroundColor: ColorPallets.deepBlue,
-                    size: 40,
-                    iconSize: 16,
+                    // size: 40,
+                    size: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 80,
+                      // heightSpecific: true,
+                    ).toInt(),
+                    // iconSize: 16,
+                    iconSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 40,
+                      // heightSpecific: true,
+                    ).toInt(),
                   )
                 ]),
           ),
@@ -188,18 +283,50 @@ class _PasswordOTPState extends State<PasswordOTP> {
         Expanded(
           flex: 4,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+            // padding: const EdgeInsets.symmetric(
+            //   vertical: 20,
+            //   horizontal: 30,
+            // ),
+            padding: EdgeInsets.symmetric(
+                // vertical: 10,
+                vertical: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 60,
+                  // heightSpecific: true,
+                ),
+                // horizontal: 20,
+                horizontal: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 60,
+                  // heightSpecific: false,
+                )),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Text(
-                    "Enter the OTP\nThat has send to +91-$phoneNumber",
+                    "Enter the Verification code \nThat has been send to +91-$phoneNumber",
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 20, color: Color.fromARGB(255, 6, 1, 8)),
+                    style: TextStyle(
+                      // fontSize: 20,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 38,
+                        // heightSpecific: true,
+                      ),
+                      color: Color.fromARGB(255, 6, 1, 8),
+                    ),
                   ),
-                  const SizedBox(
-                    height: 30,
+                  SizedBox(
+                    // height: 30,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 60,
+                      // heightSpecific: true,
+                    ),
                   ),
                   Pinput(
                     length: 6,
@@ -209,16 +336,48 @@ class _PasswordOTPState extends State<PasswordOTP> {
                       return pin == otp ? null : "OTP is incorrect";
                     },
                     defaultPinTheme: defaultPinTheme,
-                    separatorBuilder: (index) => const SizedBox(width: 5),
+                    separatorBuilder: (index) => SizedBox(
+                      // width: 5,
+                      width: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 25,
+                        // heightSpecific: false,
+                      ),
+                    ),
                     focusedPinTheme: defaultPinTheme.copyWith(
                       decoration: BoxDecoration(
                         color: ColorPallets.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: const [
+                        borderRadius: BorderRadius.circular(
+                          // 8,
+                          calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 8,
+                            // heightSpecific: true,
+                          ),
+                        ),
+                        boxShadow: [
                           BoxShadow(
-                            color: Color.fromRGBO(0, 0, 0, 0.05999999865889549),
-                            offset: Offset(0, 3),
-                            blurRadius: 16,
+                            color: const Color.fromRGBO(
+                                0, 0, 0, 0.05999999865889549),
+                            offset: Offset(
+                              0,
+                              // 3,
+                              calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 3,
+                                // heightSpecific: true,
+                              ),
+                            ),
+                            // blurRadius: 16,
+                            blurRadius: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 16,
+                              // heightSpecific: true,
+                            ),
                           ),
                         ],
                       ),
@@ -241,34 +400,80 @@ class _PasswordOTPState extends State<PasswordOTP> {
                       //     otp, currUser);
                     },
                   ),
-                  const SizedBox(
-                    height: 60,
+                  SizedBox(
+                    // height: 60,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 110,
+                      // heightSpecific: true,
+                    ),
                   ),
                   TextField(
                     controller: newPasswordController,
-                    cursorHeight: 22,
-                    cursorWidth: 2,
+                    // cursorHeight: 22,
+                    cursorHeight: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 50,
+                      // heightSpecific: true,
+                    ),
+                    // cursorWidth: 2,
+                    cursorWidth: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 5,
+                      // heightSpecific: false,
+                    ),
                     cursorColor: ColorPallets.deepBlue,
                     keyboardType: TextInputType.text,
                     obscureText: isObsecureText,
                     textInputAction: TextInputAction.done,
-                    style: const TextStyle(
-                        fontSize: 18, color: ColorPallets.deepBlue),
+                    style: TextStyle(
+                      // fontSize: 18,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 40,
+                        // heightSpecific: true,
+                      ),
+                      color: ColorPallets.deepBlue,
+                    ),
                     decoration: InputDecoration(
                       suffixIcon: newPasswordController.text.isEmpty
                           ? const SizedBox()
                           : Padding(
-                              padding: const EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(
+                                // top: 10,
+                                top: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 40,
+                                  // heightSpecific: true,
+                                ),
+                              ),
                               child: IconButton(
                                 color: ColorPallets.white,
                                 icon: isObsecureText
-                                    ? const Icon(
+                                    ? Icon(
                                         Icons.visibility,
-                                        size: 22,
+                                        // size: 22,
+                                        size: calculateDynamicFontSize(
+                                          totalScreenHeight: totalScreenHeight,
+                                          totalScreenWidth: totalScreenWidth,
+                                          currentFontSize: 40,
+                                          // heightSpecific: true,
+                                        ),
                                       )
-                                    : const Icon(
+                                    : Icon(
                                         Icons.visibility_off,
-                                        size: 22,
+                                        // size: 22,
+                                        size: calculateDynamicFontSize(
+                                          totalScreenHeight: totalScreenHeight,
+                                          totalScreenWidth: totalScreenWidth,
+                                          currentFontSize: 40,
+                                          // heightSpecific: true,
+                                        ),
                                       ),
                                 onPressed: () {
                                   setState(() {
@@ -277,9 +482,17 @@ class _PasswordOTPState extends State<PasswordOTP> {
                                 },
                               ),
                             ),
-                      label: const Text(
+                      label: Text(
                         "New - Password",
-                        style: TextStyle(color: ColorPallets.deepBlue),
+                        style: TextStyle(
+                          color: ColorPallets.deepBlue,
+                          fontSize: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 45,
+                            // heightSpecific: false,
+                          ),
+                        ),
                       ),
                       // border: const OutlineInputBorder(
                       //   borderSide:
@@ -287,33 +500,68 @@ class _PasswordOTPState extends State<PasswordOTP> {
                       // ),
                       focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: ColorPallets.deepBlue)),
-                      enabledBorder: const OutlineInputBorder(
+                      enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          width: 2,
+                          // width: 2,
+                          width: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 2,
+                            // heightSpecific: false,
+                          ),
                           color: ColorPallets.deepBlue,
                         ),
                       ),
                       focusColor: ColorPallets.deepBlue,
                     ),
                   ),
-                  const SizedBox(
-                    height: 40,
+                  SizedBox(
+                    // height: 40,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 100,
+                      // heightSpecific: true,
+                    ),
                   ),
                   InkWell(
                     onTap: () {
                       _resetPassword(
-                          newPasswordController.text.toString().trim(),
-                          phoneNumber,
-                          otp);
+                        newPasswordController.text.toString().trim(),
+                        phoneNumber,
+                        otp,
+                        totalScreenHeight,
+                        totalScreenWidth,
+                      );
                       // _createNewUser(userName, email, phoneNumber, password,
                       //     otp, currUser);
                     },
                     child: Container(
-                      height: 50,
-                      width: 180,
+                      // height: 50,
+                      height: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 130,
+                        // heightSpecific: true,
+                      ),
+                      // width: 180,
+                      width: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 350,
+                        // heightSpecific: false,
+                      ),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(
+                            // 20,
+                            calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 60,
+                              // heightSpecific: true,
+                            ),
+                          ),
                           color: ColorPallets.deepBlue.withOpacity(.9)),
                       child: _isLoading
                           ? const Center(
@@ -321,12 +569,18 @@ class _PasswordOTPState extends State<PasswordOTP> {
                                 color: ColorPallets.white,
                               ),
                             )
-                          : const Text(
-                              "Re-Set Password",
+                          : Text(
+                              "Reset Password",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: ColorPallets.white,
-                                  fontSize: 24,
+                                  // fontSize: 24,
+                                  fontSize: calculateDynamicFontSize(
+                                    totalScreenHeight: totalScreenHeight,
+                                    totalScreenWidth: totalScreenWidth,
+                                    currentFontSize: 40,
+                                    // heightSpecific: true,
+                                  ),
                                   fontStyle: FontStyle.normal),
                             ),
                     ),

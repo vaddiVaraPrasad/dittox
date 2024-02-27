@@ -11,7 +11,11 @@ class NotificationPage extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: ColorPallets.white,
       ),
-      body: const Center(child: Text("this is notification Page")),
+      body: const Center(
+          child: Text(
+        "In Beta Stage\nStaytune for update",
+        textAlign: TextAlign.center,
+      )),
     );
   }
 }

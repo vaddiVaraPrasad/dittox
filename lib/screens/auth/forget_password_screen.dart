@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import '../../utils/api_endpoints.dart';
 import '../../utils/color_pallets.dart';
 
+import '../../utils/dynamicSizing.dart';
 import "../../widgets/IconButton.dart";
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -33,7 +34,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     super.initState();
   }
 
-  Future<void> sendOtpToPhoneNumber() async {
+  Future<void> sendOtpToPhoneNumber(
+      double totalScreenHeight, double totalScreenWidth) async {
     setState(() {
       _isLoading = true;
     });
@@ -81,8 +83,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       errorMessage,
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        ),
                         fontStyle: FontStyle.normal,
                         color: ColorPallets.white,
                       ),
@@ -105,16 +113,37 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 90,
+            // height: 90,
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 200,
+              // heightSpecific: true,
+            ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 20,
-              ),
+              // padding: const EdgeInsets.symmetric(
+              //   vertical: 10,
+              //   horizontal: 20,
+              // ),
+              padding: EdgeInsets.symmetric(
+                  vertical: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 20,
+                    // heightSpecific: true,
+                  ),
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 50,
+                    // heightSpecific: false,
+                  )),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -127,8 +156,20 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       icon: FontAwesomeIcons.chevronLeft,
                       iconColor: ColorPallets.white,
                       backGroundColor: ColorPallets.deepBlue,
-                      size: 40,
-                      iconSize: 16,
+                      // size: 40,
+                      size: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 80,
+                        // heightSpecific: true,
+                      ).toInt(),
+                      // iconSize: 16,
+                      iconSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 40,
+                        // heightSpecific: true,
+                      ).toInt(),
                     )
                   ]),
             ),
@@ -142,31 +183,86 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           Expanded(
             flex: 4,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+              // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+              padding: EdgeInsets.symmetric(
+                  vertical: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 30,
+                    // heightSpecific: true,
+                  ),
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 50,
+                    // heightSpecific: false,
+                  )),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       "Enter Your PhoneNumber\nConfirm OTP to  reset password",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20, color: Color.fromARGB(255, 6, 1, 8)),
+                        // fontSize: 20,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 38,
+                          // heightSpecific: true,
+                        ),
+                        color: Color.fromARGB(255, 6, 1, 8),
+                      ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      // height: 10,
+                      height: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 60,
+                        // heightSpecific: true,
+                      ),
                     ),
                     TextField(
                       controller: phoneNumberController,
-                      cursorHeight: 22,
-                      cursorWidth: 2,
+                      // cursorHeight: 22,
+                      cursorHeight: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 50,
+                        // heightSpecific: true,
+                      ),
+                      // cursorWidth: 2,
+                      cursorWidth: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 5,
+                        // heightSpecific: true,
+                      ),
                       cursorColor: ColorPallets.deepBlue,
                       keyboardType: TextInputType.phone,
-                      style: const TextStyle(
-                          fontSize: 18, color: ColorPallets.deepBlue),
+                      style: TextStyle(
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        ),
+                        color: ColorPallets.deepBlue,
+                      ),
                       decoration: InputDecoration(
-                          label: const Text(
+                          label: Text(
                             "Phone Number",
-                            style: TextStyle(color: ColorPallets.deepBlue),
+                            style: TextStyle(
+                              color: ColorPallets.deepBlue,
+                              fontSize: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 45,
+                                // heightSpecific: false,
+                              ),
+                            ),
                           ),
                           // border: const OutlineInputBorder(
                           //   borderSide:
@@ -175,9 +271,15 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           focusedBorder: const OutlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.deepBlue)),
-                          enabledBorder: const OutlineInputBorder(
+                          enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              width: 2,
+                              // width: 2,
+                              width: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 3,
+                                // heightSpecific: false,
+                              ),
                               color: ColorPallets.deepBlue,
                             ),
                           ),
@@ -191,30 +293,68 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                       onPressed: () {
                                         phoneNumberController.clear();
                                       },
-                                      icon: const Icon(
+                                      icon: Icon(
                                         FontAwesomeIcons.xmark,
-                                        size: 18,
+                                        // size: 18,
+                                        size: calculateDynamicFontSize(
+                                          totalScreenHeight: totalScreenHeight,
+                                          totalScreenWidth: totalScreenWidth,
+                                          currentFontSize: 40,
+                                          // heightSpecific: true,
+                                        ),
                                       )),
                                 )),
                     ),
-                    const SizedBox(
-                      height: 40,
+                    SizedBox(
+                      // height: 40,
+                      height: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 100,
+                        // heightSpecific: true,
+                      ),
                     ),
                     InkWell(
-                      onTap: sendOtpToPhoneNumber,
+                      onTap: () => sendOtpToPhoneNumber(
+                          totalScreenHeight, totalScreenWidth),
                       child: Container(
-                        height: 50,
-                        width: 180,
+                        // height: 50,
+                        height: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 100,
+                          // heightSpecific: true,
+                        ),
+                        // width: 180,
+                        width: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 300,
+                          // heightSpecific: true,
+                        ),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
+                            // borderRadius: BorderRadius.circular(20),
+                            borderRadius:
+                                BorderRadius.circular(calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 45,
+                              // heightSpecific: true,
+                            )),
                             color: ColorPallets.deepBlue.withOpacity(.9)),
-                        child: const Text(
+                        child: Text(
                           "Send OTP",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: ColorPallets.white,
-                              fontSize: 24,
+                              // fontSize: 24,
+                              fontSize: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 40,
+                                // heightSpecific: true,
+                              ),
                               fontStyle: FontStyle.normal),
                         ),
                       ),

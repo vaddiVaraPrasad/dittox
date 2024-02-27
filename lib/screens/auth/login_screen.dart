@@ -16,6 +16,7 @@ import "../../providers/current_user.dart";
 import "../../utils/api_endpoints.dart";
 import "../../utils/color_pallets.dart";
 
+import "../../utils/dynamicSizing.dart";
 import "../nav_drawers/navBar.dart";
 import "./forget_password_Screen.dart";
 
@@ -72,7 +73,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> submitSinginform(
-      BuildContext ctx, CurrentUser currentUser) async {
+    BuildContext ctx,
+    CurrentUser currentUser,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) async {
     focusNode.unfocus();
     var isValid = formKey.currentState!.validate();
     if (isValid) {
@@ -169,8 +174,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       errorMessage,
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        ),
                         fontStyle: FontStyle.normal,
                         color: ColorPallets.white,
                       ),
@@ -431,9 +442,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     CurrentUser currUser = Provider.of<CurrentUser>(context, listen: true);
     return Container(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(
+        // 32,
+        calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 60,
+          // heightSpecific: true,
+        ),
+      ),
       child: Column(
         children: [
           Expanded(
@@ -444,7 +465,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   "Welcome\nBack",
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontSize: 40,
+                      // fontSize: 40,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 100,
+                        // heightSpecific: true,
+                      ),
                       color: ColorPallets.white,
                       // fontWeight: FontWeight.w600,
                       fontFamily: GoogleFonts.audiowide().fontFamily),
@@ -453,7 +480,15 @@ class _LoginScreenState extends State<LoginScreen> {
           Expanded(
               flex: 6,
               child: Container(
-                constraints: const BoxConstraints(minWidth: 220),
+                constraints: BoxConstraints(
+                  // minWidth: 220,
+                  minWidth: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 220,
+                    // heightSpecific: true,
+                  ),
+                ),
                 child: Form(
                   key: formKey,
                   child: ListView(
@@ -462,11 +497,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: emailController,
                         key: const ValueKey("E-mail"),
-                        cursorHeight: 22,
-                        cursorWidth: 2,
+                        // cursorHeight: 22,
+                        cursorHeight: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 50,
+                          // heightSpecific: true,
+                        ),
+                        // cursorWidth: 2,
+                        cursorWidth: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 5,
+                          // heightSpecific: false,,
+                        ),
                         cursorColor: ColorPallets.deepBlue,
-                        style: const TextStyle(
-                            fontSize: 18, color: ColorPallets.deepBlue),
+                        style: TextStyle(
+                          // fontSize: 18,
+                          fontSize: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 40,
+                            // heightSpecific: true,
+                          ),
+                          color: ColorPallets.deepBlue,
+                        ),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
@@ -478,32 +533,61 @@ class _LoginScreenState extends State<LoginScreen> {
                                     width: 0,
                                   )
                                 : Padding(
-                                    padding: const EdgeInsets.only(top: 10),
+                                    padding: EdgeInsets.only(
+                                      // top: 10,
+                                      top: calculateDynamicFontSize(
+                                        totalScreenHeight: totalScreenHeight,
+                                        totalScreenWidth: totalScreenWidth,
+                                        currentFontSize: 40,
+                                        // heightSpecific: true,
+                                      ),
+                                    ),
                                     child: IconButton(
                                         color: ColorPallets.deepBlue,
                                         onPressed: () {
                                           emailController.clear();
                                         },
-                                        icon: const Icon(
+                                        icon: Icon(
                                           FontAwesomeIcons.xmark,
-                                          size: 18,
+                                          // size: 18,
+                                          size: calculateDynamicFontSize(
+                                            totalScreenHeight:
+                                                totalScreenHeight,
+                                            totalScreenWidth: totalScreenWidth,
+                                            currentFontSize: 40,
+                                            // heightSpecific: true,
+                                          ),
                                         )),
                                   ),
                             focusColor: ColorPallets.deepBlue,
                             focusedBorder: const UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: ColorPallets.deepBlue)),
-                            enabledBorder: const UnderlineInputBorder(
+                            enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                width: 2,
+                                // width: 2,
+                                width: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 2,
+                                  // heightSpecific: false,
+                                ),
                                 color: ColorPallets.deepBlue,
                               ),
                             ),
-                            label: const Text(
+                            label: Text(
                               "E-mail",
-                              style: TextStyle(color: ColorPallets.deepBlue),
+                              style: TextStyle(
+                                color: ColorPallets.deepBlue,
+                                fontSize: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 45,
+                                  // heightSpecific: false,
+                                ),
+                              ),
                             ),
-                            hintText: "vachira@xerox.com"),
+                            hintText: "xxxxxxx@xxxx.xxx"),
                         validator: (newMailId) {
                           if (newMailId!.isEmpty || !newMailId.contains('@')) {
                             return "Invalid EmailId";
@@ -518,24 +602,73 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         obscureText: isObsureText,
                         key: const ValueKey("Password"),
-                        cursorHeight: 22,
+                        // cursorHeight: 22,
                         controller: passwordController,
-                        cursorWidth: 2,
+                        // cursorWidth: 2,
+                        cursorHeight: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 50,
+                          // heightSpecific: true,
+                        ),
+                        // cursorWidth: 2,
+                        cursorWidth: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 5,
+                          // heightSpecific: false,
+                        ),
                         cursorColor: ColorPallets.deepBlue,
-                        style: const TextStyle(
-                            fontSize: 18, color: ColorPallets.deepBlue),
+                        style: TextStyle(
+                          // fontSize: 18,
+                          fontSize: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 40,
+                            // heightSpecific: true,
+                          ),
+                          color: ColorPallets.deepBlue,
+                        ),
                         keyboardType: TextInputType.visiblePassword,
                         textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
                           suffixIcon: passwordController.text.isEmpty
                               ? const SizedBox()
                               : Padding(
-                                  padding: const EdgeInsets.only(top: 10),
+                                  padding: EdgeInsets.only(
+                                    // top: 10,
+                                    top: calculateDynamicFontSize(
+                                      totalScreenHeight: totalScreenHeight,
+                                      totalScreenWidth: totalScreenWidth,
+                                      currentFontSize: 40,
+                                      // heightSpecific: true,
+                                    ),
+                                  ),
                                   child: IconButton(
                                     color: ColorPallets.deepBlue,
                                     icon: isObsureText
-                                        ? const Icon(Icons.visibility)
-                                        : const Icon(Icons.visibility_off),
+                                        ? Icon(
+                                            Icons.visibility,
+                                            size: calculateDynamicFontSize(
+                                              totalScreenHeight:
+                                                  totalScreenHeight,
+                                              totalScreenWidth:
+                                                  totalScreenWidth,
+                                              currentFontSize: 40,
+                                              // heightSpecific: true,
+                                            ),
+                                          )
+                                        : Icon(
+                                            Icons.visibility_off,
+                                            size: calculateDynamicFontSize(
+                                              totalScreenHeight:
+                                                  totalScreenHeight,
+                                              totalScreenWidth:
+                                                  totalScreenWidth,
+                                              currentFontSize: 40,
+                                              // heightSpecific: true,
+                                            ),
+                                          ),
                                     onPressed: () {
                                       setState(() {
                                         isObsureText = !isObsureText;
@@ -547,15 +680,29 @@ class _LoginScreenState extends State<LoginScreen> {
                           focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorPallets.deepBlue)),
-                          enabledBorder: const UnderlineInputBorder(
+                          enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              width: 2,
+                              // width: 2,
+                              width: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 2,
+                                // heightSpecific: false,
+                              ),
                               color: ColorPallets.deepBlue,
                             ),
                           ),
-                          label: const Text(
+                          label: Text(
                             "Password",
-                            style: TextStyle(color: ColorPallets.deepBlue),
+                            style: TextStyle(
+                              color: ColorPallets.deepBlue,
+                              fontSize: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 45,
+                                // heightSpecific: false,
+                              ),
+                            ),
                           ),
                         ),
                         validator: (newPassword) {
@@ -570,8 +717,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       //forget password Test form
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 8),
+                        // padding: const EdgeInsets.symmetric(
+                        //   vertical: 15,
+                        //   horizontal: 8,
+                        // ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 50,
+                              // heightSpecific: true,
+                            ),
+                            horizontal: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 15,
+                              // heightSpecific: false,
+                            )),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -580,11 +742,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.of(context)
                                     .pushNamed(ForgetPasswordScreen.routeName);
                               },
-                              child: const Text(
+                              child: Text(
                                 "Forget Password ?",
                                 style: TextStyle(
-                                    color: ColorPallets.pinkinshShadedPurple,
-                                    fontSize: 16),
+                                  color: ColorPallets.pinkinshShadedPurple,
+                                  // fontSize: 16,
+                                  fontSize: calculateDynamicFontSize(
+                                    totalScreenHeight: totalScreenHeight,
+                                    totalScreenWidth: totalScreenWidth,
+                                    currentFontSize: 35,
+                                    // heightSpecific: true,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -595,19 +764,47 @@ class _LoginScreenState extends State<LoginScreen> {
                       SignInBar(
                         isLoading: _isLoading,
                         label: "Sign In",
-                        onPressed: () => submitSinginform(context, currUser),
+                        onPressed: () => submitSinginform(
+                          context,
+                          currUser,
+                          totalScreenHeight,
+                          totalScreenWidth,
+                        ),
                       ),
 
                       // nav b/w login and register screen
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 8),
+                        // padding: const EdgeInsets.symmetric(
+                        //   vertical: 15,
+                        //   horizontal: 8,
+                        // ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 40,
+                              // heightSpecific: true,
+                            ),
+                            horizontal: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 16,
+                              // heightSpecific: false,
+                            )),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            const Text(
+                            Text(
                               "Create a Account !!",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                // fontSize: 18,
+                                fontSize: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 40,
+                                  // heightSpecific: true,
+                                ),
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -615,19 +812,32 @@ class _LoginScreenState extends State<LoginScreen> {
                                   widget.callRegisterScreen();
                                 }
                               },
-                              child: const Text(
+                              child: Text(
                                 "Register",
                                 style: TextStyle(
-                                    color: ColorPallets.pinkinshShadedPurple,
-                                    fontSize: 20),
+                                  color: ColorPallets.pinkinshShadedPurple,
+                                  // fontSize: 20,
+                                  fontSize: calculateDynamicFontSize(
+                                    totalScreenHeight: totalScreenHeight,
+                                    totalScreenWidth: totalScreenWidth,
+                                    currentFontSize: 40,
+                                    // heightSpecific: true,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
 
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        // height: 10,
+                        height: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 30,
+                          // heightSpecific: true,
+                        ),
                       ),
 
                       // google sign in up
@@ -667,8 +877,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       //   ),
                       // )
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 8),
+                        // padding: const EdgeInsets.symmetric(
+                        //     vertical: 15, horizontal: 8),
+                        padding: EdgeInsets.symmetric(
+                            vertical: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 15,
+                              // heightSpecific: true,
+                            ),
+                            horizontal: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 8,
+                              // heightSpecific: false,
+                            )),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -677,11 +900,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.of(context)
                                     .pushNamed(PrivacyPolicy.routeName);
                               },
-                              child: const Text(
+                              child: Text(
                                 "Privacy policy",
                                 style: TextStyle(
-                                    color: ColorPallets.pinkinshShadedPurple,
-                                    fontSize: 14),
+                                  color: ColorPallets.pinkinshShadedPurple,
+                                  // fontSize: 14,
+                                  fontSize: calculateDynamicFontSize(
+                                    totalScreenHeight: totalScreenHeight,
+                                    totalScreenWidth: totalScreenWidth,
+                                    currentFontSize: 30,
+                                    // heightSpecific: true,
+                                  ),
+                                ),
                               ),
                             ),
                             InkWell(
@@ -689,11 +919,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.of(context)
                                     .pushNamed(TermsAndCond.routeName);
                               },
-                              child: const Text(
+                              child: Text(
                                 "Terms & conditions",
                                 style: TextStyle(
-                                    color: ColorPallets.pinkinshShadedPurple,
-                                    fontSize: 16),
+                                  color: ColorPallets.pinkinshShadedPurple,
+                                  // fontSize: 16,
+                                  fontSize: calculateDynamicFontSize(
+                                    totalScreenHeight: totalScreenHeight,
+                                    totalScreenWidth: totalScreenWidth,
+                                    currentFontSize: 30,
+                                    // heightSpecific: true,
+                                  ),
+                                ),
                               ),
                             ),
                           ],

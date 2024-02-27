@@ -12,6 +12,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../providers/ListOfPdfFiles.dart';
 import '../../providers/current_user.dart';
 import '../../providers/seletedShop.dart';
+import '../../utils/dynamicSizing.dart';
 import '../nav_drawers/navBar.dart';
 
 class SummaryScreen extends StatefulWidget {
@@ -109,6 +110,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
+
     seletedShop finalShop = Provider.of<seletedShop>(context);
     ListOfPDFFiles listfinalPdfs = Provider.of<ListOfPDFFiles>(context);
     CurrentUser currentUser = Provider.of<CurrentUser>(context);
@@ -317,123 +321,296 @@ class _SummaryScreenState extends State<SummaryScreen> {
         title: const Text("Order Preview"),
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        padding: EdgeInsets.symmetric(
+            vertical: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 40,
+              // heightSpecific: true,
+            ),
+            horizontal: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 30,
+              // heightSpecific: false,
+            )),
         child: ListView(
           children: [
-            const Text(
+            Text(
               "Document Details",
               style: TextStyle(
                   color: ColorPallets.deepBlue,
-                  fontSize: 22,
+                  // fontSize: 22,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 44,
+                    // heightSpecific: true,
+                  ),
                   fontWeight: FontWeight.bold),
             ),
-            const Divider(color: ColorPallets.deepBlue, thickness: 2),
+            Divider(
+              color: ColorPallets.deepBlue,
+              // thickness: 2,
+              thickness: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 4,
+                // heightSpecific: true,
+              ),
+            ),
             for (PdfData eachPdf in listfinalPdfs.allPdfList)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   KeyValueOfFeature(
-                      "Pdf File Name", eachPdf.name.split(".")[0].toString()),
-                  KeyValueOfFeature("Price ", "Rs ${shopDetails["price"]}"),
-                  KeyValueOfFeature("No of Copies", eachPdf.copies.toString()),
-                  KeyValueOfFeature("Total No.of Pages",
-                      "${eachPdf.totalPages} Pages X ${eachPdf.copies} Copies  "),
-                  KeyValueOfFeature("Pages Range", eachPdf.pageRange),
+                      "Pdf File Name",
+                      eachPdf.name.split(".")[0].toString(),
+                      totalScreenHeight,
+                      totalScreenWidth),
+                  KeyValueOfFeature("Price ", "Rs ${shopDetails["price"]}",
+                      totalScreenHeight, totalScreenWidth),
+                  KeyValueOfFeature("No of Copies", eachPdf.copies.toString(),
+                      totalScreenHeight, totalScreenWidth),
                   KeyValueOfFeature(
-                      "Page Orientation ", eachPdf.pdfPrintLayout),
-                  KeyValueOfFeature("Page Sides", eachPdf.pdfSides),
-                  KeyValueOfFeature("Print Type", eachPdf.color),
-                  KeyValueOfFeature("Binding Type", eachPdf.binding),
+                      "Total No.of Pages",
+                      "${eachPdf.totalPages} Pages X ${eachPdf.copies} Copies  ",
+                      totalScreenHeight,
+                      totalScreenWidth),
+                  KeyValueOfFeature("Pages Range", eachPdf.pageRange,
+                      totalScreenHeight, totalScreenWidth),
+                  KeyValueOfFeature("Page Orientation ", eachPdf.pdfPrintLayout,
+                      totalScreenHeight, totalScreenWidth),
+                  KeyValueOfFeature("Page Sides", eachPdf.pdfSides,
+                      totalScreenHeight, totalScreenWidth),
+                  KeyValueOfFeature("Print Type", eachPdf.color,
+                      totalScreenHeight, totalScreenWidth),
+                  KeyValueOfFeature("Binding Type", eachPdf.binding,
+                      totalScreenHeight, totalScreenWidth),
                   eachPdf.bondPages
-                      ? KeyValueOfFeature("Bond Pages", "Yes")
-                      : KeyValueOfFeature("Bond Pages", "No"),
+                      ? KeyValueOfFeature("Bond Pages", "Yes",
+                          totalScreenHeight, totalScreenWidth)
+                      : KeyValueOfFeature("Bond Pages", "No", totalScreenHeight,
+                          totalScreenWidth),
                   eachPdf.color == "Partial Color"
                       ? KeyValueOfFeature(
-                          "Color page Range", eachPdf.colorParPageNumbers)
+                          "Color page Range",
+                          eachPdf.colorParPageNumbers,
+                          totalScreenHeight,
+                          totalScreenWidth)
                       : const SizedBox(),
                   eachPdf.additionDesciption.trim() != ""
                       ? KeyValueLong(
-                          "Additional Instructions", eachPdf.additionDesciption)
+                          "Additional Instructions",
+                          eachPdf.additionDesciption,
+                          totalScreenHeight,
+                          totalScreenWidth)
                       : const SizedBox(),
                   // Add more widgets here as needed
                   eachPdf !=
                           listfinalPdfs
                               .allPdfList[listfinalPdfs.allPdfList.length - 1]
                       ? Divider(
-                          color: Colors.black54.withOpacity(.2), thickness: 1)
+                          color: Colors.black54.withOpacity(.2),
+                          // thickness: 1,
+                          thickness: calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 2,
+                            // heightSpecific: true,
+                          ),
+                        )
                       : const SizedBox(),
                   SizedBox(height: 0), // Example spacing between widgets
                 ],
               ),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              // height: 30,
+              height: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 60,
+                // heightSpecific: true,
+              ),
             ),
-            const Text(
+            Text(
               "Shop Detials",
               style: TextStyle(
                   color: ColorPallets.deepBlue,
-                  fontSize: 22,
+                  // fontSize: 22,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 44,
+                    // heightSpecific: true,
+                  ),
                   fontWeight: FontWeight.bold),
             ),
-            const Divider(color: ColorPallets.deepBlue, thickness: 2),
-            KeyValueOfFeature("Shope Name", shopDetails["shopName"].toString()),
+            Divider(
+              color: ColorPallets.deepBlue,
+              // thickness: 2,
+              thickness: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 4,
+                // heightSpecific: true,
+              ),
+            ),
+            KeyValueOfFeature("Shope Name", shopDetails["shopName"].toString(),
+                totalScreenHeight, totalScreenWidth),
             KeyValueOfFeature(
-                "contact Number", shopDetails["contactNumber"].toString()),
-            KeyValueOfFeature(
-                "Shop Email", shopDetails["shopEmail"].toString()),
-            KeyValueOfFeature("Distance ", shopDetails["distance"].toString()),
-            KeyValueOfFeature("Time taken", shopDetails["duration"].toString()),
+                "contact Number",
+                shopDetails["contactNumber"].toString(),
+                totalScreenHeight,
+                totalScreenWidth),
+            KeyValueOfFeature("Shop Email", shopDetails["shopEmail"].toString(),
+                totalScreenHeight, totalScreenWidth),
+            KeyValueOfFeature("Distance ", shopDetails["distance"].toString(),
+                totalScreenHeight, totalScreenWidth),
+            KeyValueOfFeature("Time taken", shopDetails["duration"].toString(),
+                totalScreenHeight, totalScreenWidth),
             // KeyValueOfFeature("Shop Addres", shopDetails["shopAddress"].toString()),
-            KeyValueLong("Shop Address", shopDetails["shopAddress"].toString()),
-            const SizedBox(
-              height: 90,
+            KeyValueLong("Shop Address", shopDetails["shopAddress"].toString(),
+                totalScreenHeight, totalScreenWidth),
+            SizedBox(
+              // height: 90,
+              height: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 180,
+                // heightSpecific: true,
+              ),
             )
           ],
         ),
       ),
       bottomSheet: Container(
-        height: 90,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        // height: 90,
+        height: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 180,
+          // heightSpecific: true,
+        ),
+        padding: EdgeInsets.symmetric(
+          // horizontal: 20,
+          horizontal: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 40,
+            // heightSpecific: true,
+          ),
+          // vertical: 10,
+          vertical: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 20,
+            // heightSpecific: false,
+          ),
+        ),
         decoration: BoxDecoration(
             color: ColorPallets.lightBlue.withOpacity(.1),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(22),
-              topRight: Radius.circular(22),
-            ),
+            borderRadius: BorderRadius.only(
+                // topLeft: Radius.circular(22),
+                topLeft: Radius.circular(
+                  calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 44,
+                    // heightSpecific: true,
+                  ),
+                ),
+                // topRight: Radius.circular(22),
+                topRight: Radius.circular(
+                  calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 44,
+                    // heightSpecific: true,
+                  ),
+                )),
             boxShadow: [
               BoxShadow(
                 color: ColorPallets.lightBlue.withOpacity(.1),
-                blurRadius: 20,
+                // blurRadius: 20,
+                blurRadius: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 40,
+                  // heightSpecific: true,
+                ),
               )
             ]),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const SizedBox(
-              width: 20,
+            SizedBox(
+              // width: 20,
+              width: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 40,
+                // heightSpecific: false,
+              ),
             ),
             Chip(
               backgroundColor: ColorPallets.deepBlue,
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(26), // Adjust the radius as needed
-              ),
+                  borderRadius:
+                      // BorderRadius.circular(26), // Adjust the radius as needed
+                      BorderRadius.circular(
+                calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 52,
+                  // heightSpecific: true,
+                ),
+              )),
               label: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
+                  padding: EdgeInsets.symmetric(
+                    // horizontal: 7,
+                    horizontal: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 14,
+                      // heightSpecific: false,
+                    ),
+                    // vertical: 10,
+                    vertical: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: true,
+                    ),
+                  ),
                   child: FittedBox(
                     child: Text(
                       // ignore: unnecessary_brace_in_string_interps
                       "Rs ${shopDetails["price"]}",
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontSize: 22, color: ColorPallets.white),
+                      style: TextStyle(
+                        // fontSize: 22,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 44,
+                          // heightSpecific: true,
+                        ),
+                        color: ColorPallets.white,
+                      ),
                     ),
                   )),
             ),
-            const SizedBox(
-              width: 20,
+            SizedBox(
+              // width: 20,
+              width: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 40,
+                // heightSpecific: true,
+              ),
             ),
             InkWell(
               onTap: () async {
@@ -446,10 +623,16 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   pr.show(
                       max: 100,
                       progressType: ProgressType.valuable,
-                      barrierColor:
-                          Color.fromARGB(255, 183, 187, 187).withOpacity(.9),
+                      barrierColor: const Color.fromARGB(255, 183, 187, 187)
+                          .withOpacity(.9),
                       msgColor: Colors.black,
-                      msgFontSize: 18,
+                      // msgFontSize: 18,
+                      msgFontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 36,
+                        // heightSpecific: true,
+                      ),
                       msgTextAlign: TextAlign.center,
                       progressBgColor: ColorPallets.deepBlue,
                       progressValueColor: Colors.white,
@@ -468,9 +651,15 @@ class _SummaryScreenState extends State<SummaryScreen> {
                         actions: [
                           IconButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            icon: const Icon(
+                            icon: Icon(
                               FontAwesomeIcons.check,
-                              size: 30,
+                              // size: 30,
+                              size: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 60,
+                                // heightSpecific: true,
+                              ),
                             ),
                           )
                         ],
@@ -495,35 +684,75 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 }
               },
               child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  padding: EdgeInsets.symmetric(
+                    // vertical: 10,
+                    vertical: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 20,
+                      // heightSpecific: true,
+                    ),
+                    // horizontal: 15,
+                    horizontal: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 30,
+                      // heightSpecific: false,
+                    ),
+                  ),
                   decoration: BoxDecoration(
                       // color: ColorPallets.deepBlue,
-                      borderRadius: BorderRadius.circular(18)),
-                  child: const Row(
+                      borderRadius: BorderRadius.circular(
+                    // 18
+                    calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 36,
+                      // heightSpecific: true,
+                    ),
+                  )),
+                  child: Row(
                     children: [
                       FittedBox(
                         child: Text(
                           "Pay",
                           style: TextStyle(
-                            fontSize: 28,
+                            // fontSize: 28,
+                            fontSize: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 52,
+                              // heightSpecific: true,
+                            ),
                             fontWeight: FontWeight.bold,
                             color: ColorPallets.deepBlue,
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        // width: 10,
+                        width: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 20,
+                          // heightSpecific: false,
+                        ),
                       ),
-                      Icon(
+                      const Icon(
                         FontAwesomeIcons.arrowRight,
                         color: ColorPallets.deepBlue,
                       ),
                     ],
                   )),
             ),
-            const SizedBox(
-              width: 20,
+            SizedBox(
+              // width: 20,
+              width: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 40,
+                // heightSpecific: false,
+              ),
             ),
           ],
         ),
@@ -531,9 +760,25 @@ class _SummaryScreenState extends State<SummaryScreen> {
     );
   }
 
-  Widget KeyValueLong(String key, String value) {
+  Widget KeyValueLong(String key, String value, double totalScreenHeight,
+      double totalScreenWidth) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      padding: EdgeInsets.symmetric(
+        // vertical: 7,
+        vertical: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 14,
+          // heightSpecific: true,
+        ),
+        // horizontal: 12,
+        horizontal: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 24,
+          // heightSpecific: false,
+        ),
+      ),
       child: Column(
         children: [
           Row(
@@ -541,32 +786,62 @@ class _SummaryScreenState extends State<SummaryScreen> {
               Text(
                 maxLines: 2,
                 key,
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 18,
+                    // fontSize: 18,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 36,
+                      // heightSpecific: true,
+                    ),
                     color: ColorPallets.deepBlue),
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(
-                width: 10,
+              SizedBox(
+                // width: 10,
+                width: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: false,
+                ),
               ),
-              const Text(":",
+              Text(":",
                   style: TextStyle(
-                    fontSize: 18,
+                    // fontSize: 18,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 36,
+                      // heightSpecific: true,
+                    ),
                     color: ColorPallets.deepBlue,
                     fontWeight: FontWeight.w600,
                   ))
             ],
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            // height: 10,
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: true,
+            ),
           ),
           Text(
             value,
             maxLines: 3,
-            style: const TextStyle(
+            style: TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                // fontSize: 18,
+                fontSize: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 36,
+                  // heightSpecific: true,
+                ),
                 color: Colors.black54),
             overflow: TextOverflow.ellipsis,
           ),
@@ -575,43 +850,92 @@ class _SummaryScreenState extends State<SummaryScreen> {
     );
   }
 
-  Widget KeyValueOfFeature(String key, String value) {
+  Widget KeyValueOfFeature(
+    String key,
+    String value,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      // padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      padding: EdgeInsets.symmetric(
+        vertical: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 14,
+          // heightSpecific: true,
+        ),
+        horizontal: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 24,
+          // heightSpecific: false,
+        ),
+      ),
       child: Row(
         children: [
           Expanded(
             child: Text(
               maxLines: 2,
               key,
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  // fontSize: 18,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 36,
+                    // heightSpecific: true,
+                  ),
                   color: ColorPallets.deepBlue),
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(
-            width: 10,
+          SizedBox(
+            // width: 10,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: false,
+            ),
           ),
-          const Text(
+          Text(
             ":",
             style: TextStyle(
-              fontSize: 18,
+              // fontSize: 18,
+              fontSize: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 36,
+                // heightSpecific: true,
+              ),
               color: ColorPallets.deepBlue,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(
-            width: 20,
+          SizedBox(
+            // width: 20,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 40,
+              // heightSpecific: false,
+            ),
           ),
           Expanded(
             child: Text(
               maxLines: 10,
               value,
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  // fontSize: 18,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 36,
+                    // heightSpecific: true,
+                  ),
                   color: Colors.black54),
               overflow: TextOverflow.ellipsis,
             ),

@@ -13,6 +13,7 @@ import '../../model/user.dart';
 import '../../providers/current_user.dart';
 import '../../utils/api_endpoints.dart';
 import '../../utils/color_pallets.dart';
+import '../../utils/dynamicSizing.dart';
 import '../../widgets/IconButton.dart';
 import '../nav_drawers/navBar.dart';
 
@@ -50,12 +51,15 @@ class _registerOtpState extends State<RegisterOtp> {
   }
 
   Future<void> _createNewUser(
-      String userName,
-      String userEmail,
-      String userPhoneNumber,
-      String userPassword,
-      String otp,
-      CurrentUser currentUser) async {
+    String userName,
+    String userEmail,
+    String userPhoneNumber,
+    String userPassword,
+    String otp,
+    CurrentUser currentUser,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) async {
     focusNode.unfocus();
     bool isValid = true;
     // final isValid = formKey.currentState!.validate();
@@ -139,8 +143,14 @@ class _registerOtpState extends State<RegisterOtp> {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       errorMessage,
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        ),
                         fontStyle: FontStyle.normal,
                         color: ColorPallets.white,
                       ),
@@ -162,14 +172,37 @@ class _registerOtpState extends State<RegisterOtp> {
   @override
   Widget build(BuildContext context) {
     CurrentUser currUser = Provider.of<CurrentUser>(context, listen: true);
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     final defaultPinTheme = PinTheme(
-      width: 42,
-      height: 50,
+      // width: 42,
+      width: calculateDynamicFontSize(
+        totalScreenHeight: totalScreenHeight,
+        totalScreenWidth: totalScreenWidth,
+        currentFontSize: 90,
+        // heightSpecific: true,
+      ),
+      // height: 50,
+      height: calculateDynamicFontSize(
+        totalScreenHeight: totalScreenHeight,
+        totalScreenWidth: totalScreenWidth,
+        currentFontSize: 100,
+        // heightSpecific: true,
+      ),
       // textStyle: GoogleFonts.poppins(
       //   fontSize: 20,
       //   color: const Color.fromRGBO(70, 69, 66, 1),
       // ),
-      textStyle: const TextStyle(fontSize: 20, color: ColorPallets.deepBlue),
+      textStyle: TextStyle(
+        // fontSize: 20,
+        fontSize: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 50,
+          // heightSpecific: true,
+        ),
+        color: ColorPallets.deepBlue,
+      ),
       // decoration: BoxDecoration(
       //   color: const Color.fromRGBO(232, 235, 241, 0.37),
       //   borderRadius: BorderRadius.circular(24),
@@ -177,7 +210,15 @@ class _registerOtpState extends State<RegisterOtp> {
       decoration: BoxDecoration(
         // color: const Color.fromARGB(255, 162, 235, 238).withOpacity(.1),
         color: ColorPallets.lightBlue.withOpacity(.1),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(
+          // 24,
+          calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 40,
+            // heightSpecific: true,
+          ),
+        ),
         border: Border.all(color: ColorPallets.lightBlue.withOpacity(.2)),
       ),
     );
@@ -185,12 +226,40 @@ class _registerOtpState extends State<RegisterOtp> {
     final cursor = Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        width: 21,
-        height: 1,
-        margin: const EdgeInsets.only(bottom: 12),
+        // width: 21,
+        // height: 1,
+        width: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 40,
+          // heightSpecific: true,
+        ),
+        height: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 3,
+          // heightSpecific: true,
+        ),
+        margin: EdgeInsets.only(
+          // bottom: 12,
+          bottom: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 12,
+            // heightSpecific: true,
+          ),
+        ),
         decoration: BoxDecoration(
           color: ColorPallets.deepBlue,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(
+            // 8,
+            calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 18,
+              // heightSpecific: true,
+            ),
+          ),
         ),
       ),
     );
@@ -207,12 +276,31 @@ class _registerOtpState extends State<RegisterOtp> {
         body: Column(
       children: [
         SizedBox(
-          height: 90,
+          // height: 90,
+          height: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 200,
+            // heightSpecific: true,
+          ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 20,
-            ),
+            // padding: const EdgeInsets.symmetric(
+            //   vertical: 10,
+            //   horizontal: 20,
+            // ),
+            padding: EdgeInsets.symmetric(
+                vertical: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 20,
+                  // heightSpecific: true,
+                ),
+                horizontal: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 50,
+                  // heightSpecific: false,
+                )),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -225,8 +313,19 @@ class _registerOtpState extends State<RegisterOtp> {
                     icon: FontAwesomeIcons.chevronLeft,
                     iconColor: ColorPallets.white,
                     backGroundColor: ColorPallets.deepBlue,
-                    size: 40,
-                    iconSize: 16,
+                    // size: 40,
+                    size: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 80,
+                      // heightSpecific: true,
+                    ).toInt(),
+                    iconSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 40,
+                      // heightSpecific: true,
+                    ).toInt(),
                   )
                 ]),
           ),
@@ -241,18 +340,45 @@ class _registerOtpState extends State<RegisterOtp> {
         Expanded(
           flex: 4,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+            // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+            padding: EdgeInsets.symmetric(
+                vertical: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 60,
+                  // heightSpecific: true,
+                ),
+                horizontal: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 60,
+                  // heightSpecific: true,
+                )),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Text(
-                    "Enter the OTP\nThat has send to +91-$phoneNumber",
+                    "Enter the verification code\nThat has been send to +91-$phoneNumber",
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 20, color: Color.fromARGB(255, 6, 1, 8)),
+                    style: TextStyle(
+                      // fontSize: 20,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 38,
+                        // heightSpecific: true,
+                      ),
+                      color: const Color.fromARGB(255, 6, 1, 8),
+                    ),
                   ),
-                  const SizedBox(
-                    height: 30,
+                  SizedBox(
+                    // height: 30,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 60,
+                      // heightSpecific: true,
+                    ),
                   ),
                   Pinput(
                     length: 6,
@@ -262,16 +388,47 @@ class _registerOtpState extends State<RegisterOtp> {
                       return pin == otp ? null : "OTP is incorrect";
                     },
                     defaultPinTheme: defaultPinTheme,
-                    separatorBuilder: (index) => const SizedBox(width: 5),
+                    separatorBuilder: (index) => SizedBox(
+                      // width: 5,
+                      width: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 25,
+                        // heightSpecific: true,
+                      ),
+                    ),
                     focusedPinTheme: defaultPinTheme.copyWith(
                       decoration: BoxDecoration(
                         color: ColorPallets.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: const [
+                        borderRadius: BorderRadius.circular(
+                          // 8,
+                          calculateDynamicFontSize(
+                            totalScreenHeight: totalScreenHeight,
+                            totalScreenWidth: totalScreenWidth,
+                            currentFontSize: 8,
+                            // heightSpecific: true,
+                          ),
+                        ),
+                        boxShadow: [
                           BoxShadow(
                             color: Color.fromRGBO(0, 0, 0, 0.05999999865889549),
-                            offset: Offset(0, 3),
-                            blurRadius: 16,
+                            offset: Offset(
+                              0,
+                              // 3,
+                              calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 3,
+                                // heightSpecific: true,
+                              ),
+                            ),
+                            // blurRadius: 16,
+                            blurRadius: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 16,
+                              // heightSpecific: true,
+                            ),
                           ),
                         ],
                       ),
@@ -284,30 +441,80 @@ class _registerOtpState extends State<RegisterOtp> {
                       border: Border.all(color: Colors.redAccent),
                     ),
                     onCompleted: (value) {
-                      _createNewUser(userName, email, phoneNumber, password,
-                          otp, currUser);
+                      _createNewUser(
+                        userName,
+                        email,
+                        phoneNumber,
+                        password,
+                        otp,
+                        currUser,
+                        totalScreenHeight,
+                        totalScreenWidth,
+                      );
                     },
                     showCursor: true,
                     cursor: cursor,
                     onSubmitted: (value) {
-                      _createNewUser(userName, email, phoneNumber, password,
-                          otp, currUser);
+                      _createNewUser(
+                        userName,
+                        email,
+                        phoneNumber,
+                        password,
+                        otp,
+                        currUser,
+                        totalScreenHeight,
+                        totalScreenWidth,
+                      );
                     },
                   ),
-                  const SizedBox(
-                    height: 40,
+                  SizedBox(
+                    // height: 40,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 100,
+                      // heightSpecific: true,
+                    ),
                   ),
                   InkWell(
                     onTap: () {
-                      _createNewUser(userName, email, phoneNumber, password,
-                          otp, currUser);
+                      _createNewUser(
+                        userName,
+                        email,
+                        phoneNumber,
+                        password,
+                        otp,
+                        currUser,
+                        totalScreenHeight,
+                        totalScreenWidth,
+                      );
                     },
                     child: Container(
-                      height: 50,
-                      width: 180,
+                      // height: 50,
+                      height: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 110,
+                        // heightSpecific: true,
+                      ),
+                      // width: 180,
+                      width: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 300,
+                        // heightSpecific: true,
+                      ),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(
+                            // 20,
+                            calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 60,
+                              // heightSpecific: true,
+                            ),
+                          ),
                           color: ColorPallets.deepBlue.withOpacity(.9)),
                       child: _isLoading
                           ? const Center(
@@ -315,12 +522,18 @@ class _registerOtpState extends State<RegisterOtp> {
                                 color: ColorPallets.white,
                               ),
                             )
-                          : const Text(
-                              "Verity OTP",
+                          : Text(
+                              "Verify OTP",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: ColorPallets.white,
-                                  fontSize: 24,
+                                  // fontSize: 24,
+                                  fontSize: calculateDynamicFontSize(
+                                    totalScreenHeight: totalScreenHeight,
+                                    totalScreenWidth: totalScreenWidth,
+                                    currentFontSize: 45,
+                                    // heightSpecific: true,
+                                  ),
                                   fontStyle: FontStyle.normal),
                             ),
                     ),

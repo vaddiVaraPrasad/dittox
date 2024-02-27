@@ -2,50 +2,98 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../utils/color_pallets.dart';
+import '../../utils/dynamicSizing.dart';
 import '../../widgets/IconButton.dart';
 import '../../widgets/auth/customTandCText.dart';
 
 class TermsAndCond extends StatelessWidget {
   static const routeName = "/tersmandcond";
   const TermsAndCond({super.key});
-
-  Widget KeyValueOfFeature(String key, String value) {
+  Widget KeyValueOfFeature(
+    String key,
+    String value,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      // padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      padding: EdgeInsets.symmetric(
+          vertical: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 20,
+            // heightSpecific: true,
+          ),
+          horizontal: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 35,
+            // heightSpecific: false,
+          )),
       child: Row(
         children: [
           Expanded(
             child: Text(
               maxLines: 2,
               key,
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  // fontSize: 18,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 50,
+                    // heightSpecific: true,
+                  ),
                   color: ColorPallets.deepBlue),
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(
-            width: 10,
+          SizedBox(
+            // width: 10,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 10,
+              // heightSpecific: false,
+            ),
           ),
-          const Text(
+          Text(
             ":",
             style: TextStyle(
-              fontSize: 18,
+              // fontSize: 18,
+              fontSize: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 18,
+                // heightSpecific: true,
+              ),
               color: ColorPallets.deepBlue,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(
-            width: 20,
+          SizedBox(
+            // width: 20,
+            width: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 20,
+              // heightSpecific: false,
+            ),
           ),
           Expanded(
             child: Text(
               maxLines: 8,
               value,
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  // fontSize: 18,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 20,
+                    // heightSpecific: true,
+                  ),
                   color: Colors.black54),
               overflow: TextOverflow.ellipsis,
             ),
@@ -55,10 +103,36 @@ class TermsAndCond extends StatelessWidget {
     );
   }
 
-  Widget KeyValueLong(String key, String value) {
+  Widget KeyValueLong(
+    String key,
+    String value,
+    double totalScreenHeight,
+    double totalScreenWidth,
+  ) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      // margin: const EdgeInsets.symmetric(vertical: 5),
+      margin: EdgeInsets.symmetric(
+        vertical: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 5,
+          // heightSpecific: true,
+        ),
+      ),
+      // padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      padding: EdgeInsets.symmetric(
+          vertical: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 7,
+            // heightSpecific: true,
+          ),
+          horizontal: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 12,
+            // heightSpecific: false,
+          )),
       child: Column(
         children: [
           Row(
@@ -66,32 +140,62 @@ class TermsAndCond extends StatelessWidget {
               Text(
                 maxLines: 2,
                 key,
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 18,
+                    // fontSize: 18,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 40,
+                      // heightSpecific: true,
+                    ),
                     color: ColorPallets.deepBlue),
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(
-                width: 10,
+              SizedBox(
+                // width: 10,
+                width: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 15,
+                  // heightSpecific: false,
+                ),
               ),
-              const Text(":",
+              Text(":",
                   style: TextStyle(
-                    fontSize: 18,
+                    // fontSize: 18,
+                    fontSize: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 40,
+                      // heightSpecific: true,
+                    ),
                     color: ColorPallets.deepBlue,
                     fontWeight: FontWeight.w600,
                   ))
             ],
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            // height: 10,
+            height: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 10,
+              // heightSpecific: true,
+            ),
           ),
           Text(
             value,
             maxLines: 10,
-            style: const TextStyle(
+            style: TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                // fontSize: 18,
+                fontSize: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 30,
+                  // heightSpecific: true,
+                ),
                 color: Colors.black54),
             overflow: TextOverflow.ellipsis,
           ),
@@ -102,43 +206,84 @@ class TermsAndCond extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Terms & Conditions"),
           foregroundColor: ColorPallets.white,
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          // padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          padding: EdgeInsets.symmetric(
+              vertical: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 15,
+                // heightSpecific: true,
+              ),
+              horizontal: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 30,
+                // heightSpecific: false,
+              )),
           child: ListView(
             children: [
               KeyValueLong(
                 "Acceptance of Terms",
                 "By accessing and using Dittox, you acknowledge and agree to the following terms and conditions, which constitute a legally binding agreement between you and I2N Technologies. If you do not agree to these terms, please refrain from using our services.",
+                totalScreenHeight,
+                totalScreenWidth,
               ),
               KeyValueLong(
                 "Service Ordering:",
                 "Through our app, users can avail online printing services by uploading documents, configuring print options, and viewing pricing from various partnering stores listed on the app.",
+                totalScreenHeight,
+                totalScreenWidth,
               ),
-              KeyValueLong("Payment:",
-                  "Users are responsible for making prompt and accurate payments for their orders using the payment methods provided within the app"),
-              KeyValueLong("Order Pickup:",
-                  "Users must ensure timely pickup of their orders from the designated store location after receiving a notification confirming the completion of the printing job."),
+              KeyValueLong(
+                "Payment:",
+                "Users are responsible for making prompt and accurate payments for their orders using the payment methods provided within the app",
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
+              KeyValueLong(
+                "Order Pickup:",
+                "Users must ensure timely pickup of their orders from the designated store location after receiving a notification confirming the completion of the printing job.",
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
               KeyValueLong(
                 "User Responsibilities:",
                 "Users are obligated to provide accurate and complete information when uploading documents and configuring print options. Users must also adhere to the policies and guidelines of the chosen store and acknowledge that any violation of these policies may affect their order.",
+                totalScreenHeight,
+                totalScreenWidth,
               ),
               KeyValueLong(
                 "Intellectual Property:",
                 "Users retain ownership of the content they upload through the app for printing purposes. Users understand and agree that they are solely responsible for the content they submit.",
+                totalScreenHeight,
+                totalScreenWidth,
               ),
-              KeyValueLong("Limitation of Liability:",
-                  "I2N Technologies shall not be held liable for any direct, indirect, incidental, special, or consequential damages arising out of or in connection with the use or inability to use our services."),
+              KeyValueLong(
+                "Limitation of Liability:",
+                "I2N Technologies shall not be held liable for any direct, indirect, incidental, special, or consequential damages arising out of or in connection with the use or inability to use our services.",
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
               KeyValueLong(
                 "Governing Law and Dispute Resolution:",
                 "These terms and conditions shall be governed by and construed in accordance with the laws of India. Any dispute arising under or in connection with these terms shall be subject to the exclusive jurisdiction of the courts located in laws of India.",
+                totalScreenHeight,
+                totalScreenWidth,
               ),
-              KeyValueLong("Changes to Terms and Conditions",
-                  "I2N Technologies reserves the right to update, modify, or change these terms and conditions at any time. Users will be notified of such changes and the revised terms will be accessible within the app."),
+              KeyValueLong(
+                "Changes to Terms and Conditions",
+                "I2N Technologies reserves the right to update, modify, or change these terms and conditions at any time. Users will be notified of such changes and the revised terms will be accessible within the app.",
+                totalScreenHeight,
+                totalScreenWidth,
+              ),
             ],
           ),
         ));

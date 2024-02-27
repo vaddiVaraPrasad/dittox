@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 
 import "../../utils/color_pallets.dart";
 
+import "../../utils/dynamicSizing.dart";
 import "./loading_indicator.dart";
 import "./circular_press_button.dart";
 
@@ -19,28 +20,48 @@ class SignInBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(
+          // vertical: 8,
+          vertical: calculateDynamicFontSize(
+        totalScreenHeight: totalScreenHeight,
+        totalScreenWidth: totalScreenWidth,
+        currentFontSize: 8,
+        // heightSpecific: true,
+      )),
       child: Row(
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              color: ColorPallets.deepBlue,
-              fontSize: 24,
+          Expanded(
+            flex: 1,
+            child: Text(
+              label,
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: ColorPallets.deepBlue,
+                  // fontSize: 24,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 55,
+                    // heightSpecific: true,
+                  )),
             ),
           ),
           Expanded(
+            flex: 2,
             child: Center(
               child: LoadingProgressIndicator(
                 isLoading: isLoading,
               ),
             ),
           ),
-          RoundContinueButton(
-            onPressed: onPressed,
-          )
+          Expanded(
+              flex: 1,
+              child: RoundContinueButton(
+                onPressed: onPressed,
+              ))
         ],
       ),
     );
@@ -61,27 +82,49 @@ class SignUpBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(
+        // vertical: 8,
+        vertical: calculateDynamicFontSize(
+          totalScreenHeight: totalScreenHeight,
+          totalScreenWidth: totalScreenWidth,
+          currentFontSize: 25,
+          // heightSpecific: true,
+        ),
+      ),
       child: Row(
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              color: ColorPallets.white,
-              fontSize: 24,
+          Expanded(
+            flex: 2,
+            child: Text(
+              label,
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: ColorPallets.deepBlue,
+                  // fontSize: 24,
+                  fontSize: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 60,
+                    // heightSpecific: true,
+                  )),
             ),
           ),
           Expanded(
+            flex: 2,
             child: Center(
               child: LoadingProgressIndicator(
                 isLoading: isLoading,
               ),
             ),
           ),
-          RoundContinueButton(
-            onPressed: onPressed,
+          Expanded(
+            flex: 1,
+            child: RoundContinueButton(
+              onPressed: onPressed,
+            ),
           )
         ],
       ),

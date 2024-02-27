@@ -6,6 +6,7 @@ import 'package:dittox/screens/auth/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
+import '../../utils/dynamicSizing.dart';
 import '../nav_drawers/navBar.dart';
 
 class DittoxSplash extends StatefulWidget {
@@ -95,10 +96,19 @@ class _DittoxSplashState extends State<DittoxSplash> {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Center(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+          padding: EdgeInsets.symmetric(
+              // horizontal: 40,
+              horizontal: calculateDynamicFontSize(
+            totalScreenHeight: totalScreenHeight,
+            totalScreenWidth: totalScreenWidth,
+            currentFontSize: 40,
+            // heightSpecific: true,
+          )),
           child: Image.asset(
             "assets/image/dittox_splash_logo.png",
             fit: BoxFit.cover,

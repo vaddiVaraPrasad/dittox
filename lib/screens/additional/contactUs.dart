@@ -4,12 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../utils/dynamicSizing.dart';
+
 class ContactUs extends StatelessWidget {
   static const routeName = "/contactUs";
   const ContactUs({super.key});
 
   void launchWebsite() async {
-    Uri uri = Uri.https("www.dittox.in");
+    Uri uri = Uri.https("dittox.in/login");
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
@@ -67,40 +69,94 @@ class ContactUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double totalScreenHeight = MediaQuery.of(context).size.height;
+    double totalScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         foregroundColor: ColorPallets.white,
         title: const Text("Contact Us"),
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+        // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+        padding: EdgeInsets.symmetric(
+            vertical: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 30,
+              // heightSpecific: true,
+            ),
+            horizontal: calculateDynamicFontSize(
+              totalScreenHeight: totalScreenHeight,
+              totalScreenWidth: totalScreenWidth,
+              currentFontSize: 40,
+              // heightSpecific: false,
+            )),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "DITTOX PRIVATE LIMITED",
               textAlign: TextAlign.start,
-              style: TextStyle(color: ColorPallets.deepBlue, fontSize: 24),
+              style: TextStyle(
+                color: ColorPallets.deepBlue,
+                // fontSize: 24,
+                fontSize: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 40,
+                  // heightSpecific: true,
+                ),
+              ),
             ),
-            const SizedBox(
-              height: 5,
+            SizedBox(
+              // height: 5,
+              height: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 5,
+                // heightSpecific: true,
+              ),
             ),
-            const Divider(
+            Divider(
               color: ColorPallets.deepBlue,
-              thickness: 1.5,
+              // thickness: 1.5,
+              thickness: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 3,
+                // heightSpecific: true,
+              ),
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              // height: 10,
+              height: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 15,
+                // heightSpecific: true,
+              ),
             ),
-            const Text(
+            Text(
               "Office Address",
               style: TextStyle(
-                fontSize: 20,
+                // fontSize: 20,
+                fontSize: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 35,
+                  // heightSpecific: true,
+                ),
                 color: ColorPallets.deepBlue,
               ),
             ),
-            const SizedBox(
-              height: 5,
+            SizedBox(
+              // height: 5,
+              height: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 5,
+                // heightSpecific: true,
+              ),
             ),
             const Text(
               "Webspruce ,1,3rd Floor, LVR ONE, 17th Cross Rd, near Orion Mall, A Block, Milk Colony, 2nd Stage, Rajajinagar, Bengaluru, Karnataka 560010 ",
@@ -118,18 +174,36 @@ class ContactUs extends StatelessWidget {
                   "Visit Our Office",
                   style: TextStyle(color: ColorPallets.deepBlue),
                 )),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              // height: 20,
+              height: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: true,
+              ),
             ),
-            const Text(
+            Text(
               "Social Media",
               style: TextStyle(
-                fontSize: 20,
+                // fontSize: 20,
+                fontSize: calculateDynamicFontSize(
+                  totalScreenHeight: totalScreenHeight,
+                  totalScreenWidth: totalScreenWidth,
+                  currentFontSize: 35,
+                  // heightSpecific: true,
+                ),
                 color: ColorPallets.deepBlue,
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              // height: 20,
+              height: calculateDynamicFontSize(
+                totalScreenHeight: totalScreenHeight,
+                totalScreenWidth: totalScreenWidth,
+                currentFontSize: 20,
+                // heightSpecific: true,
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -139,8 +213,20 @@ class ContactUs extends StatelessWidget {
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                    height: 30,
-                    width: 30,
+                    // height: 30,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 50,
+                      // heightSpecific: true,
+                    ),
+                    // width: 30,
+                    width: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 50,
+                      // heightSpecific: false,
+                    ),
                     child: Image.asset(
                       "assets/image/mail.png",
                       fit: BoxFit.cover,
@@ -152,8 +238,20 @@ class ContactUs extends StatelessWidget {
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                    height: 30,
-                    width: 30,
+                    // height: 30,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 50,
+                      // heightSpecific: true,
+                    ),
+                    // width: 30,
+                    width: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 50,
+                      // heightSpecific: false,
+                    ),
                     child: Image.asset(
                       "assets/image/phone.png",
                       fit: BoxFit.cover,
@@ -165,8 +263,20 @@ class ContactUs extends StatelessWidget {
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                    height: 30,
-                    width: 30,
+                    // height: 30,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 50,
+                      // heightSpecific: true,
+                    ),
+                    // width: 30,
+                    width: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 50,
+                      // heightSpecific: false,
+                    ),
                     child: Image.asset(
                       "assets/image/text_msg.png",
                       fit: BoxFit.cover,
@@ -178,8 +288,20 @@ class ContactUs extends StatelessWidget {
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                    height: 40,
-                    width: 40,
+                    // height: 40,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 60,
+                      // heightSpecific: true,
+                    ),
+                    // width: 40,
+                    width: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 60,
+                      // heightSpecific: false,
+                    ),
                     child: Image.asset(
                       "assets/image/whatsapp.png",
                       fit: BoxFit.cover,
@@ -191,8 +313,20 @@ class ContactUs extends StatelessWidget {
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                    height: 40,
-                    width: 40,
+                    // height: 40,
+                    height: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 60,
+                      // heightSpecific: true,
+                    ),
+                    // width: 40,
+                    width: calculateDynamicFontSize(
+                      totalScreenHeight: totalScreenHeight,
+                      totalScreenWidth: totalScreenWidth,
+                      currentFontSize: 60,
+                      // heightSpecific: false,
+                    ),
                     child: Image.asset(
                       "assets/image/chrome.png",
                       fit: BoxFit.cover,
