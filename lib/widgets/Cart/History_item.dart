@@ -67,13 +67,13 @@ class _HistoryCardState extends State<HistoryCard> {
           vertical: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 2,
+            currentFontSize: 14,
             // heightSpecific: true,
           ),
           horizontal: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 40,
+            currentFontSize: 24,
             // heightSpecific: false,
           )),
       child: Column(
@@ -89,7 +89,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 33,
+                      currentFontSize: 36,
                       // heightSpecific: true,
                     ),
                     color: ColorPallets.deepBlue),
@@ -110,7 +110,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 33,
+                      currentFontSize: 36,
                       // heightSpecific: true,
                     ),
                     color: ColorPallets.deepBlue,
@@ -123,7 +123,7 @@ class _HistoryCardState extends State<HistoryCard> {
             height: calculateDynamicFontSize(
               totalScreenHeight: totalScreenHeight,
               totalScreenWidth: totalScreenWidth,
-              currentFontSize: 10,
+              currentFontSize: 20,
               // heightSpecific: true,
             ),
           ),
@@ -136,7 +136,7 @@ class _HistoryCardState extends State<HistoryCard> {
                 fontSize: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 33,
+                  currentFontSize: 36,
                   // heightSpecific: true,
                 ),
                 color: Colors.black54),
@@ -157,7 +157,7 @@ class _HistoryCardState extends State<HistoryCard> {
         vertical: calculateDynamicFontSize(
           totalScreenHeight: totalScreenHeight,
           totalScreenWidth: totalScreenWidth,
-          currentFontSize: 30,
+          currentFontSize: 32,
           // heightSpecific: true,
         ),
       ),
@@ -175,7 +175,7 @@ class _HistoryCardState extends State<HistoryCard> {
             width: calculateDynamicFontSize(
               totalScreenHeight: totalScreenHeight,
               totalScreenWidth: totalScreenWidth,
-              currentFontSize: 35,
+              currentFontSize: 40,
               // heightSpecific: false,
             ),
           ),
@@ -193,7 +193,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 38,
+                      currentFontSize: 44,
                       // heightSpecific: true,
                     ),
                     // fontWeight: FontWeight.,
@@ -206,7 +206,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   height: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 3,
+                    currentFontSize: 6,
                     // heightSpecific: true,
                   ),
                 ),
@@ -218,7 +218,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 30,
+                      currentFontSize: 36,
                       // heightSpecific: true,
                     ),
                   ),
@@ -228,7 +228,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   height: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 8,
+                    currentFontSize: 6,
                     // heightSpecific: true,
                   ),
                 ),
@@ -241,7 +241,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 30,
+                      currentFontSize: 26,
                       // heightSpecific: true,
                     ),
                   ),
@@ -251,7 +251,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   height: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 8,
+                    currentFontSize: 6,
                     // heightSpecific: true,
                   ),
                 ),
@@ -305,13 +305,13 @@ class _HistoryCardState extends State<HistoryCard> {
           vertical: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 2,
+            currentFontSize: 14,
             // heightSpecific: true,
           ),
           horizontal: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 40,
+            currentFontSize: 24,
             // heightSpecific: false,
           )),
       child: Row(
@@ -326,7 +326,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   fontSize: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 33,
+                    currentFontSize: 36,
                     // heightSpecific: true,
                   ),
                   color: ColorPallets.deepBlue),
@@ -349,7 +349,7 @@ class _HistoryCardState extends State<HistoryCard> {
               fontSize: calculateDynamicFontSize(
                 totalScreenHeight: totalScreenHeight,
                 totalScreenWidth: totalScreenWidth,
-                currentFontSize: 33,
+                currentFontSize: 36,
                 // heightSpecific: true,
               ),
               color: ColorPallets.deepBlue,
@@ -375,7 +375,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   fontSize: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 33,
+                    currentFontSize: 36,
                     // heightSpecific: true,
                   ),
                   color: Colors.black54),
@@ -399,19 +399,19 @@ class _HistoryCardState extends State<HistoryCard> {
         top: calculateDynamicFontSize(
           totalScreenHeight: totalScreenHeight,
           totalScreenWidth: totalScreenWidth,
-          currentFontSize: 0,
+          currentFontSize: 10,
           // heightSpecific: true,
         ),
         left: calculateDynamicFontSize(
           totalScreenHeight: totalScreenHeight,
           totalScreenWidth: totalScreenWidth,
-          currentFontSize: 40,
+          currentFontSize: 24,
           // heightSpecific: false,
         ),
         right: calculateDynamicFontSize(
           totalScreenHeight: totalScreenHeight,
           totalScreenWidth: totalScreenWidth,
-          currentFontSize: 40,
+          currentFontSize: 24,
           // heightSpecific: false,
         ),
       ),
@@ -428,7 +428,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   fontSize: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 33,
+                    currentFontSize: 36,
                     // heightSpecific: true,
                   ),
                   color: ColorPallets.deepBlue),
@@ -451,7 +451,7 @@ class _HistoryCardState extends State<HistoryCard> {
               fontSize: calculateDynamicFontSize(
                 totalScreenHeight: totalScreenHeight,
                 totalScreenWidth: totalScreenWidth,
-                currentFontSize: 33,
+                currentFontSize: 36,
                 // heightSpecific: true,
               ),
               color: ColorPallets.deepBlue,
@@ -478,7 +478,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   fontSize: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 33,
+                    currentFontSize: 36,
                     // heightSpecific: true,
                   ),
                   color: ColorPallets.darkPurple),
@@ -596,14 +596,14 @@ class _HistoryCardState extends State<HistoryCard> {
                       left: calculateDynamicFontSize(
                         totalScreenHeight: totalScreenHeight,
                         totalScreenWidth: totalScreenWidth,
-                        currentFontSize: 20,
+                        currentFontSize: 24,
                         // heightSpecific: false,
                       ),
                       // right: 12,
                       right: calculateDynamicFontSize(
                         totalScreenHeight: totalScreenHeight,
                         totalScreenWidth: totalScreenWidth,
-                        currentFontSize: 20,
+                        currentFontSize: 24,
                         // heightSpecific: false,
                       ),
                     ),
@@ -613,7 +613,7 @@ class _HistoryCardState extends State<HistoryCard> {
                       thickness: calculateDynamicFontSize(
                         totalScreenHeight: totalScreenHeight,
                         totalScreenWidth: totalScreenWidth,
-                        currentFontSize: 3,
+                        currentFontSize: 2,
                         // heightSpecific: false,
                       ),
                     ),
@@ -639,7 +639,7 @@ class _HistoryCardState extends State<HistoryCard> {
           horizontal: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 20,
+            currentFontSize: 40,
             // heightSpecific: false,
           ),
           vertical: 0,
@@ -650,7 +650,7 @@ class _HistoryCardState extends State<HistoryCard> {
               vertical: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 20,
+            currentFontSize: 30,
             // heightSpecific: true,
           )),
           decoration: BoxDecoration(
@@ -669,7 +669,7 @@ class _HistoryCardState extends State<HistoryCard> {
                 calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 12,
+                  currentFontSize: 16,
                   // heightSpecific: true,
                 ),
               )),
@@ -688,7 +688,7 @@ class _HistoryCardState extends State<HistoryCard> {
                 height: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 0,
+                  currentFontSize: 40,
                   // heightSpecific: true,
                 ),
               ),
@@ -706,7 +706,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 40,
+                      currentFontSize: 44,
                       // heightSpecific: true,
                     ),
                     fontStyle: FontStyle.italic),
@@ -717,7 +717,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     horizontal: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 35,
+                  currentFontSize: 40,
                   // heightSpecific: true,
                 )),
                 child: Divider(
@@ -822,7 +822,7 @@ class _HistoryCardState extends State<HistoryCard> {
                 height: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 10,
+                  currentFontSize: 20,
                   // heightSpecific: true,
                 ),
               ),
@@ -834,7 +834,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 40,
+                      currentFontSize: 44,
                       // heightSpecific: true,
                     ),
                     fontStyle: FontStyle.italic),
@@ -845,7 +845,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     horizontal: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 35,
+                  currentFontSize: 40,
                   // heightSpecific: true,
                 )),
                 child: Divider(
@@ -901,7 +901,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 40,
+                      currentFontSize: 44,
                       // heightSpecific: true,
                     ),
                     fontStyle: FontStyle.italic),
@@ -912,7 +912,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     horizontal: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 35,
+                  currentFontSize: 40,
                   // heightSpecific: false,
                 )),
                 child: Divider(
@@ -926,7 +926,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   ),
                 ),
               ),
-              // KeyValueOfFeature("OrderId", widget.historyXeroxItem['orderId']),
+              // KeyValueOfFeature("OrderId",dget.historyXeroxItem['orderId']),
 
               KeyValueLong(
                 "OrderId",

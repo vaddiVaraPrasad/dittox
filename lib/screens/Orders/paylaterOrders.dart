@@ -29,6 +29,7 @@ class _PayLaterState extends State<PayLater> {
     if (isInitState) {
       _fetchOrders();
     }
+    listOrders = [];
     setState(() {
       isInitState = false;
     });
@@ -201,13 +202,13 @@ class _PayLaterState extends State<PayLater> {
               vertical: calculateDynamicFontSize(
                 totalScreenHeight: totalScreenHeight,
                 totalScreenWidth: totalScreenWidth,
-                currentFontSize: 3,
+                currentFontSize: 30,
                 // heightSpecific: true,
               ),
               horizontal: calculateDynamicFontSize(
                 totalScreenHeight: totalScreenHeight,
                 totalScreenWidth: totalScreenWidth,
-                currentFontSize: 15,
+                currentFontSize: 6,
                 // heightSpecific: false,
               )),
           child: isLoading == true

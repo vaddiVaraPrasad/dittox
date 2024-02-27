@@ -253,6 +253,73 @@ class _SummaryScreenState extends State<SummaryScreen> {
       return payload;
     }
 
+    Future<void> payLater(BuildContext ctx) async {
+      try {
+        Map<String, dynamic> payload = preparePayLoadForOrder();
+        payload["orderLater"] = true;
+        String url = 'https://dittox.in/xerox/v1/orders/create';
+        Map<String, String> headers = {
+          "Content-Type": "application/json",
+          "X-auth-token": "bearer ${widget.accessToken}",
+        };
+        final response = await http.post(
+          Uri.parse(url),
+          headers: headers,
+          body: json.encode(payload),
+        );
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        if (response.statusCode == 200) {
+          Map<String, dynamic> jsonResponse = json.decode(response.body);
+          if (jsonResponse["responseCode"] == "OK") {
+            print("Successfully paylater");
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (ctx) => ButtonNavigationBar(
+                    accessToken: widget.accessToken,
+                  ),
+                ),
+                (route) => false);
+          } else {
+            throw Exception(jsonResponse["message"]);
+          }
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: ColorPallets.deepBlue,
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Icon(
+                FontAwesomeIcons.triangleExclamation,
+                color: Colors.red,
+              ),
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    e.toString(),
+                    style: TextStyle(
+                      // fontSize: 18,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 40,
+                        // heightSpecific: true,
+                      ),
+                      fontStyle: FontStyle.normal,
+                      color: ColorPallets.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
+      }
+    }
+
     Future<void> makePayment() async {
       try {
         final payload = preparePayLoadForOrder();
@@ -613,76 +680,146 @@ class _SummaryScreenState extends State<SummaryScreen> {
               ),
             ),
             InkWell(
-              onTap: () async {
-                setState(() {
-                  isUploadingToFirebase = true;
-                });
-                final pr = ProgressDialog(context: context);
-
-                try {
-                  pr.show(
-                      max: 100,
-                      progressType: ProgressType.valuable,
-                      barrierColor: const Color.fromARGB(255, 183, 187, 187)
-                          .withOpacity(.9),
-                      msgColor: Colors.black,
-                      // msgFontSize: 18,
-                      msgFontSize: calculateDynamicFontSize(
-                        totalScreenHeight: totalScreenHeight,
-                        totalScreenWidth: totalScreenWidth,
-                        currentFontSize: 36,
-                        // heightSpecific: true,
-                      ),
-                      msgTextAlign: TextAlign.center,
-                      progressBgColor: ColorPallets.deepBlue,
-                      progressValueColor: Colors.white,
-                      msg: "Working on you'r order");
-                  await makePayment();
-                  // await Future.delayed(Duration(seconds: 10), () {
-                  //   print('After 10 seconds');
-                  // });
-                } catch (e) {
-                  showDialog(
+              onTap: () {
+                print("tap is pressed");
+                showDialog(
                     context: context,
-                    builder: (context) {
+                    builder: (BuildContext ctx) {
                       return AlertDialog(
-                        title: const Text("Something went wrong !!"),
-                        content: Text(e.toString()),
-                        actions: [
-                          IconButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            icon: Icon(
-                              FontAwesomeIcons.check,
-                              // size: 30,
-                              size: calculateDynamicFontSize(
-                                totalScreenHeight: totalScreenHeight,
-                                totalScreenWidth: totalScreenWidth,
-                                currentFontSize: 60,
-                                // heightSpecific: true,
+                        title: Text('Choose payment method'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close dialog
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color: Colors
+                                    .redAccent, // Red color for Cancel button
+                                fontSize: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 32,
+                                  // heightSpecific: true,
+                                ), // Increased font size for Cancel button
                               ),
                             ),
-                          )
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close dialog
+                              makePayment();
+                              // print("make the payment is pressed");
+                            },
+                            child: Text(
+                              'Pay Now',
+                              style: TextStyle(
+                                color:
+                                    Colors.green, // Red color for Cancel button
+                                fontSize: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 32,
+                                  // heightSpecific: true,
+                                ), // Increased font size for Cancel button
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close dialog
+                              print("Paylater is presssed");
+                              payLater(context);
+                            },
+                            child: Text(
+                              'Pay Later',
+                              style: TextStyle(
+                                color: ColorPallets
+                                    .deepBlue, // Red color for Cancel button
+                                fontSize: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 32,
+                                  // heightSpecific: true,
+                                ), // Increased font size for Cancel button
+                              ),
+                            ),
+                          ),
                         ],
                       );
-                    },
-                  );
-                } finally {
-                  setState(() {
-                    isUploadingToFirebase = false;
-                    pr.close();
-                    // await Future.delayed(Duration(seconds: 10), () {
-                    //   print('After 10 seconds');
-                    // });
-                    // Navigator.of(context).pushAndRemoveUntil(
-                    //     MaterialPageRoute(
-                    //       builder: (ctx) => ButtonNavigationBar(
-                    //         accessToken: widget.accessToken,
-                    //       ),
-                    //     ),
-                    //     (route) => false);
-                  });
-                }
+                    });
               },
+              // onTap: () async {
+              //   setState(() {
+              //     isUploadingToFirebase = true;
+              //   });
+              //   final pr = ProgressDialog(context: context);
+
+              //   try {
+              //     pr.show(
+              //         max: 100,
+              //         progressType: ProgressType.valuable,
+              //         barrierColor: const Color.fromARGB(255, 183, 187, 187)
+              //             .withOpacity(.9),
+              //         msgColor: Colors.black,
+              //         // msgFontSize: 18,
+              //         msgFontSize: calculateDynamicFontSize(
+              //           totalScreenHeight: totalScreenHeight,
+              //           totalScreenWidth: totalScreenWidth,
+              //           currentFontSize: 36,
+              //           // heightSpecific: true,
+              //         ),
+              //         msgTextAlign: TextAlign.center,
+              //         progressBgColor: ColorPallets.deepBlue,
+              //         progressValueColor: Colors.white,
+              //         msg: "Working on you'r order");
+              //     await makePayment();
+              //     // await Future.delayed(Duration(seconds: 10), () {
+              //     //   print('After 10 seconds');
+              //     // });
+              //   } catch (e) {
+              //     showDialog(
+              //       context: context,
+              //       builder: (context) {
+              //         return AlertDialog(
+              //           title: const Text("Something went wrong !!"),
+              //           content: Text(e.toString()),
+              //           actions: [
+              //             IconButton(
+              //               onPressed: () => Navigator.of(context).pop(),
+              //               icon: Icon(
+              //                 FontAwesomeIcons.check,
+              //                 // size: 30,
+              //                 size: calculateDynamicFontSize(
+              //                   totalScreenHeight: totalScreenHeight,
+              //                   totalScreenWidth: totalScreenWidth,
+              //                   currentFontSize: 60,
+              //                   // heightSpecific: true,
+              //                 ),
+              //               ),
+              //             )
+              //           ],
+              //         );
+              //       },
+              //     );
+              //   } finally {
+              //     setState(() {
+              //       isUploadingToFirebase = false;
+              //       pr.close();
+              //       // await Future.delayed(Duration(seconds: 10), () {
+              //       //   print('After 10 seconds');
+              //       // });
+              //       // Navigator.of(context).pushAndRemoveUntil(
+              //       //     MaterialPageRoute(
+              //       //       builder: (ctx) => ButtonNavigationBar(
+              //       //         accessToken: widget.accessToken,
+              //       //       ),
+              //       //     ),
+              //       //     (route) => false);
+              //     });
+              //   }
+              // },
               child: Container(
                   padding: EdgeInsets.symmetric(
                     // vertical: 10,

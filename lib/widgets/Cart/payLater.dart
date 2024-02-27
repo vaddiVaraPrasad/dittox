@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,7 +34,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
       BuildContext ctx, PaymentSuccessResponse response) {
     // Do something when payment succeeds
     print("PAYMENT MADE SUCCESSFULLY");
-    Navigator.of(context).pushAndRemoveUntil(
+    Navigator.of(ctx).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (ctx) => ButtonNavigationBar(
             accessToken: widget.accessToken,
@@ -44,7 +47,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
     // Do something when payment fails
     print("PAYMENT IS FAILURE");
     showDialog(
-      context: context,
+      context: ctx,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Payment Status'),
@@ -133,13 +136,13 @@ class _PayLaterCardState extends State<PayLaterCard> {
           vertical: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 7,
+            currentFontSize: 14,
             // heightSpecific: true,
           ),
           horizontal: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 12,
+            currentFontSize: 24,
             // heightSpecific: false,
           )),
       child: Column(
@@ -155,7 +158,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 18,
+                      currentFontSize: 36,
                       // heightSpecific: true,
                     ),
                     color: ColorPallets.deepBlue),
@@ -166,7 +169,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                 width: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 10,
+                  currentFontSize: 20,
                   // heightSpecific: true,
                 ),
               ),
@@ -176,7 +179,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 18,
+                      currentFontSize: 36,
                       // heightSpecific: true,
                     ),
                     color: ColorPallets.deepBlue,
@@ -189,7 +192,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
             height: calculateDynamicFontSize(
               totalScreenHeight: totalScreenHeight,
               totalScreenWidth: totalScreenWidth,
-              currentFontSize: 10,
+              currentFontSize: 20,
               // heightSpecific: true,
             ),
           ),
@@ -202,7 +205,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                 fontSize: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 18,
+                  currentFontSize: 36,
                   // heightSpecific: true,
                 ),
                 color: Colors.black54),
@@ -223,7 +226,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
         vertical: calculateDynamicFontSize(
           totalScreenHeight: totalScreenHeight,
           totalScreenWidth: totalScreenWidth,
-          currentFontSize: 16,
+          currentFontSize: 20,
           // heightSpecific: true,
         ),
       ),
@@ -241,7 +244,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
             width: calculateDynamicFontSize(
               totalScreenHeight: totalScreenHeight,
               totalScreenWidth: totalScreenWidth,
-              currentFontSize: 20,
+              currentFontSize: 40,
               // heightSpecific: false,
             ),
           ),
@@ -259,7 +262,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 22,
+                      currentFontSize: 44,
                       // heightSpecific: true,
                     ),
                     // fontWeight: FontWeight.,
@@ -272,7 +275,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   height: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 3,
+                    currentFontSize: 6,
                     // heightSpecific: true,
                   ),
                 ),
@@ -284,7 +287,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 18,
+                      currentFontSize: 36,
                       // heightSpecific: true,
                     ),
                   ),
@@ -294,7 +297,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   height: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 3,
+                    currentFontSize: 6,
                     // heightSpecific: true,
                   ),
                 ),
@@ -307,8 +310,8 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 13,
-                      // heightSpecific: true,
+                      currentFontSize: 26,
+                      // heightSpecific true,
                     ),
                   ),
                 ),
@@ -317,7 +320,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   height: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 3,
+                    currentFontSize: 6,
                     // heightSpecific: true,
                   ),
                 ),
@@ -371,13 +374,13 @@ class _PayLaterCardState extends State<PayLaterCard> {
           vertical: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 7,
+            currentFontSize: 14,
             // heightSpecific: true,
           ),
           horizontal: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 12,
+            currentFontSize: 24,
             // heightSpecific: false,
           )),
       child: Row(
@@ -392,7 +395,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   fontSize: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 18,
+                    currentFontSize: 36,
                     // heightSpecific: true,
                   ),
                   color: ColorPallets.deepBlue),
@@ -404,7 +407,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
             width: calculateDynamicFontSize(
               totalScreenHeight: totalScreenHeight,
               totalScreenWidth: totalScreenWidth,
-              currentFontSize: 10,
+              currentFontSize: 20,
               // heightSpecific: false,
             ),
           ),
@@ -415,7 +418,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
               fontSize: calculateDynamicFontSize(
                 totalScreenHeight: totalScreenHeight,
                 totalScreenWidth: totalScreenWidth,
-                currentFontSize: 18,
+                currentFontSize: 36,
                 // heightSpecific: true,
               ),
               color: ColorPallets.deepBlue,
@@ -427,7 +430,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
             width: calculateDynamicFontSize(
               totalScreenHeight: totalScreenHeight,
               totalScreenWidth: totalScreenWidth,
-              currentFontSize: 20,
+              currentFontSize: 40,
               // heightSpecific: false,
             ),
           ),
@@ -441,7 +444,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   fontSize: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 18,
+                    currentFontSize: 36,
                     // heightSpecific: true,
                   ),
                   color: Colors.black54),
@@ -465,19 +468,19 @@ class _PayLaterCardState extends State<PayLaterCard> {
           top: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 5,
+            currentFontSize: 10,
             // heightSpecific: true,
           ),
           left: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 12,
+            currentFontSize: 24,
             // heightSpecific: false,
           ),
           right: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 12,
+            currentFontSize: 24,
             // heightSpecific: false,
           )),
       child: Row(
@@ -492,7 +495,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   fontSize: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 18,
+                    currentFontSize: 36,
                     // heightSpecific: true,
                   ),
                   color: ColorPallets.deepBlue),
@@ -504,7 +507,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
             width: calculateDynamicFontSize(
               totalScreenHeight: totalScreenHeight,
               totalScreenWidth: totalScreenWidth,
-              currentFontSize: 10,
+              currentFontSize: 20,
               // heightSpecific: false,
             ),
           ),
@@ -515,7 +518,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
               fontSize: calculateDynamicFontSize(
                 totalScreenHeight: totalScreenHeight,
                 totalScreenWidth: totalScreenWidth,
-                currentFontSize: 18,
+                currentFontSize: 36,
                 // heightSpecific: true,
               ),
               color: ColorPallets.deepBlue,
@@ -527,7 +530,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
             width: calculateDynamicFontSize(
               totalScreenHeight: totalScreenHeight,
               totalScreenWidth: totalScreenWidth,
-              currentFontSize: 20,
+              currentFontSize: 40,
               // heightSpecific: true,
             ),
           ),
@@ -542,7 +545,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   fontSize: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 18,
+                    currentFontSize: 36,
                     // heightSpecific: true,
                   ),
                   color: ColorPallets.darkPurple),
@@ -657,13 +660,13 @@ class _PayLaterCardState extends State<PayLaterCard> {
                         vertical: calculateDynamicFontSize(
                           totalScreenHeight: totalScreenHeight,
                           totalScreenWidth: totalScreenWidth,
-                          currentFontSize: 12,
+                          currentFontSize: 24,
                           // heightSpecific: true,
                         ),
                         horizontal: calculateDynamicFontSize(
                           totalScreenHeight: totalScreenHeight,
                           totalScreenWidth: totalScreenWidth,
-                          currentFontSize: 12,
+                          currentFontSize: 24,
                           // heightSpecific: false,
                         )),
                     child: Divider(
@@ -672,7 +675,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                       thickness: calculateDynamicFontSize(
                         totalScreenHeight: totalScreenHeight,
                         totalScreenWidth: totalScreenWidth,
-                        currentFontSize: 1,
+                        currentFontSize: 2,
                         // heightSpecific: true,
                       ),
                     ),
@@ -683,7 +686,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
               height: calculateDynamicFontSize(
                 totalScreenHeight: totalScreenHeight,
                 totalScreenWidth: totalScreenWidth,
-                currentFontSize: 10,
+                currentFontSize: 20,
                 // heightSpecific: true,
               ),
             ), // Adjust the spacing as needed
@@ -692,10 +695,74 @@ class _PayLaterCardState extends State<PayLaterCard> {
       );
     }
 
-    Future<void> makePayment(
-      double totalScreenHeight,
-      double totalScreenWidth,
-    ) async {
+    Future<void> deleteOrder(String __id, BuildContext ctx) async {
+      try {
+        final String url = 'https://dittox.in/xerox/v1/orders/delete/${__id}';
+        final response = await http.put(Uri.parse(url),
+            headers: {'X-auth-token': 'bearer ${widget.accessToken}'});
+
+        if (response.statusCode == 200) {
+          // Check if response code is OK
+          final jsonResponse = json.decode(response.body);
+          if (jsonResponse['responseCode'] == 'OK') {
+            // Response code is OK, handle success
+            Navigator.of(ctx).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (ctx) => ButtonNavigationBar(
+                    accessToken: widget.accessToken,
+                  ),
+                ),
+                (route) => false);
+            print('Order deleted successfully');
+          } else {
+            // Response code is not OK, handle error
+            throw Exception(
+                'Failed to delete order: ${jsonResponse['message']}');
+          }
+        } else {
+          // Handle non-200 status code
+          throw Exception('Failed to delete order: ${response.statusCode}');
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: ColorPallets.deepBlue,
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Icon(
+                  FontAwesomeIcons.triangleExclamation,
+                  color: Colors.red,
+                ),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      e.toString(),
+                      style: TextStyle(
+                        // fontSize: 18,
+                        fontSize: calculateDynamicFontSize(
+                          totalScreenHeight: totalScreenHeight,
+                          totalScreenWidth: totalScreenWidth,
+                          currentFontSize: 40,
+                          // heightSpecific: true,
+                        ),
+                        fontStyle: FontStyle.normal,
+                        color: ColorPallets.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    }
+
+    Future<void> makePayment() async {
       try {
         var options = {
           "key": "rzp_test_F9dV31vBF1OjLd",
@@ -704,7 +771,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
           "name": "Dittox", //your business name
           "description": "Test Transaction",
           "orderId": widget.PayLaterXeroxItem['_id'],
-          "receipt": "cnlna",
+          // "receipt": "cnlna",
           "timeout": 300,
           "prefill": {
             "name": currentUser.getUserName,
@@ -719,10 +786,43 @@ class _PayLaterCardState extends State<PayLaterCard> {
           },
         };
         print(options);
-        // _razorPay.open(options);
+        _razorPay.open(options);
         print("-------------- PAYMENT IS DONE -------------");
       } catch (e) {
         print("ERROR ${e}");
+        ScaffoldMessenger.of(context).clearSnackBars();
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: ColorPallets.deepBlue,
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Icon(
+                FontAwesomeIcons.triangleExclamation,
+                color: Colors.red,
+              ),
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    e.toString(),
+                    style: TextStyle(
+                      // fontSize: 18,
+                      fontSize: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 40,
+                        // heightSpecific: true,
+                      ),
+                      fontStyle: FontStyle.normal,
+                      color: ColorPallets.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
       }
     }
 
@@ -732,7 +832,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
           horizontal: calculateDynamicFontSize(
             totalScreenHeight: totalScreenHeight,
             totalScreenWidth: totalScreenWidth,
-            currentFontSize: 20,
+            currentFontSize: 40,
             // heightSpecific: false,
           ),
           vertical: 0,
@@ -743,14 +843,14 @@ class _PayLaterCardState extends State<PayLaterCard> {
             vertical: calculateDynamicFontSize(
               totalScreenHeight: totalScreenHeight,
               totalScreenWidth: totalScreenWidth,
-              currentFontSize: 15,
+              currentFontSize: 30,
               // heightSpecific: true,
             ),
           ),
           decoration: BoxDecoration(
               border: Border.all(
                 color: ColorPallets.deepBlue,
-                width: 1,
+                width: 2,
               ),
               borderRadius: BorderRadius.circular(8)),
           child: ExpansionTile(
@@ -768,7 +868,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                 height: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 20,
+                  currentFontSize: 40,
                   // heightSpecific: true,
                 ),
               ),
@@ -780,7 +880,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 22,
+                      currentFontSize: 44,
                       // heightSpecific: true,
                     ),
                     fontStyle: FontStyle.italic),
@@ -791,7 +891,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     horizontal: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 20,
+                  currentFontSize: 40,
                   // heightSpecific: false,
                 )),
                 child: Divider(
@@ -800,7 +900,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   thickness: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 2,
+                    currentFontSize: 4,
                     // heightSpecific: true,
                   ),
                 ),
@@ -815,7 +915,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                 height: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 10,
+                  currentFontSize: 20,
                   // heightSpecific: true,
                 ),
               ),
@@ -827,7 +927,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 22,
+                      currentFontSize: 44,
                       // heightSpecific: true,
                     ),
                     fontStyle: FontStyle.italic),
@@ -838,7 +938,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     horizontal: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 20,
+                  currentFontSize: 40,
                   // heightSpecific: false,
                 )),
                 child: Divider(
@@ -847,7 +947,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   thickness: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 2,
+                    currentFontSize: 4,
                     // heightSpecific: true,
                   ),
                 ),
@@ -882,7 +982,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                 height: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 10,
+                  currentFontSize: 20,
                   // heightSpecific: true,
                 ),
               ),
@@ -894,7 +994,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                     fontSize: calculateDynamicFontSize(
                       totalScreenHeight: totalScreenHeight,
                       totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 22,
+                      currentFontSize: 44,
                       // heightSpecific: true,
                     ),
                     fontStyle: FontStyle.italic),
@@ -905,7 +1005,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   horizontal: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 20,
+                    currentFontSize: 40,
                     // heightSpecific: false,
                   ),
                 ),
@@ -915,7 +1015,7 @@ class _PayLaterCardState extends State<PayLaterCard> {
                   thickness: calculateDynamicFontSize(
                     totalScreenHeight: totalScreenHeight,
                     totalScreenWidth: totalScreenWidth,
-                    currentFontSize: 2,
+                    currentFontSize: 4,
                     // heightSpecific: true,
                   ),
                 ),
@@ -947,72 +1047,164 @@ class _PayLaterCardState extends State<PayLaterCard> {
                 height: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 20,
+                  currentFontSize: 40,
                   // heightSpecific: true,
                 ),
               ),
-              InkWell(
-                onTap: () async {
-                  await makePayment(
-                    totalScreenHeight,
-                    totalScreenWidth,
-                  );
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  // Make the container fill the entire width
-                  padding: EdgeInsets.symmetric(
-                    // vertical: 10,
-                    vertical: calculateDynamicFontSize(
-                      totalScreenHeight: totalScreenHeight,
-                      totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 10,
-                      // heightSpecific: true,
-                    ),
-                    // horizontal: 8,
-                    horizontal: calculateDynamicFontSize(
-                      totalScreenHeight: totalScreenHeight,
-                      totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 8,
-                      // heightSpecific: false,
-                    ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: calculateDynamicFontSize(
+                    totalScreenHeight: totalScreenHeight,
+                    totalScreenWidth: totalScreenWidth,
+                    currentFontSize: 30,
+                    // heightSpecific: true,
                   ),
-                  decoration: BoxDecoration(
-                    color: ColorPallets
-                        .deepBlue, // Set the background color to green
-                    borderRadius: BorderRadius.circular(
-                        // 10,
-                        calculateDynamicFontSize(
-                      totalScreenHeight: totalScreenHeight,
-                      totalScreenWidth: totalScreenWidth,
-                      currentFontSize: 10,
-                      // heightSpecific: true,
-                    )), // Set round borders
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Pay Now",
-                      style: TextStyle(
-                        color: Colors
-                            .white, // Assuming ColorPallets.white is equivalent to Colors.white
-                        // fontSize: 22,
-                        fontSize: calculateDynamicFontSize(
-                          totalScreenHeight: totalScreenHeight,
-                          totalScreenWidth: totalScreenWidth,
-                          currentFontSize: 22,
-                          // heightSpecific: true,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () async {
+                          print("Delete option is clicked");
+                          await deleteOrder(
+                              widget.PayLaterXeroxItem['_id'], context);
+                        },
+                        child: Container(
+                          // width: MediaQuery.of(context).size.width * 0.3,
+                          // Make the container fill the entire width
+                          padding: EdgeInsets.symmetric(
+                            // vertical: 10,
+                            vertical: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 20,
+                              // heightSpecific: true,
+                            ),
+                            // horizontal: 8,
+                            horizontal: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 16,
+                              // heightSpecific: false,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.redAccent,
+                              width: calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 2,
+                                // heightSpecific: true,
+                              ),
+                            ),
+                            // color: ColorPallets
+                            //     .deepBlue, // Set the background color to green
+                            borderRadius: BorderRadius.circular(
+                              // 10,
+                              calculateDynamicFontSize(
+                                totalScreenHeight: totalScreenHeight,
+                                totalScreenWidth: totalScreenWidth,
+                                currentFontSize: 20,
+                                // heightSpecific: true,
+                              ),
+                            ), // Set round borders
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Delete",
+                              style: TextStyle(
+                                color: Colors
+                                    .redAccent, // Assuming ColorPallets.white is equivalent to Colors.white
+                                // fontSize: 22,
+                                fontSize: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 44,
+                                  // heightSpecific: true,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      width: calculateDynamicFontSize(
+                        totalScreenHeight: totalScreenHeight,
+                        totalScreenWidth: totalScreenWidth,
+                        currentFontSize: 40,
+                        // heightSpecific: true,
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () async {
+                          print("make paymenet is clicked");
+                          print("${widget.PayLaterXeroxItem['_id']}");
+                          await makePayment();
+                        },
+                        child: Container(
+                          // width: MediaQuery.of(context).size.width * 0.3,
+                          // Make the container fill the entire width
+                          padding: EdgeInsets.symmetric(
+                            // vertical: 10,
+                            vertical: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 20,
+                              // heightSpecific: true,
+                            ),
+                            // horizontal: 8,
+                            horizontal: calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 16,
+                              // heightSpecific: false,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            color: ColorPallets
+                                .deepBlue, // Set the background color to green
+                            borderRadius: BorderRadius.circular(
+                                // 10,
+                                calculateDynamicFontSize(
+                              totalScreenHeight: totalScreenHeight,
+                              totalScreenWidth: totalScreenWidth,
+                              currentFontSize: 20,
+                              // heightSpecific: true,
+                            )), // Set round borders
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Pay Now",
+                              style: TextStyle(
+                                color: Colors
+                                    .white, // Assuming ColorPallets.white is equivalent to Colors.white
+                                // fontSize: 22,
+                                fontSize: calculateDynamicFontSize(
+                                  totalScreenHeight: totalScreenHeight,
+                                  totalScreenWidth: totalScreenWidth,
+                                  currentFontSize: 44,
+                                  // heightSpecific: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+
               SizedBox(
                 // height: 15,
                 height: calculateDynamicFontSize(
                   totalScreenHeight: totalScreenHeight,
                   totalScreenWidth: totalScreenWidth,
-                  currentFontSize: 15,
+                  currentFontSize: 30,
                   // heightSpecific: true,
                 ),
               )
